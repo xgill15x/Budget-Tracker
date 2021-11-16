@@ -2,10 +2,7 @@ package com.budgetTracker.BudgetTracker;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,21 +15,29 @@ public class ExpenseController {
     @Autowired
     private ExpenseRepo expenseRepo;
 
+    Expense test = new Expense();
+
     @GetMapping(path="/allExpenses")
     public @ResponseBody
     Iterable<Expense> getAllExpenses() {
-        System.out.println("In getAllExpenses()");
         Iterable<Expense> allExpenses = expenseRepo.findAll();
         Iterator<Expense> expenseIterator = allExpenses.iterator();
         Expense current = new Expense();
         Iterator<Expense> e = allExpenses.iterator();
 
         while (e.hasNext()){
-            System.out.println(e.next().getExpense());
+            e.next().getExpense();
         }
-
+        System.out.println("getAllExpenses() finished.");
 
         return allExpenses;
+    }
+
+    @PostMapping(path="/newRow",consumes = "application/json")
+    public @ResponseBody
+    void saveExpense(@RequestBody Expense e){
+        System.out.println(e.getExpense());
+        expenseRepo.save(e);
     }
 
 }

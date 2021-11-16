@@ -5,12 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9605ab12-2084-49da-83c8-7ef894703e35" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/BudgetTracker.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BudgetTracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BudgetTracker.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/BudgetTrackerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/BudgetTrackerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Expense.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/ExpenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/ExpenseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/BudgetTrackerApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/BudgetTrackerApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Expense.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Expense.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +22,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="1" />
@@ -81,6 +85,12 @@
       <workItem from="1637040674031" duration="1606000" />
       <workItem from="1637044585660" duration="1773000" />
       <workItem from="1637046416633" duration="3617000" />
+      <workItem from="1637055117744" duration="180000" />
+      <workItem from="1637056671404" duration="626000" />
+      <workItem from="1637058076195" duration="21000" />
+      <workItem from="1637088372982" duration="35000" />
+      <workItem from="1637088737983" duration="2151000" />
+      <workItem from="1637090945256" duration="1350000" />
     </task>
     <servers />
   </component>
