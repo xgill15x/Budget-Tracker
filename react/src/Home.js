@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'
+import './App.css'
+import AddExpensePopUp from './AddExpensePopUp';
 
 export default class Home extends React.Component {
-    state = {
-        expenses: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            expenses: [],
+            addExpenseToggle: false
+        };
+
+        this.toggleModal = this.toggleModal.bind(this);
+    
+    }
+
+    toggleModal() {
+        this.setState({addExpenseToggle : !this.state.addExpenseToggle});
     }
 
     renderTableData() {
         return this.state.expenses.map((element) => {
            const { id, expense, budget, spent } = element //destructuring
            return (
-              <tr key={id}>
-                 <td>{id}</td>
+              <tr>
                  <td>{expense}</td>
                  <td>{budget}</td>
                  <td>{spent}</td>
@@ -30,22 +42,24 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div className="app">
-            <h1 id='title'>React Dynamic Table</h1>
-            <table className="moduleSection">
-               <thead>
-                   <tr>
-                       <th>ID</th>
-                       <th>Expense</th>
-                       <th>Budget</th>
-                       <th>Spent</th>
-                   </tr>
-               </thead>
-               <tbody>
-                  {this.renderTableData()}
-               </tbody>
-            </table>
-         </div>
+            <div>
+                <h1 className="mainTitle">Budget Tracker</h1>
+                <button onClick={this.toggleModal}> click me </button>
+                <AddExpensePopUp show={this.state.addExpenseToggle} handleClose={this.toggleModal}/>
+                
+                <table className="expense-table">
+                    <thead>
+                        <tr>
+                            <th>Expense</th>
+                            <th>Budget</th>
+                            <th>Spent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.renderTableData()}
+                    </tbody>
+                </table>
+            </div>
         )
     }
 }

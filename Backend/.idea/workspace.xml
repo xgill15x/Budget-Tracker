@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9605ab12-2084-49da-83c8-7ef894703e35" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BudgetTracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BudgetTracker.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/BudgetTrackerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/BudgetTrackerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Expense.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/ExpenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/ExpenseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/BudgetTrackerApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/BudgetTrackerApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Expense.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Expense.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -91,6 +86,12 @@
       <workItem from="1637088372982" duration="35000" />
       <workItem from="1637088737983" duration="2151000" />
       <workItem from="1637090945256" duration="1350000" />
+      <workItem from="1637094560688" duration="3684000" />
+      <workItem from="1637098538957" duration="1510000" />
+      <workItem from="1637100701315" duration="602000" />
+      <workItem from="1637104451218" duration="1204000" />
+      <workItem from="1637113900276" duration="682000" />
+      <workItem from="1637115716680" duration="1192000" />
     </task>
     <servers />
   </component>
