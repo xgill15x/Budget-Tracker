@@ -1,18 +1,37 @@
 import React, { useState } from 'react';
 import axios from 'axios'
 import './App.css'
-import AddExpensePopUp from './AddExpensePopUp';
+import AddExpenseForm from './AddExpenseForm';
 
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            expense: "",
+            budget:0.0,
             expenses: [],
             addExpenseToggle: false
         };
 
         this.toggleModal = this.toggleModal.bind(this);
     
+    }
+
+    submitHandler = e => {
+        e.preventDefault()
+        axios.post("http://localhost:8080/expense/newRow",{
+            expense: this.state.expense,
+            budget: this.state.budget
+        }).then(response => {
+            console.log(response)
+        }).catch(error => {
+            console.log(error)
+        })   
+        
+    }
+
+    changeHandler = e => {
+        this.setState({[e.target.name]: e.target.valueAsNumber || e.target.value})
     }
 
     toggleModal() {
@@ -45,7 +64,7 @@ export default class Home extends React.Component {
             <div>
                 <h1 className="mainTitle">Budget Tracker</h1>
                 <button onClick={this.toggleModal}> click me </button>
-                <AddExpensePopUp show={this.state.addExpenseToggle} handleClose={this.toggleModal}/>
+                <AddExpenseForm show={this.state.addExpenseToggle} handleClose={this.toggleModal} expense_={this.expense} budget_={this.budget} changeHandler_={this.changeHandler} submitHandler_={this.submitHandler}/>
                 
                 <table className="expense-table">
                     <thead>

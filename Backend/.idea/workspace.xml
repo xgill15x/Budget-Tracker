@@ -7,8 +7,8 @@
     <list default="true" id="9605ab12-2084-49da-83c8-7ef894703e35" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/AddExpensePopUp.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,6 +92,10 @@
       <workItem from="1637104451218" duration="1204000" />
       <workItem from="1637113900276" duration="682000" />
       <workItem from="1637115716680" duration="1192000" />
+      <workItem from="1637129864475" duration="610000" />
+      <workItem from="1637131676380" duration="702000" />
+      <workItem from="1637133489503" duration="1410000" />
+      <workItem from="1637135610777" duration="621000" />
     </task>
     <servers />
   </component>
