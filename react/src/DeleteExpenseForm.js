@@ -3,18 +3,9 @@ import axios from 'axios'
 import './App.css'
 
 
-const DeleteExpenseForm = ({expenses, show, handleClose_, submitHandler_}) => {
-    console.log(expenses);
+const DeleteExpenseForm = ({expense, expenses, show, handleClose_, submitHandler_, onChange_}) => {
+
     const class_placerholder = show ? 'modal display-block' : 'modal display-none';
-    
-    const [tempList, setTempList] = useState([]);
-
-
-    axios.get("http://localhost:8080/expense/allExpenses")
-        .then(res => {
-            setTempList(res.data)
-        })
-    
 
     return (
           
@@ -22,18 +13,20 @@ const DeleteExpenseForm = ({expenses, show, handleClose_, submitHandler_}) => {
                 <div className='modal-main'>
                     <h2 className="black"> Expense: </h2>
                     <div>
-                        {tempList.map((data) => {
-                            const {expense} = data;
-                            return <form onSubmit={submitHandler_}>
-                                <label for="cars" color="black">Choose a car:</label>
-                                    <select name="cars" id="cars">
-                                        <option value="volvo">{expense}</option>
-                                    </select>
+                        
+                            
+                            <form onSubmit={submitHandler_} onSel>
+                                <label>Choose a car:</label>
+                                <select>
+                                    {expenses.map(element => (
+                                        <option name="id" onChange={onChange_} key={element.id} value={expense}>{element.expense}</option>
+                                    ))}
+                                </select>
                                                 
-                                    <button type="submit">Submit</button> 
-                                    <button onClick={handleClose_} className="buttons-invariant">Close</button>
+                                <button onClick={handleClose_} type="submit">Submit</button> 
+                                <button onClick={handleClose_}>Close</button>
                             </form>
-                        })}
+                        
                     </div>
                 </div>
              

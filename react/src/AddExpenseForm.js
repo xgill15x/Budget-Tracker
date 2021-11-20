@@ -7,7 +7,7 @@ const AddExpenseForm = ({handleClose, show, expense_, budget_, changeHandler_, s
     
     const class_placerholder = show ? 'modal display-block' : 'modal display-none';
 
-    return (
+    return (<>
         <div className={class_placerholder}>
             <div className='modal-main'>
                 <h2 className="black">Add Expense: </h2>
@@ -25,7 +25,7 @@ const AddExpenseForm = ({handleClose, show, expense_, budget_, changeHandler_, s
                 </form>
             </div>
         </div>
-    )
+    </>)
 }
 
 export default AddExpenseForm
