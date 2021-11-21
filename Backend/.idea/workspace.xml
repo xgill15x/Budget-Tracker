@@ -11,7 +11,6 @@
       <change beforePath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/src/AddExpenseForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/AddExpenseForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/DeleteExpenseForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DeleteExpenseForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Home.js" afterDir="false" />
     </list>
@@ -114,6 +113,13 @@
       <workItem from="1637444478883" duration="1423000" />
       <workItem from="1637446591235" duration="675000" />
       <workItem from="1637450347577" duration="360000" />
+      <workItem from="1637450894965" duration="76000" />
+      <workItem from="1637452663022" duration="1495000" />
+      <workItem from="1637455512304" duration="637000" />
+      <workItem from="1637459784820" duration="351000" />
+      <workItem from="1637465291283" duration="1779000" />
+      <workItem from="1637467135740" duration="2138000" />
+      <workItem from="1637469315146" duration="786000" />
     </task>
     <servers />
   </component>

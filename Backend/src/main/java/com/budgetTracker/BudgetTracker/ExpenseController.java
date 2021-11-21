@@ -35,14 +35,14 @@ public class ExpenseController {
     void saveExpense(@RequestBody Expense e){
         System.out.println(e.getExpense());
         expenseRepo.save(e);
+        return;
     }
-
-    @PostMapping(path="/deleteRow",consumes = "application/json")
+    @DeleteMapping(path="/deleteRow/{expenseID}")
     public @ResponseBody
-    void deleteExpense(@RequestBody Expense e){
-        System.out.println(e.getExpense());
-        int expenseID = e.getId();
+    int deleteExpense(@PathVariable("expenseID") int expenseID){
+
         expenseRepo.deleteById(expenseID);
+        return expenseID;
     }
 
 }
