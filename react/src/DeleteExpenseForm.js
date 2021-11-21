@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import './App.css'
 
+import Select from 'react-select'
+
 
 const DeleteExpenseForm = ({expense, expenses, show, handleClose_, submitHandler_, onChange_}) => {
 
@@ -14,18 +16,7 @@ const DeleteExpenseForm = ({expense, expenses, show, handleClose_, submitHandler
                     <h2 className="black"> Expense: </h2>
                     <div>
                         
-                            
-                            <form onSubmit={submitHandler_} onSel>
-                                <label>Choose a car:</label>
-                                <select>
-                                    {expenses.map(element => (
-                                        <option name="id" onChange={onChange_} key={element.id} value={expense}>{element.expense}</option>
-                                    ))}
-                                </select>
-                                                
-                                <button onClick={handleClose_} type="submit">Submit</button> 
-                                <button onClick={handleClose_}>Close</button>
-                            </form>
+                        <Select options={expenses}/>
                         
                     </div>
                 </div>
