@@ -20,9 +20,11 @@ const AddExpenseForm = ({handleClose, show, expense_, budget_, changeHandler_, s
                     </label>
                     <div className="buttons-flex">
                         <button type="submit" onClick={handleClose} className="buttons-invariant">Submit</button>
-                        <button onClick={handleClose} className="buttons-invariant">Close</button>
+                        <button type="button" onClick={handleClose} className="buttons-invariant">Close</button>
                     </div>
+                    
                 </form>
+                
             </div>
         </div>
     </>)

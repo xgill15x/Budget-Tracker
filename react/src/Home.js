@@ -22,28 +22,50 @@ export default class Home extends React.Component {
     }
 
     submitHandlerAddExpense = e => {
-        e.preventDefault()
+        e.preventDefault();
         axios.post("http://localhost:8080/expense/addRow",{
-            expense: this.state.expense,
-            budget: this.state.budget
+            expense: e.target[0].value,
+            budget: e.target[1].value
         }).then(response => {
-            console.log(response)
+            
+            const newId = response.data;
+            const newExpense = e.target[0].value;
+            const newBudget = parseFloat(e.target[1].value);
+            
+            console.log("Expense: " + e.target[0].value + "\n" + "Budget: " + e.target[1].value + "\n" + "Assigned ID: " + response.data)
+            const newExpenseObject = {
+                id: newId,
+                expense: newExpense,
+                budget: newBudget,
+                spent: 0.0,
+                remaining: newBudget
+            }
+            this.setState({
+                expenses: [...this.state.expenses, newExpenseObject]
+            })
         }).catch(error => {
             console.log(error)
-        })   
-        
+        })  
+        //window.location.reload(); 
     }
 
     submitHandlerDeleteExpense (e) {
-        this.setState({id: e.target.value})
+        this.setState({id: e.target.value}) // value = expense id
         console.log(e.target.value)
         axios.delete('http://localhost:8080/expense/deleteRow/' + e.target.value)
         .then(response => {
+            const idOfDeletedExpense = response.data;
+            const updatedExpenses = this.state.expenses.filter((expense) => {
+                if (expense.id !== idOfDeletedExpense) {
+                    return expense; // fix syntax
+                }
+            });
+            this.setState({expenses: updatedExpenses});
             console.log(response)
         }).catch(error => {
             console.log(error)
-        })   
-        
+        }) 
+        //window.location.reload();  
     }
 
     addChangeHandler = e => {
@@ -82,14 +104,20 @@ export default class Home extends React.Component {
         })
     }
 
+    // componentDidUpdate() {
+    //     axios.get("http://localhost:8080/expense/allExpenses")
+    //     .then(res => {
+    //         const expenses = res.data;
+    //         this.setState({expenses});
+    //     })
+    // }
+
     render() {
         return (
             <div>
                 <h1 className="mainTitle">Budget Tracker</h1>
                 <button onClick={this.toggleAddExpenseModal}>Add Expense</button>
                 <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} expense_={this.expense} budget_={this.budget} changeHandler_={this.addChangeHandler} submitHandler_={this.submitHandlerAddExpense}/>
-                <button onClick={this.toggleDeleteExpenseModal}>Delete Expense</button>
-                <DeleteExpenseForm expense={this.state.expense} expenses={this.state.expenses} show={this.state.deleteExpenseToggle} handleClose_={this.toggleDeleteExpenseModal} submitHandler_={this.submitHandlerDeleteExpense} changeHandler_={this.deleteChangeHandler}/>
                 <table className="expense-table">
                     <thead>
                         <tr>

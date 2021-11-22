@@ -9,9 +9,8 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/ExpenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/ExpenseController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/src/DeleteExpenseForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/DeleteExpenseForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/AddExpenseForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/AddExpenseForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,6 +119,13 @@
       <workItem from="1637465291283" duration="1779000" />
       <workItem from="1637467135740" duration="2138000" />
       <workItem from="1637469315146" duration="786000" />
+      <workItem from="1637470614460" duration="2042000" />
+      <workItem from="1637472694627" duration="637000" />
+      <workItem from="1637536703519" duration="1685000" />
+      <workItem from="1637539574068" duration="1782000" />
+      <workItem from="1637541427571" duration="1478000" />
+      <workItem from="1637558167164" duration="1860000" />
+      <workItem from="1637560087065" duration="1588000" />
     </task>
     <servers />
   </component>

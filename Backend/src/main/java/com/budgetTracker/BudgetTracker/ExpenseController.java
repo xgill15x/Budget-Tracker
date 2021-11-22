@@ -21,27 +21,23 @@ public class ExpenseController {
     public @ResponseBody
     Iterable<Expense> getAllExpenses() {
         Iterable<Expense> allExpenses = expenseRepo.findAll();
-        Iterator<Expense> expenseIterator = allExpenses.iterator();
-        Expense current = new Expense();
-        Iterator<Expense> e = allExpenses.iterator();
-
         System.out.println("Component Mounted: Table Data rendered.");
-
         return allExpenses;
     }
 
     @PostMapping(path="/addRow",consumes = "application/json")
     public @ResponseBody
-    void saveExpense(@RequestBody Expense e){
+    int saveExpense(@RequestBody Expense e){
         System.out.println(e.getExpense());
         expenseRepo.save(e);
-        return;
+        return e.getId();
     }
     @DeleteMapping(path="/deleteRow/{expenseID}")
     public @ResponseBody
     int deleteExpense(@PathVariable("expenseID") int expenseID){
-
+        System.out.println(expenseID);
         expenseRepo.deleteById(expenseID);
+
         return expenseID;
     }
 
