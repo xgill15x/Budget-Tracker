@@ -10,7 +10,6 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/AddExpenseForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/AddExpenseForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -126,6 +125,13 @@
       <workItem from="1637541427571" duration="1478000" />
       <workItem from="1637558167164" duration="1860000" />
       <workItem from="1637560087065" duration="1588000" />
+      <workItem from="1637808009084" duration="611000" />
+      <workItem from="1637811561716" duration="650000" />
+      <workItem from="1637814472000" duration="633000" />
+      <workItem from="1637818985289" duration="1810000" />
+      <workItem from="1637820837278" duration="1776000" />
+      <workItem from="1637822653009" duration="2136000" />
+      <workItem from="1637824826778" duration="656000" />
     </task>
     <servers />
   </component>

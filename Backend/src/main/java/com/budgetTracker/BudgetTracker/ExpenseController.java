@@ -34,9 +34,23 @@ public class ExpenseController {
     }
     @DeleteMapping(path="/deleteRow/{expenseID}")
     public @ResponseBody
-    int deleteExpense(@PathVariable("expenseID") int expenseID){
+    int deleteExpense(@PathVariable("expenseID") int expenseID) {
         System.out.println(expenseID);
         expenseRepo.deleteById(expenseID);
+
+        return expenseID;
+    }
+
+    @PatchMapping(path="/editRow/{expenseID}")
+    public @ResponseBody
+    int editExpense(@PathVariable("expenseID") int expenseID, @RequestBody Expense e) {
+        Optional<Expense> conn = expenseRepo.findById(expenseID);
+        Expense oldExpense = conn.get();
+
+        oldExpense.setExpense(e.getExpense());
+        oldExpense.setBudget(e.getBudget());
+
+        expenseRepo.save(oldExpense);
 
         return expenseID;
     }
