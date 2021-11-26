@@ -5,7 +5,7 @@ import './App.css'
 import Select from 'react-select'
 
 
-const DeleteExpenseForm = ({expense, expenses, show, handleClose_, submitHandler_, onChange_}) => {
+const DeleteExpenseForm = ({show, handleClose, deleteConfirm, handleDeleteConfirm}) => {
 
     const class_placerholder = show ? 'modal display-block' : 'modal display-none';
 
@@ -13,12 +13,19 @@ const DeleteExpenseForm = ({expense, expenses, show, handleClose_, submitHandler
           
         <div className={class_placerholder}>
                 <div className='modal-main'>
-                    <h2 className="black"> Expense: </h2>
-                    <div>
+                
+                    
                         
-                        <Select options={expenses}/>
-                        
-                    </div>
+                        <h1 className="black">Confirm Deletion</h1>
+                        <h2 className="black">Are you sure you want to delete this expense? </h2>
+
+                        <form onSubmit={handleDeleteConfirm(deleteConfirm)}>
+                            <div className="buttons-flex">
+                                <button type="button" onClick={handleClose}>Cancel</button>
+                                <button type="submit" onClick={() => {handleClose()}}>Yes</button>
+                            </div>
+                        </form>
+                    
                 </div>
              
         </div>

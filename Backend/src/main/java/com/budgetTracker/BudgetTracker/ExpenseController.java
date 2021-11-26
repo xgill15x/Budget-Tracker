@@ -21,7 +21,7 @@ public class ExpenseController {
     public @ResponseBody
     Iterable<Expense> getAllExpenses() {
         Iterable<Expense> allExpenses = expenseRepo.findAll();
-        System.out.println("Component Mounted: Table Data rendered.");
+        System.out.println("Component Mounted: Expense Table Data rendered.");
         return allExpenses;
     }
 
