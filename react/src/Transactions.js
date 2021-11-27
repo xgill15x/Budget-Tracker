@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'
 import './App.css'
+import {Link} from "react-router-dom";
 
 
 export default class Transactions extends React.Component {
@@ -20,9 +21,10 @@ export default class Transactions extends React.Component {
             
            return (
               <tr>
-                 <td>{element.expenseID}</td>
+                 <td>{element.transactionDate}</td>
+                 <td>{element.expenseValue}</td>
                  <td>{element.payee}</td>
-                 <td>{element.spent}</td>
+                 <td>${(element.spent).toFixed(2)}</td>
               </tr>
            )
         })
@@ -41,11 +43,16 @@ export default class Transactions extends React.Component {
         return (
             <div>
                 <h1 className="mainTitle">All Transactions</h1>
-                
+                <div>
+                    <Link to="/">
+                        <button>Go Back</button>
+                    </Link>
+                </div>
                 <table className="expense-table">
                     <thead>
                         <tr>
-                            <th>Expense Category</th>
+                            <th>Date</th>
+                            <th>Category</th>
                             <th>Payee</th>
                             <th>Spent</th>
                         </tr>

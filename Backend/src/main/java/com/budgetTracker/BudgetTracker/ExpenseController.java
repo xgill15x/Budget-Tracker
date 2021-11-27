@@ -55,4 +55,18 @@ public class ExpenseController {
         return expenseID;
     }
 
+    @PatchMapping(path="/editSpent/{expenseID}")
+    public @ResponseBody
+    int editSpent(@PathVariable("expenseID") int expenseID, @RequestBody Expense e) {
+        Optional<Expense> conn = expenseRepo.findById(expenseID);
+        Expense oldExpense = conn.get();
+
+        oldExpense.setSpent(e.getSpent());
+        //oldExpense.setBudget(e.getBudget());
+
+        expenseRepo.save(oldExpense);
+
+        return expenseID;
+    }
+
 }

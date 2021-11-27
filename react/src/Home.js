@@ -5,6 +5,7 @@ import AddExpenseForm from './AddExpenseForm';
 import DeleteExpenseForm from './DeleteExpenseForm';
 import EditExpenseForm from './EditExpenseForm';
 import AddTransactionForm from './AddTransactionForm';
+import {Link} from "react-router-dom";
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -68,21 +69,50 @@ export default class Home extends React.Component {
     submitHandlerAddTransaction = e => {
         e.preventDefault();
 
-        const nameOfExpense = this.state.expenses.filter((element) => {
+        const today = new Date()
+        const todayYear = today.getFullYear()
+        const todayMonth = today.getMonth()+1
+        const todayDay = today.getDate()
+        console.log(today)
+        let expenseSpent;
+        let nameOfExpense; 
+        this.state.expenses.filter((element) => {
             if (element.id === this.state.transactionDropDownSelection) {
-                return element.expense;
+                nameOfExpense = element.expense;
+                expenseSpent = element.spent;
             }
         })
 
         axios.post("http://localhost:8080/transaction/addRow",{
             expenseID: this.state.transactionDropDownSelection,
             payee: e.target[1].value,
-            spent: parseFloat(e.target[2].value)
+            spent: parseFloat(e.target[2].value),
+            expenseValue: nameOfExpense, 
+            transactionDate: todayYear +"/"+ todayMonth +"/"+ todayDay
         }).then(response => {
             console.log(response)
         }).catch(error => {
             console.log(error)
         })
+
+        const updateData = {
+            spent: expenseSpent + parseFloat(e.target[2].value)
+        }
+
+        axios.patch('http://localhost:8080/expense/editSpent/' + this.state.transactionDropDownSelection, updateData)
+        
+        const updatedExpenses = this.state.expenses.filter( (element) => {
+            if (element.id === this.state.transactionDropDownSelection) {
+                element.spent = expenseSpent + parseFloat(e.target[2].value)
+                return element;
+            }
+            else {
+                return element;
+            }
+        })
+
+        this.setState({expenses: updatedExpenses})
+    
     }
 
     handleConfirmDelete(element){
@@ -226,9 +256,9 @@ export default class Home extends React.Component {
            return (
               <tr>
                  <td>{element.expense}</td>
-                 <td>{element.budget}</td>
-                 <td>{element.spent}</td>
-                 <td>{element.budget-element.spent}</td>
+                 <td>${(element.budget).toFixed(2)}</td>
+                 <td>${(element.spent).toFixed(2)}</td>
+                 <td>${(element.budget-element.spent).toFixed(2)}</td>
                  <td><button name="deleteButton" value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}>Delete</button></td>
               </tr>
            )
@@ -260,9 +290,12 @@ export default class Home extends React.Component {
                     <button onClick={this.toggleAddExpenseModal}>Add Expense</button>
                     <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
                     <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
+                    <Link to="/transactionsTable">
+                        <button className="buttons-flex">Show Transactions</button>
+                    </Link>
                 </div>
                 <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
-                <DeleteExpenseForm show={this.state.deleteExpenseToggle} handleClose={this.toggleDeleteExpenseModal} deletConfirm={this.state.deleteConfirmVal} handleDeleteConfirm={this.handleConfirmDelete} />
+                {/*<DeleteExpenseForm show={this.state.deleteExpenseToggle} handleClose={this.toggleDeleteExpenseModal} deletConfirm={this.state.deleteConfirmVal} handleDeleteConfirm={this.handleConfirmDelete} /> */}
                 <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
                 <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
                 <table className="expense-table">
