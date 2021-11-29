@@ -19,6 +19,10 @@ public class Expense {
     @Column(name="spent_info")
     private float spent;
 
+    public Expense(){
+
+    }
+
     public int getId() {
         return id;
     }

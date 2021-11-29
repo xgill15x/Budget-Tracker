@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,15 +13,103 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.mainTitle {
+  background-color: #181d24;
+  border-radius: 5px 5px 5px 5px;
+  overflow: hidden;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  padding: 10px 15px 10px;
+  margin-bottom: -5px;
+  text-align: center;
+  
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.black {
+  color: black;
+  font-size: 0.9em;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  text-align: center;
+}
+input[type=text], input[type=number], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.buttons-flex {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content:space-evenly;
+  padding: 20px;
+}
+
+.buttons-invariant {
+  padding: 12px 18px;
+  border-radius: 5px;
+}
+
+.expense-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 0 15px rgba(52,63,79,0.30);
+  overflow: hidden;
+}
+.expense-table thead tr {
+  background-color: darkcyan;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: left;
+}
+.expense-table th,
+.expense-table td {
+  padding: 12px 15px;
+}
+.expense-table tbody tr {
+  border-bottom: 1px solid;
+  border-bottom-color: #343f4f;
+  text-align: left;
+}
+.expense-table tbody tr:nth-of-type(even) {
+  background-color: #181d24;
+
+}
+.expense-table tbody tr:last-of-type {
+  border-bottom: 2px solid darkcyan;
+
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+.modal-main {
+  padding: 15px;
+  position:fixed;
+  background: white;
+  min-width: 20em;
+  min-height: 10em;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  border-radius: 10px;
+  text-align: left;
+}
+.display-block {
+  display: block;
+}
+.display-none {
+  display: none;
 }

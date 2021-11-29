@@ -5,25 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9605ab12-2084-49da-83c8-7ef894703e35" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/BudgetTracker.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/ExpenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/ExpenseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/ExpenseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Transaction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/Transactions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Transactions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="20zE7haqJ3vEqYnHyf0IXifZSj7" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -81,6 +91,70 @@
       <workItem from="1637040674031" duration="1606000" />
       <workItem from="1637044585660" duration="1773000" />
       <workItem from="1637046416633" duration="3617000" />
+      <workItem from="1637055117744" duration="180000" />
+      <workItem from="1637056671404" duration="626000" />
+      <workItem from="1637058076195" duration="21000" />
+      <workItem from="1637088372982" duration="35000" />
+      <workItem from="1637088737983" duration="2151000" />
+      <workItem from="1637090945256" duration="1350000" />
+      <workItem from="1637094560688" duration="3684000" />
+      <workItem from="1637098538957" duration="1510000" />
+      <workItem from="1637100701315" duration="602000" />
+      <workItem from="1637104451218" duration="1204000" />
+      <workItem from="1637113900276" duration="682000" />
+      <workItem from="1637115716680" duration="1192000" />
+      <workItem from="1637129864475" duration="610000" />
+      <workItem from="1637131676380" duration="702000" />
+      <workItem from="1637133489503" duration="1410000" />
+      <workItem from="1637135610777" duration="621000" />
+      <workItem from="1637140936577" duration="1139000" />
+      <workItem from="1637174204250" duration="672000" />
+      <workItem from="1637200295936" duration="602000" />
+      <workItem from="1637206956893" duration="930000" />
+      <workItem from="1637208941379" duration="613000" />
+      <workItem from="1637213931192" duration="629000" />
+      <workItem from="1637220232461" duration="716000" />
+      <workItem from="1637387009031" duration="2568000" />
+      <workItem from="1637389663517" duration="743000" />
+      <workItem from="1637440453560" duration="1843000" />
+      <workItem from="1637442346933" duration="757000" />
+      <workItem from="1637444478883" duration="1423000" />
+      <workItem from="1637446591235" duration="675000" />
+      <workItem from="1637450347577" duration="360000" />
+      <workItem from="1637450894965" duration="76000" />
+      <workItem from="1637452663022" duration="1495000" />
+      <workItem from="1637455512304" duration="637000" />
+      <workItem from="1637459784820" duration="351000" />
+      <workItem from="1637465291283" duration="1779000" />
+      <workItem from="1637467135740" duration="2138000" />
+      <workItem from="1637469315146" duration="786000" />
+      <workItem from="1637470614460" duration="2042000" />
+      <workItem from="1637472694627" duration="637000" />
+      <workItem from="1637536703519" duration="1685000" />
+      <workItem from="1637539574068" duration="1782000" />
+      <workItem from="1637541427571" duration="1478000" />
+      <workItem from="1637558167164" duration="1860000" />
+      <workItem from="1637560087065" duration="1588000" />
+      <workItem from="1637808009084" duration="611000" />
+      <workItem from="1637811561716" duration="650000" />
+      <workItem from="1637814472000" duration="633000" />
+      <workItem from="1637818985289" duration="1810000" />
+      <workItem from="1637820837278" duration="1776000" />
+      <workItem from="1637822653009" duration="2136000" />
+      <workItem from="1637824826778" duration="656000" />
+      <workItem from="1637884830500" duration="691000" />
+      <workItem from="1637889070212" duration="644000" />
+      <workItem from="1637894530150" duration="2104000" />
+      <workItem from="1637896695877" duration="1563000" />
+      <workItem from="1637899804559" duration="1762000" />
+      <workItem from="1637901616927" duration="2217000" />
+      <workItem from="1637903895295" duration="344000" />
+      <workItem from="1637986831509" duration="1755000" />
+      <workItem from="1637988645832" duration="1794000" />
+      <workItem from="1637990551801" duration="918000" />
+      <workItem from="1637992362137" duration="1362000" />
+      <workItem from="1637994347484" duration="913000" />
+      <workItem from="1637996174790" duration="125000" />
     </task>
     <servers />
   </component>
@@ -98,5 +172,15 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.sql.SQLSyntaxErrorException" package="java.sql" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
