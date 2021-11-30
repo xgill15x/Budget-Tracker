@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,30 @@ public class TransactionController {
 
     // getTransactionsByMonth with param month (number of month or string)
     //
+    @GetMapping(path= "/selectedTransactions/{selectedMonth}/{selectedYear}")
+    public @ResponseBody
 
+    List<Transaction> getSelectedTransactions(@PathVariable("selectedMonth") int selectedMonth, @PathVariable("selectedYear") int selectedYear) {
+
+        Iterable<Transaction> allTransactions = transactionRepo.findAll();
+        Iterator<Transaction> iter = allTransactions.iterator();
+
+        List<Transaction> selectedTransactions = new ArrayList<>();
+
+        while (iter.hasNext()) {
+            Transaction currentTransaction = iter.next();
+            String transactionDate = currentTransaction.getTransactionDate();
+            String[] brokenTransactionDate = transactionDate.split("-");
+
+            int TransactionYear = Integer.parseInt(brokenTransactionDate[0]);
+            int TransactionMonth = Integer.parseInt(brokenTransactionDate[1]);
+
+            if (TransactionMonth == selectedMonth && TransactionYear == selectedYear) {
+                selectedTransactions.add(currentTransaction);
+            }
+        }
+        System.out.println("Returning Transactions made in " + selectedMonth +"/"+ selectedYear);
+        return selectedTransactions;
+    }
 }
 
