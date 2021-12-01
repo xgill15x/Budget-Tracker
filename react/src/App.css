@@ -49,6 +49,15 @@ input[type=text], input[type=number], select {
   padding: 20px;
 }
 
+.dropdown-flex {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content:space-evenly;
+  padding: 20px;
+  margin: 0;
+}
+
 .buttons-invariant {
   padding: 12px 18px;
   border-radius: 5px;

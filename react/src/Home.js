@@ -12,9 +12,7 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: null,
-            expense: "",
-            budget:0.0,
+            
             expenses: [],
             editDropDownSelection:0,
             transactionDropDownSelection:0,
@@ -23,7 +21,14 @@ export default class Home extends React.Component {
             addTransactionToggle: false,
             deleteExpenseToggle: false,
             deleteConfirmVal: false,
-            editExpenseToggle: false
+            editExpenseToggle: false,
+
+            selectedTransactions: [],
+            listOfMonths: [{month:"January", monthNum: 1}, {month:"February", monthNum: 2}, {month:"March", monthNum: 3}, {month:"April", monthNum: 4}, {month:"May", monthNum: 5}, {month:"June", monthNum: 6}, {month:"July", monthNum: 7}, {month:"August", monthNum: 8}, {month:"September", monthNum: 9}, {month:"October", monthNum: 10}, {month:"November", monthNum: 11}, {month:"December", monthNum: 12}],
+            selectedMonth: -1,
+            selectedYear: -1,
+
+            today: new Date()
         };
 
         this.toggleAddExpenseModal = this.toggleAddExpenseModal.bind(this);
@@ -34,9 +39,14 @@ export default class Home extends React.Component {
         this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
         this.handleEditDropDownChange = this.handleEditDropDownChange.bind(this);
         this.handleTransactionDropDownChange = this.handleTransactionDropDownChange.bind(this);
+        this.handleSelectedMonthDropDownChange = this.handleSelectedMonthDropDownChange.bind(this);
+        this.handleSelectedYearDropDownChange = this.handleSelectedYearDropDownChange.bind(this);
+
         this.initEditDropDown = this.initEditDropDown.bind(this);
         this.initTransactionDropDown = this.initTransactionDropDown.bind(this);
         this.submitHandlerEditExpense = this.submitHandlerEditExpense.bind(this);
+        //this.listOfMonths = this.listOfMonths.bind(this);
+        
     }
 
     submitHandlerAddExpense = e => {
@@ -239,6 +249,50 @@ export default class Home extends React.Component {
         this.setState({ transactionDropDownSelection: selectedElement });
     }
 
+    handleSelectedMonthDropDownChange(e) {
+        let selectedElement=0;
+        //console.log(e.target.value)
+        if (e.target.value === "-1") {
+            console.log("No month selected.")
+            return;
+        }
+        else{
+            {this.state.listOfMonths.map((element) => {
+                if (element.monthNum === parseInt(e.target.value)) {
+                    selectedElement = element.monthNum;
+                }
+            })}
+            this.setState({selectedMonth: selectedElement}, function () {
+                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                .then(res => {
+                    //console.log(this.state.selectedMonth)
+                    this.setState({selectedTransactions: res.data});
+                    console.log(res.data);
+                })
+            });
+        }
+    }
+
+    handleSelectedYearDropDownChange(e) {
+        let selectedElement=0;
+        //console.log(e.target.value)
+        if (e.target.value === "-1") {
+            console.log("No Year selected.")
+            return;
+        }
+        else{
+            selectedElement = e.target.value;
+            this.setState({selectedYear: selectedElement}, function () {
+                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                .then(res => {
+                    //console.log(this.state.selectedMonth)
+                    this.setState({selectedTransactions: res.data});
+                    console.log(res.data);
+                })
+            });
+        }
+    }
+
     toggleAddExpenseModal() {
         this.setState({addExpenseToggle : !this.state.addExpenseToggle});
     }
@@ -275,7 +329,14 @@ export default class Home extends React.Component {
             this.setState({expenses});
         })
 
-        var currentMonthTransactions; // expense id, spent
+        const today = new Date();
+        this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () {
+            axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+            .then(res => {
+                this.setState({selectedTransactions: res.data});
+                console.log(this.state.selectedTransactions);
+            })
+        });
     }
 
     // componentDidUpdate() {
@@ -302,6 +363,24 @@ export default class Home extends React.Component {
                 {/*<DeleteExpenseForm show={this.state.deleteExpenseToggle} handleClose={this.toggleDeleteExpenseModal} deletConfirm={this.state.deleteConfirmVal} handleDeleteConfirm={this.handleConfirmDelete} /> */}
                 <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
                 <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
+                
+                <div className="dropdown-flex">
+                    <select onChange={this.handleSelectedMonthDropDownChange}>
+                        <option value="-1">--Month--</option>
+                        {this.state.listOfMonths.map((element) => (
+                            <option value={element.monthNum}>{element.month}</option>
+                        ))}
+                    </select>
+                    <select onChange={this.handleSelectedYearDropDownChange}>
+                        <option value="-1">--Year--</option>
+                        <option>{this.state.today.getFullYear()-2}</option>
+                        <option>{this.state.today.getFullYear()-1}</option>
+                        <option>{this.state.today.getFullYear()}</option>
+                        <option>{this.state.today.getFullYear()+1}</option>
+                        <option>{this.state.today.getFullYear()+2}</option>
+                    </select>
+                </div>
+                
                 <table className="expense-table">
                     <thead>
                         <tr>
