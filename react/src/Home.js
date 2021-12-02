@@ -27,8 +27,9 @@ export default class Home extends React.Component {
             listOfMonths: [{month:"January", monthNum: 1}, {month:"February", monthNum: 2}, {month:"March", monthNum: 3}, {month:"April", monthNum: 4}, {month:"May", monthNum: 5}, {month:"June", monthNum: 6}, {month:"July", monthNum: 7}, {month:"August", monthNum: 8}, {month:"September", monthNum: 9}, {month:"October", monthNum: 10}, {month:"November", monthNum: 11}, {month:"December", monthNum: 12}],
             selectedMonth: -1,
             selectedYear: -1,
-
-            today: new Date()
+            
+            today: new Date(),
+            spentValsForAllExpenses: new Map()
         };
 
         this.toggleAddExpenseModal = this.toggleAddExpenseModal.bind(this);
@@ -79,7 +80,7 @@ export default class Home extends React.Component {
 
     submitHandlerAddTransaction = e => {
         e.preventDefault();
-
+        
         const today = Moment(new Date()).format('YYYY-MM-DD');
         console.log('test', Moment(today).format('YYYY-MM-DD'));
         // const todayYear = today.getFullYear()
@@ -113,6 +114,24 @@ export default class Home extends React.Component {
 
         axios.patch('http://localhost:8080/expense/editSpent/' + this.state.transactionDropDownSelection, updateData)
         
+        let updatedMap = new Map(this.state.spentValsForAllExpenses);
+        let targetID;
+        this.state.expenses.map((expense) => {
+            console.log("dropdownselection",this.state.transactionDropDownSelection)
+            if (expense.id === this.state.transactionDropDownSelection) {
+                targetID = expense.id;
+                console.log("targetID",targetID)
+            }
+        })
+
+        this.state.expenses.map((expense) => {
+            if (expense.id === targetID) {
+                console.log("in here");
+                updatedMap.set(expense.id, updatedMap.get(expense.id) + parseFloat(e.target[2].value))
+                console.log(updatedMap.get(expense.id));
+            }
+        })
+
         const updatedExpenses = this.state.expenses.filter( (element) => {
             if (element.id === this.state.transactionDropDownSelection) {
                 element.spent = expenseSpent + parseFloat(e.target[2].value)
@@ -123,7 +142,7 @@ export default class Home extends React.Component {
             }
         })
 
-        this.setState({expenses: updatedExpenses})
+        this.setState({expenses: updatedExpenses, spentValsForAllExpenses: updatedMap})
     
     }
 
@@ -307,14 +326,17 @@ export default class Home extends React.Component {
     }
 
     renderTableData() {
+
         return this.state.expenses.map((element) => {
             
+           const amountSpent = this.state.spentValsForAllExpenses.get(element.id);
+           //console.log(amountSpent);
            return (
               <tr>
                  <td>{element.expense}</td>
                  <td>${(element.budget).toFixed(2)}</td>
-                 <td>${(element.spent).toFixed(2)}</td>
-                 <td>${(element.budget-element.spent).toFixed(2)}</td>
+                 <td>${(amountSpent)}</td>
+                 <td>${(element.budget-amountSpent).toFixed(2)}</td>
                  <td><button name="deleteButton" value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}>Delete</button></td>
               </tr>
            )
@@ -323,29 +345,51 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8080/expense/allExpenses")
+        axios.get("http://localhost:8080/expense/allExpenses")  // gets all expenses from mysql
         .then(res => {
             const expenses = res.data;
+            console.log('axios expenses: ', expenses);
             this.setState({expenses});
+
+            const today = new Date();
+            this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () { //gets transactions for current month and year
+                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                .then(res => {
+                    this.setState({selectedTransactions: res.data});
+                    
+                    let updatedSpentValsForAllExpenses = new Map(); // rename to better name
+                    this.state.expenses.map((expense) => {
+                        updatedSpentValsForAllExpenses.set(expense.id, 0.0);
+            
+                    });
+            
+                    this.setState({spentValsForAllExpenses: updatedSpentValsForAllExpenses});
+
+                    this.state.selectedTransactions.map((transaction) => {
+                        let tempMap = new Map(this.state.spentValsForAllExpenses);
+                        const expenseSpentVal = tempMap.get(transaction.expenseID)
+                        tempMap.set(transaction.expenseID, expenseSpentVal + transaction.spent);
+                        this.setState({spentValsForAllExpenses: tempMap})
+                    })
+
+                
+                    // let newMap = new Map(myHashMap);
+                    // console.log('newMap', newMap);
+
+                    // newMap.filter((expenseId){
+                    //     if (expenseId === transactions.expenseId)
+                    //     {
+                    //        newMap.set(expenseId, newMap.get(expenseId) + transaction.spentVal) 
+                    //     }
+                    // });
+                })
+            });
+    
+            
         })
 
-        const today = new Date();
-        this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () {
-            axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
-            .then(res => {
-                this.setState({selectedTransactions: res.data});
-                console.log(this.state.selectedTransactions);
-            })
-        });
     }
 
-    // componentDidUpdate() {
-    //     axios.get("http://localhost:8080/expense/allExpenses")
-    //     .then(res => {
-    //         const expenses = res.data;
-    //         this.setState({expenses});
-    //     })
-    // }
 
     render() {
         return (
@@ -373,11 +417,11 @@ export default class Home extends React.Component {
                     </select>
                     <select onChange={this.handleSelectedYearDropDownChange}>
                         <option value="-1">--Year--</option>
-                        <option>{this.state.today.getFullYear()-2}</option>
-                        <option>{this.state.today.getFullYear()-1}</option>
-                        <option>{this.state.today.getFullYear()}</option>
-                        <option>{this.state.today.getFullYear()+1}</option>
-                        <option>{this.state.today.getFullYear()+2}</option>
+                        <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
+                        <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
+                        <option value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
+                        <option value={this.state.today.getFullYear()+1}>{this.state.today.getFullYear()+1}</option>
+                        <option value={this.state.today.getFullYear()+2}>{this.state.today.getFullYear()+2}</option>
                     </select>
                 </div>
                 
