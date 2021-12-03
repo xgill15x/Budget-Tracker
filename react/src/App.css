@@ -51,11 +51,8 @@ input[type=text], input[type=number], select {
 
 .dropdown-flex {
   display: -webkit-flex;
-  display: flex;
-  -webkit-justify-content: space-between;
-  justify-content:space-evenly;
-  padding: 20px;
-  margin: 0;
+  display:inline-flex;
+  width: 50%;
 }
 
 .buttons-invariant {

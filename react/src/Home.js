@@ -71,6 +71,10 @@ export default class Home extends React.Component {
             }
             this.setState({
                 expenses: [...this.state.expenses, newExpenseObject]
+            }, function() {
+                let updatedMap = new Map(this.state.spentValsForAllExpenses);
+                updatedMap.set(newExpenseObject.id, 0.0);
+                this.setState({spentValsForAllExpenses: updatedMap});
             })
         }).catch(error => {
             console.log(error)
@@ -285,8 +289,23 @@ export default class Home extends React.Component {
                 axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
                     console.log("newTransactionDate(MonthChange): ", res.data);
-                    this.setState({selectedTransactions: res.data});
-                    console.log("selectedTransactionsInState: ", this.state.selectedTransactions );
+                    
+                    let updatedMap = new Map(this.state.spentValsForAllExpenses);
+
+                    this.state.expenses.map((expense) => {
+                        updatedMap.set(expense.id, 0.0);
+                    })
+                    
+                    this.setState({selectedTransactions: res.data, spentValsForAllExpenses: updatedMap}, function(){
+                        let changingSpentMap = new Map(this.state.spentValsForAllExpenses);
+                        
+                        this.state.selectedTransactions.map((transaction) => {
+                            const expenseSpentVal = changingSpentMap.get(transaction.expenseID)
+                            changingSpentMap.set(transaction.expenseID, expenseSpentVal + transaction.spent);
+                
+                        })
+                        this.setState({spentValsForAllExpenses: changingSpentMap})
+                    })
                 })
             });
         }
@@ -308,14 +327,23 @@ export default class Home extends React.Component {
                     console.log("newTransactionDate(YearChange): " ,res.data);
 
                     let updatedMap = new Map(this.state.spentValsForAllExpenses);
-                    // const updatedMapKeys = updatedMap.keys();
-                    // updatedMapKeys.map((key) => {
-                    //     updatedMap.set(key, 0.0);
-                    // })
+                                       
+                    this.state.expenses.map((expense) => {
+                        updatedMap.set(expense.id, 0.0);
+                    })
                     
-                    console.log("testVAl",updatedMap.get(268));
-                    this.setState({selectedTransactions: res.data});
-                    console.log("selectedTransactionsInState: ", this.state.selectedTransactions );
+        
+                    this.setState({selectedTransactions: res.data, spentValsForAllExpenses: updatedMap}, function() {
+                        let changingSpentMap = new Map(this.state.spentValsForAllExpenses);
+                        
+                        this.state.selectedTransactions.map((transaction) => {
+                            const expenseSpentVal = changingSpentMap.get(transaction.expenseID)
+                            changingSpentMap.set(transaction.expenseID, expenseSpentVal + transaction.spent);
+                
+                        })
+                        this.setState({spentValsForAllExpenses: changingSpentMap})
+                    });
+                    
                 })
             });
         }

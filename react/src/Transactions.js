@@ -36,9 +36,7 @@ export default class Transactions extends React.Component {
             this.setState({selectedTransactions: this.state.allTransactions})
         }
         else {
-
             
-
             console.log("All Transactions:" , this.state.allTransactions)
             console.log("SelectVal", selectionVal)
             const updatedTransactions = this.state.allTransactions.filter((element) => {
@@ -51,38 +49,20 @@ export default class Transactions extends React.Component {
         }
     }
 
-    // initSortByDropDown() {
-    //     let lowestIndexExpense = -1;
-    //     {this.state.expenses.map((element) => {
-    //         if (lowestIndexExpense === -1) {
-    //             lowestIndexExpense = element.id;
-    //         }
-    //         else {
-    //             if (element.id < lowestIndexExpense) {
-    //                 lowestIndexExpense = element.id;
-    //             }
-    //         }
-    //     })}
-        
-    //     let elementWithSmallestIndex = "";
-    //     {this.state.expenses.map((element) => {
-    //         if (element.id === lowestIndexExpense) {
-    //             elementWithSmallestIndex = element.expense;
-    //         }
-    //     })}
-
-    //     this.setState({sortBySelection: lowestIndexExpense});
-    // }
-
     renderTableData() {
-        return this.state.selectedTransactions.reverse().map((element) => {
-            
+        return this.state.selectedTransactions.reverse().map((transaction) => {
+           let expenseName;
+           this.state.expenses.map((expense) => {
+               if (expense.id === transaction.expenseID) {
+                   expenseName = expense.expense;
+               }
+           })
            return (
               <tr>
-                 <td>{element.transactionDate}</td>
-                 <td>{element.expenseValue}</td>
-                 <td>{element.payee}</td>
-                 <td>${(element.spent).toFixed(2)}</td>
+                 <td>{transaction.transactionDate}</td>
+                 <td>{expenseName}</td>
+                 <td>{transaction.payee}</td>
+                 <td>${(transaction.spent).toFixed(2)}</td>
               </tr>
            )
         })
