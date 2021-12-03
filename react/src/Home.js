@@ -284,9 +284,9 @@ export default class Home extends React.Component {
             this.setState({selectedMonth: selectedElement}, function () {
                 axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
-                    //console.log(this.state.selectedMonth)
+                    console.log("newTransactionDate(MonthChange): ", res.data);
                     this.setState({selectedTransactions: res.data});
-                    console.log(res.data);
+                    console.log("selectedTransactionsInState: ", this.state.selectedTransactions );
                 })
             });
         }
@@ -301,12 +301,21 @@ export default class Home extends React.Component {
         }
         else{
             selectedElement = e.target.value;
+            
             this.setState({selectedYear: selectedElement}, function () {
                 axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
-                    //console.log(this.state.selectedMonth)
+                    console.log("newTransactionDate(YearChange): " ,res.data);
+
+                    let updatedMap = new Map(this.state.spentValsForAllExpenses);
+                    // const updatedMapKeys = updatedMap.keys();
+                    // updatedMapKeys.map((key) => {
+                    //     updatedMap.set(key, 0.0);
+                    // })
+                    
+                    console.log("testVAl",updatedMap.get(268));
                     this.setState({selectedTransactions: res.data});
-                    console.log(res.data);
+                    console.log("selectedTransactionsInState: ", this.state.selectedTransactions );
                 })
             });
         }
@@ -409,17 +418,18 @@ export default class Home extends React.Component {
                 <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
                 
                 <div className="dropdown-flex">
-                    <select onChange={this.handleSelectedMonthDropDownChange}>
-                        <option value="-1">--Month--</option>
-                        {this.state.listOfMonths.map((element) => (
+                    <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                        <option disabled value="-1">--Month--</option>
+                        {
+                        this.state.listOfMonths.map((element) => (
                             <option value={element.monthNum}>{element.month}</option>
                         ))}
                     </select>
                     <select onChange={this.handleSelectedYearDropDownChange}>
-                        <option value="-1">--Year--</option>
+                        <option disabled value="-1">--Year--</option>
                         <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
                         <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
-                        <option value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
+                        <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
                         <option value={this.state.today.getFullYear()+1}>{this.state.today.getFullYear()+1}</option>
                         <option value={this.state.today.getFullYear()+2}>{this.state.today.getFullYear()+2}</option>
                     </select>
