@@ -445,7 +445,7 @@ export default class Home extends React.Component {
                 <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
                 <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
                 
-                <div className="dropdown-flex">
+                <div className="dropdown-flex" id="dateDropDown">
                     <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
                         <option disabled value="-1">--Month--</option>
                         {

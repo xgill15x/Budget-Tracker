@@ -11,37 +11,110 @@ export default class Transactions extends React.Component {
         this.state = {
             selectedTransactions: [],   //selected trans
             allTransactions: [], //all transactions
+            allTransactionsForSelectedDate: [],
             expenses: [],
-            sortBySelection: 0
+            listOfMonths: [{month:"January", monthNum: 1}, {month:"February", monthNum: 2}, {month:"March", monthNum: 3}, {month:"April", monthNum: 4}, {month:"May", monthNum: 5}, {month:"June", monthNum: 6}, {month:"July", monthNum: 7}, {month:"August", monthNum: 8}, {month:"September", monthNum: 9}, {month:"October", monthNum: 10}, {month:"November", monthNum: 11}, {month:"December", monthNum: 12}],
+            selectedMonth: -1,
+            selectedYear: -1,
+            
+            today: new Date()
         };
 
-        this.renderTableData = this.renderTableData.bind(this);
+        this.handleSelectedMonthDropDownChange = this.handleSelectedMonthDropDownChange.bind(this);
+        this.handleSelectedYearDropDownChange = this.handleSelectedYearDropDownChange.bind(this);
         this.handleSortByChange = this.handleSortByChange.bind(this);
-        //this.initSortByDropDown = this.initSortByDropDown.bind(this);
+
+        this.renderTableData = this.renderTableData.bind(this);
+    }
+
+    handleSelectedMonthDropDownChange(e) {
+        let selectedElement=0;
+        //console.log(e.target.value)
+        if (e.target.value === "-1") {
+            console.log("No month selected.")
+            return;
+        }
+        else{
+            {this.state.listOfMonths.map((element) => {
+                if (element.monthNum === parseInt(e.target.value)) {
+                    selectedElement = element.monthNum;
+                }
+            })}
+            this.setState({selectedMonth: selectedElement}, function () {
+                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                .then(res => {
+                    console.log("newTransactionDate(MonthChange): ", res.data);
+                    
+                    let updatedMap = new Map(this.state.spentValsForAllExpenses);
+
+                    this.state.expenses.map((expense) => {
+                        updatedMap.set(expense.id, 0.0);
+                    })
+                    
+                    this.setState({selectedTransactions: res.data, spentValsForAllExpenses: updatedMap}, function(){
+                        let changingSpentMap = new Map(this.state.spentValsForAllExpenses);
+                        
+                        this.state.selectedTransactions.map((transaction) => {
+                            const expenseSpentVal = changingSpentMap.get(transaction.expenseID)
+                            changingSpentMap.set(transaction.expenseID, expenseSpentVal + transaction.spent);
+                
+                        })
+                        this.setState({spentValsForAllExpenses: changingSpentMap})
+                    })
+                })
+            });
+        }
+    }
+
+    handleSelectedYearDropDownChange(e) {
+        let selectedElement=0;
+        //console.log(e.target.value)
+        if (e.target.value === "-1") {
+            console.log("No Year selected.")
+            return;
+        }
+        else{
+            selectedElement = e.target.value;
+            
+            this.setState({selectedYear: selectedElement}, function () {
+                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                .then(res => {
+                    console.log("newTransactionDate(YearChange): " ,res.data);
+                    
+        
+                    this.setState({selectedTransactions: res.data, allTransactionsForSelectedDate: res.data}, function() {
+                        
+                        
+                    });
+                    
+                })
+            });
+        }
     }
 
     handleSortByChange(e) {
         
-        console.log(e.target.value)
+        console.log("e.target.val",e.target.value)
         let selectionVal = -1; //temp var
 
         this.state.expenses.map((element) => {
-                    if (element.expense === e.target.value) {
-                        selectionVal = element.id;
-                        console.log(selectionVal)
+                    if (element.id === parseInt(e.target.value)) {
+                        selectionVal = parseInt(element.id);
+                        console.log("myselectionVal: ",selectionVal)
                     }
         });
 
         if (selectionVal === -1) {
-            this.setState({selectedTransactions: this.state.allTransactions})
+            this.setState({selectedTransactions: this.state.allTransactionsForSelectedDate})
         }
         else {
             
-            console.log("All Transactions:" , this.state.allTransactions)
-            console.log("SelectVal", selectionVal)
-            const updatedTransactions = this.state.allTransactions.filter((element) => {
-                if (element.expenseID === selectionVal) {
-                    return element;
+            
+            const updatedTransactions = this.state.allTransactionsForSelectedDate.filter((transaction) => {
+                
+                
+                if (transaction.expenseID === selectionVal) {
+                    return transaction;
                 }
             })
 
@@ -73,7 +146,7 @@ export default class Transactions extends React.Component {
         axios.get("http://localhost:8080/transaction/allTransactions")
         .then(res => {
             const transactions = res.data;
-            this.setState({allTransactions: transactions, selectedTransactions: transactions});
+            this.setState({allTransactions: transactions});
         })
         axios.get("http://localhost:8080/expense/allExpenses")
         .then(res => {
@@ -83,6 +156,18 @@ export default class Transactions extends React.Component {
             this.setState({staticExpenses: expenses})
         })
         
+        const today = new Date();
+        this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () {
+            axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                .then(res => {
+                    console.log(res);
+                    this.setState({selectedTransactions: res.data, allTransactionsForSelectedDate: res.data});
+                    console.log("selectedMOnth", this.state.selectedMonth)
+                    console.log("selectedYear", this.state.selectedYear)
+                })
+            
+        });
+        
     }
 
     render() {
@@ -91,18 +176,34 @@ export default class Transactions extends React.Component {
                 <h1 className="mainTitle">All Transactions</h1>
                 <div>
                     <Link to="/">
-                        <button>Go Back</button>
+                        <button className="buttons-invariant">Go Back</button>
                     </Link>
                 </div>
                 
-                    <label>Sort By:
-                        <select onChange={this.handleSortByChange}>
-                            <option value="All">ALL</option>
+                <div className="dropdown-flex" id="dateDropDown">
+                    <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                        <option disabled value="-1">--Month--</option>
+                        {
+                        this.state.listOfMonths.map((element) => (
+                            <option value={element.monthNum}>{element.month}</option>
+                        ))}
+                    </select>
+                    <select onChange={this.handleSelectedYearDropDownChange}>
+                        <option disabled value="-1">--Year--</option>
+                        <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
+                        <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
+                        <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
+                        <option value={this.state.today.getFullYear()+1}>{this.state.today.getFullYear()+1}</option>
+                        <option value={this.state.today.getFullYear()+2}>{this.state.today.getFullYear()+2}</option>
+                    </select>
+                    <select onChange={this.handleSortByChange}>
+                            <option value="All">--Filter/All--</option>
                             {this.state.expenses.map((element) => (
-                                <option value={element.expense}>{element.expense}</option>
+                                <option value={element.id}>{element.expense}</option>
                             ))}
-                        </select>
-                    </label>
+                    </select>
+                </div>
+                
                 
                 <table className="expense-table">
                     <thead>

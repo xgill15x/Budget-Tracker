@@ -49,15 +49,20 @@ input[type=text], input[type=number], select {
   padding: 20px;
 }
 
+#dateDropDown {
+  min-width: 85%;
+}
+
 .dropdown-flex {
   display: -webkit-flex;
   display:inline-flex;
-  width: 50%;
+  min-width: 245px;
 }
 
 .buttons-invariant {
   padding: 12px 18px;
-  border-radius: 5px;
+  
+  margin: 15px 5px 10px 5px;
 }
 
 .expense-table {
