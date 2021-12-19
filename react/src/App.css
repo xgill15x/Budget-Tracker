@@ -49,8 +49,13 @@ input[type=text], input[type=number], select {
   padding: 20px;
 }
 
+#deleteIcon {
+  width: 10%;
+  height: 10%
+}
+
 #dateDropDown {
-  min-width: 85%;
+  min-width: 100%;
 }
 
 .dropdown-flex {

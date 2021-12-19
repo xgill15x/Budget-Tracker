@@ -5,8 +5,10 @@ import AddExpenseForm from './AddExpenseForm';
 import DeleteExpenseForm from './DeleteExpenseForm';
 import EditExpenseForm from './EditExpenseForm';
 import AddTransactionForm from './AddTransactionForm';
+import NavBar from './NavBar';
 import {Link} from "react-router-dom";
 import Moment from 'moment';
+
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -366,13 +368,13 @@ export default class Home extends React.Component {
 
         return this.state.expenses.map((element) => {
             
-           const amountSpent = this.state.spentValsForAllExpenses.get(element.id);
+           const amountSpent = parseFloat(this.state.spentValsForAllExpenses.get(element.id));
            //console.log(amountSpent);
            return (
               <tr>
                  <td>{element.expense}</td>
                  <td>${(element.budget).toFixed(2)}</td>
-                 <td>${(amountSpent)}</td>
+                 <td>${(amountSpent).toFixed(2)}</td>
                  <td>${(element.budget-amountSpent).toFixed(2)}</td>
                  <td><button name="deleteButton" value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}>Delete</button></td>
               </tr>
@@ -431,52 +433,54 @@ export default class Home extends React.Component {
     render() {
         return (
             <div>
-                <h1 className="mainTitle">Budget Tracker</h1>
-                <div className="buttons-flex">
-                    <button onClick={this.toggleAddExpenseModal}>Add Expense</button>
-                    <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
-                    <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
-                    <Link to="/transactionsTable">
-                        <button className="buttons-flex">Show Transactions</button>
-                    </Link>
+                <div>
+                    <h1 className="mainTitle">Budget Tracker</h1>
+                    <div className="buttons-flex">
+                        <button type="button" class="btn btn-danger" onClick={this.toggleAddExpenseModal}>Add Expense</button>
+                        <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
+                        <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
+                        <Link to="/transactionsTable">
+                            <button className="buttons-flex">Show Transactions</button>
+                        </Link>
+                    </div>
+                    <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
+                    {/*<DeleteExpenseForm show={this.state.deleteExpenseToggle} handleClose={this.toggleDeleteExpenseModal} deletConfirm={this.state.deleteConfirmVal} handleDeleteConfirm={this.handleConfirmDelete} /> */}
+                    <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
+                    <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
+                    
+                    <div className="dropdown-flex" id="dateDropDown">
+                        <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                            <option disabled value="-1">--Month--</option>
+                            {
+                            this.state.listOfMonths.map((element) => (
+                                <option value={element.monthNum}>{element.month}</option>
+                            ))}
+                        </select>
+                        <select onChange={this.handleSelectedYearDropDownChange}>
+                            <option disabled value="-1">--Year--</option>
+                            <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
+                            <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
+                            <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
+                            <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
+                            <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
+                        </select>
+                    </div>
+                    
+                    <table className="expense-table">
+                        <thead>
+                            <tr>
+                                <th>Expense</th>
+                                <th>Budget</th>
+                                <th>Spent</th>
+                                <th>Remaining</th>
+                                <th>Delete()</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderTableData()}
+                        </tbody>
+                    </table>
                 </div>
-                <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
-                {/*<DeleteExpenseForm show={this.state.deleteExpenseToggle} handleClose={this.toggleDeleteExpenseModal} deletConfirm={this.state.deleteConfirmVal} handleDeleteConfirm={this.handleConfirmDelete} /> */}
-                <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
-                <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
-                
-                <div className="dropdown-flex" id="dateDropDown">
-                    <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
-                        <option disabled value="-1">--Month--</option>
-                        {
-                        this.state.listOfMonths.map((element) => (
-                            <option value={element.monthNum}>{element.month}</option>
-                        ))}
-                    </select>
-                    <select onChange={this.handleSelectedYearDropDownChange}>
-                        <option disabled value="-1">--Year--</option>
-                        <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
-                        <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
-                        <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
-                        <option value={this.state.today.getFullYear()+1}>{this.state.today.getFullYear()+1}</option>
-                        <option value={this.state.today.getFullYear()+2}>{this.state.today.getFullYear()+2}</option>
-                    </select>
-                </div>
-                
-                <table className="expense-table">
-                    <thead>
-                        <tr>
-                            <th>Expense</th>
-                            <th>Budget</th>
-                            <th>Spent</th>
-                            <th>Remaining</th>
-                            <th>Delete()</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderTableData()}
-                    </tbody>
-                </table>
             </div>
         )
     }

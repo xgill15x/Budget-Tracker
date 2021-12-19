@@ -122,6 +122,42 @@ export default class Transactions extends React.Component {
         }
     }
 
+    submitHandlerDeleteTransaction(e) {
+        
+        console.log(e.target.value)
+        
+        //if (this.state.deleteConfirmVal) {
+            axios.delete('http://localhost:8080/transaction/deleteRow/' + e.target.value)
+            .then(response => {
+                const idOfDeletedTransaction = response.data;
+                
+                const updatedAllTransactions = this.state.allTransactions.filter((transaction) => {
+                    if (transaction.id !== idOfDeletedTransaction) {
+                        return transaction; // fix syntax
+                    }
+                });
+                
+                const updatedallTransactionsForSelectedDate = this.state.allTransactionsForSelectedDate.filter((transaction) => {
+                    if (transaction.id !== idOfDeletedTransaction) {
+                        return transaction; // fix syntax
+                    }
+                });
+
+                const updatedSelectedTransactions = this.state.selectedTransactions.filter((transaction) => {
+                    if (transaction.id !== idOfDeletedTransaction) {
+                        return transaction; // fix syntax
+                    }
+                });
+
+                this.setState({allTransaction: updatedAllTransactions, allTransactionsForSelectedDate: updatedallTransactionsForSelectedDate, selectedTransactions: updatedSelectedTransactions});
+                console.log(response)
+            }).catch(error => {
+                console.log(error)
+            }) 
+            //window.location.reload();  
+        //}
+    }
+
     renderTableData() {
         return this.state.selectedTransactions.reverse().map((transaction) => {
            let expenseName;
@@ -136,6 +172,7 @@ export default class Transactions extends React.Component {
                  <td>{expenseName}</td>
                  <td>{transaction.payee}</td>
                  <td>${(transaction.spent).toFixed(2)}</td>
+                 <td><button name="deleteButton" value={transaction.id} onClick={(e) => {this.submitHandlerDeleteTransaction(e);}}>Delete</button></td>
               </tr>
            )
         })
@@ -190,11 +227,11 @@ export default class Transactions extends React.Component {
                     </select>
                     <select onChange={this.handleSelectedYearDropDownChange}>
                         <option disabled value="-1">--Year--</option>
+                        <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
+                        <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
                         <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
                         <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
                         <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
-                        <option value={this.state.today.getFullYear()+1}>{this.state.today.getFullYear()+1}</option>
-                        <option value={this.state.today.getFullYear()+2}>{this.state.today.getFullYear()+2}</option>
                     </select>
                     <select onChange={this.handleSortByChange}>
                             <option value="All">--Filter/All--</option>
@@ -212,6 +249,7 @@ export default class Transactions extends React.Component {
                             <th>Category</th>
                             <th>Payee</th>
                             <th>Spent</th>
+                            <th>Delete()</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -31,6 +31,15 @@ public class TransactionController {
         return t.getId();
     }
 
+    @DeleteMapping(path="/deleteRow/{transactionID}")
+    public @ResponseBody
+    int deleteExpense(@PathVariable("transactionID") int transactionID) {
+        System.out.println(transactionID);
+        transactionRepo.deleteById(transactionID);
+
+        return transactionID;
+    }
+
     // getTransactionsByMonth with param month (number of month or string)
     //
     @GetMapping(path= "/selectedTransactions/{selectedMonth}/{selectedYear}")
