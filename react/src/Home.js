@@ -56,7 +56,8 @@ export default class Home extends React.Component {
         e.preventDefault();
         axios.post("http://localhost:8080/expense/addRow",{
             expense: e.target[0].value,
-            budget: e.target[1].value
+            budget: e.target[1].value,
+            userName: "myUser"
         }).then(response => {
             
             const newId = response.data;
@@ -69,8 +70,10 @@ export default class Home extends React.Component {
                 expense: newExpense,
                 budget: newBudget,
                 spent: 0.0,
-                remaining: newBudget
+                remaining: newBudget,
+                userName: "myUser"
             }
+            
             this.setState({
                 expenses: [...this.state.expenses, newExpenseObject]
             }, function() {
@@ -107,7 +110,8 @@ export default class Home extends React.Component {
             payee: e.target[1].value,
             spent: parseFloat(e.target[2].value),
             expenseValue: nameOfExpense, 
-            transactionDate: today
+            transactionDate: today,
+            userName: "myUser"
         }).then(response => {
             console.log(response)
         }).catch(error => {

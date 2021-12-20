@@ -19,6 +19,9 @@ public class Expense {
     @Column(name="spent_info")
     private float spent;
 
+    @Column(name="user_name")
+    private String userName;
+
     public Expense(){
 
     }
@@ -51,4 +54,7 @@ public class Expense {
         this.spent = spent;
     }
 
+    public String getUserName() { return userName; }
+
+    public void setUserName(String userName) { this.userName = userName; }
 }

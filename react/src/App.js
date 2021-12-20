@@ -5,6 +5,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import Transactions from './Transactions';
+import Register from './Register';
 
 export default class App extends React.Component {
   state = {
@@ -19,6 +20,7 @@ export default class App extends React.Component {
             <Routes>
               <Route exact path="/" element={<Home/>}/>
               <Route exact path="/transactionsTable" element={<Transactions/>}/>
+              <Route exact path="/registerPage" element={<Register/>}/>
             </Routes>
           </BrowserRouter>
         </header>
