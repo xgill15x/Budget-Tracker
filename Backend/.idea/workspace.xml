@@ -6,14 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="9605ab12-2084-49da-83c8-7ef894703e35" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Expense.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/budgetTracker/BudgetTracker/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Expense.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Expense.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/budgetTracker/BudgetTracker/Transaction.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../react/node_modules/.cache/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react/src/Transactions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../react/src/Transactions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,6 +174,10 @@
       <workItem from="1639951405824" duration="4073000" />
       <workItem from="1639955551661" duration="4049000" />
       <workItem from="1639959736155" duration="658000" />
+      <workItem from="1639964280489" duration="615000" />
+      <workItem from="1639970661114" duration="1205000" />
+      <workItem from="1639972474266" duration="620000" />
+      <workItem from="1640129413360" duration="1403000" />
     </task>
     <servers />
   </component>

@@ -208,9 +208,12 @@ export default class Transactions extends React.Component {
     }
 
     render() {
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+        
         return (
             <div>
-                <h1 className="mainTitle">All Transactions</h1>
+                <h1 className="mainTitle">{username}</h1>
                 <div>
                     <Link to="/">
                         <button className="buttons-invariant">Go Back</button>

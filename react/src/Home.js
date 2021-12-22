@@ -5,6 +5,7 @@ import AddExpenseForm from './AddExpenseForm';
 import DeleteExpenseForm from './DeleteExpenseForm';
 import EditExpenseForm from './EditExpenseForm';
 import AddTransactionForm from './AddTransactionForm';
+import Transactions from './Transactions';
 import NavBar from './NavBar';
 import {Link} from "react-router-dom";
 import Moment from 'moment';
@@ -31,7 +32,10 @@ export default class Home extends React.Component {
             selectedYear: -1,
             
             today: new Date(),
-            spentValsForAllExpenses: new Map()
+            spentValsForAllExpenses: new Map(),
+
+            loggedInUsername: '',
+            showTransactions: false,
         };
 
         this.toggleAddExpenseModal = this.toggleAddExpenseModal.bind(this);
@@ -48,6 +52,7 @@ export default class Home extends React.Component {
         this.initEditDropDown = this.initEditDropDown.bind(this);
         this.initTransactionDropDown = this.initTransactionDropDown.bind(this);
         this.submitHandlerEditExpense = this.submitHandlerEditExpense.bind(this);
+        this.showTransactions = this.showTransactions.bind(this);
         //this.listOfMonths = this.listOfMonths.bind(this);
         
     }
@@ -57,7 +62,7 @@ export default class Home extends React.Component {
         axios.post("http://localhost:8080/expense/addRow",{
             expense: e.target[0].value,
             budget: e.target[1].value,
-            userName: "myUser"
+            userName: this.props.username
         }).then(response => {
             
             const newId = response.data;
@@ -71,7 +76,7 @@ export default class Home extends React.Component {
                 budget: newBudget,
                 spent: 0.0,
                 remaining: newBudget,
-                userName: "myUser"
+                userName: this.props.username
             }
             
             this.setState({
@@ -111,7 +116,7 @@ export default class Home extends React.Component {
             spent: parseFloat(e.target[2].value),
             expenseValue: nameOfExpense, 
             transactionDate: today,
-            userName: "myUser"
+            userName: this.props.username
         }).then(response => {
             console.log(response)
         }).catch(error => {
@@ -387,6 +392,10 @@ export default class Home extends React.Component {
         
     }
 
+    showTransactions () {
+        this.setState({showTransactions: true});
+    }
+
     componentDidMount() {
         axios.get("http://localhost:8080/expense/allExpenses")  // gets all expenses from mysql
         .then(res => {
@@ -398,7 +407,16 @@ export default class Home extends React.Component {
             this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () { //gets transactions for current month and year
                 axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
-                    this.setState({selectedTransactions: res.data});
+
+                    let userTransactions = (res.data).filter((transaction) => {
+                        if (transaction.userName === this.props.username) {
+                            return transaction;
+                        }
+                    })
+                    this.setState({selectedTransactions: userTransactions}, function() {
+                        console.log(this.state.selectedTransactions)
+                    });
+
                     
                     let updatedSpentValsForAllExpenses = new Map(); // rename to better name
                     this.state.expenses.map((expense) => {
@@ -435,20 +453,27 @@ export default class Home extends React.Component {
 
 
     render() {
+        const transactionsPage = { 
+            pathname: "/transactionsTable/" + this.props.username, 
+        };
+        
         return (
             <div>
                 <div>
-                    <h1 className="mainTitle">Budget Tracker</h1>
+                    <h1 className="mainTitle">{this.props.username}</h1>
+            
                     <div className="buttons-flex">
                         <button type="button" class="btn btn-danger" onClick={this.toggleAddExpenseModal}>Add Expense</button>
                         <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
                         <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
-                        <Link to="/transactionsTable">
+                        <Link to={transactionsPage} >
                             <button className="buttons-flex">Show Transactions</button>
                         </Link>
+                        {/* <button className="buttons-flex" onClick={() => this.showTransactions(this.props.username)}>Show Transactions</button> */}
                     </div>
+                    {/* {this.state.showTransactions ? <Transactions username={this.state.username}/> : null} */}
                     <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
-                    {/*<DeleteExpenseForm show={this.state.deleteExpenseToggle} handleClose={this.toggleDeleteExpenseModal} deletConfirm={this.state.deleteConfirmVal} handleDeleteConfirm={this.handleConfirmDelete} /> */}
+                    {/*<DeleteExpenseForm show={this.state.deleteExpenseToggle} handleClose={this.toggleDeluserNameeteExpenseModal} deletConfirm={this.state.deleteConfirmVal} handleDeleteConfirm={this.handleConfirmDelete} /> */}
                     <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
                     <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
                     
