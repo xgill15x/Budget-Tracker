@@ -19,7 +19,7 @@ export default class App extends React.Component {
         <header className="App-header">
           <BrowserRouter>
             <Routes>
-              <Route exact path="/" element={<Home/>}/>
+              <Route exact path="/home" element={<Home/>}/>
               <Route exact path="/transactionsTable/:username" element={<Transactions/>}/>
               <Route exact path="/registerPage" element={<Register/>}/>
               <Route exact path="/loginPage" element={<Login/>}/>

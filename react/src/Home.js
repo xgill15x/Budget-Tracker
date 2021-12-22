@@ -32,10 +32,8 @@ export default class Home extends React.Component {
             selectedYear: -1,
             
             today: new Date(),
-            spentValsForAllExpenses: new Map(),
+            spentValsForAllExpenses: new Map()
 
-            loggedInUsername: '',
-            showTransactions: false,
         };
 
         this.toggleAddExpenseModal = this.toggleAddExpenseModal.bind(this);
@@ -52,13 +50,17 @@ export default class Home extends React.Component {
         this.initEditDropDown = this.initEditDropDown.bind(this);
         this.initTransactionDropDown = this.initTransactionDropDown.bind(this);
         this.submitHandlerEditExpense = this.submitHandlerEditExpense.bind(this);
-        this.showTransactions = this.showTransactions.bind(this);
+        //this.showTransactions = this.showTransactions.bind(this);
         //this.listOfMonths = this.listOfMonths.bind(this);
         
     }
 
     submitHandlerAddExpense = e => {
         e.preventDefault();
+
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+
         axios.post("http://localhost:8080/expense/addRow",{
             expense: e.target[0].value,
             budget: e.target[1].value,
@@ -94,6 +96,9 @@ export default class Home extends React.Component {
 
     submitHandlerAddTransaction = e => {
         e.preventDefault();
+
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
         
         const today = Moment(new Date()).format('YYYY-MM-DD');
         console.log('test', Moment(today).format('YYYY-MM-DD'));
@@ -392,16 +397,27 @@ export default class Home extends React.Component {
         
     }
 
-    showTransactions () {
-        this.setState({showTransactions: true});
-    }
+    // showTransactions () {
+    //     this.setState({showTransactions: true});
+    // }
 
     componentDidMount() {
+        
         axios.get("http://localhost:8080/expense/allExpenses")  // gets all expenses from mysql
         .then(res => {
-            const expenses = res.data;
-            console.log('axios expenses: ', expenses);
-            this.setState({expenses});
+
+            const pathName = window.location.pathname;
+            const username = pathName.split('/')[2];
+
+            let userExpenses = (res.data).filter((expense) => {
+                if (expense.userName === this.props.username) {
+                    return expense;
+                }
+            })
+
+            // const expenses = res.data;
+            // console.log('axios expenses: ', expenses);
+            this.setState({expenses: userExpenses});
 
             const today = new Date();
             this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () { //gets transactions for current month and year
@@ -453,6 +469,9 @@ export default class Home extends React.Component {
 
 
     render() {
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+
         const transactionsPage = { 
             pathname: "/transactionsTable/" + this.props.username, 
         };
@@ -469,11 +488,8 @@ export default class Home extends React.Component {
                         <Link to={transactionsPage} >
                             <button className="buttons-flex">Show Transactions</button>
                         </Link>
-                        {/* <button className="buttons-flex" onClick={() => this.showTransactions(this.props.username)}>Show Transactions</button> */}
                     </div>
-                    {/* {this.state.showTransactions ? <Transactions username={this.state.username}/> : null} */}
                     <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
-                    {/*<DeleteExpenseForm show={this.state.deleteExpenseToggle} handleClose={this.toggleDeluserNameeteExpenseModal} deletConfirm={this.state.deleteConfirmVal} handleDeleteConfirm={this.handleConfirmDelete} /> */}
                     <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
                     <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
                     

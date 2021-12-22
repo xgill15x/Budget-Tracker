@@ -180,25 +180,51 @@ export default class Transactions extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8080/transaction/allTransactions")
-        .then(res => {
+
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+        
+        axios.get("http://localhost:8080/transaction/allTransactions") //getting all transactions in db
+        .then(res => { 
             const transactions = res.data;
             this.setState({allTransactions: transactions});
         })
-        axios.get("http://localhost:8080/expense/allExpenses")
+
+        axios.get("http://localhost:8080/expense/allExpenses")  //getting all expenses in db
         .then(res => {
-            console.log(res.data);
-            const expenses = res.data;
-            this.setState({expenses});
-            this.setState({staticExpenses: expenses})
+
+            let userExpenses = (res.data).filter((expense) => {
+                if (expense.userName === username) {
+                    return expense;
+                }
+            })
+            this.setState({expenses: userExpenses}, function() {
+                console.log("User Expense",this.state.expenses)
+            });
+            
+            
         })
         
         const today = new Date();
         this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () {
             axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
-                    console.log(res);
-                    this.setState({selectedTransactions: res.data, allTransactionsForSelectedDate: res.data});
+                    console.log(res.data);
+                    
+                    
+                    
+
+                    let userTransactions = (res.data).filter((transaction) => {
+                        if (transaction.userName === username) {
+                            return transaction;
+                        }
+                    })
+                    console.log("users transactions", userTransactions)
+                    this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
+                        console.log(this.state.selectedTransactions)
+                    });
+                    
+                    //this.setState({selectedTransactions: res.data, allTransactionsForSelectedDate: res.data});
                     console.log("selectedMOnth", this.state.selectedMonth)
                     console.log("selectedYear", this.state.selectedYear)
                 })
@@ -208,6 +234,8 @@ export default class Transactions extends React.Component {
     }
 
     render() {
+
+        
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
         
