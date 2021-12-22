@@ -40,6 +40,22 @@ public class TransactionController {
         return transactionID;
     }
 
+    @DeleteMapping(path="/deleteExpenseTransactions/{expenseID}")
+    public @ResponseBody
+    int deleteExpenseTransactions(@PathVariable("expenseID") int expenseID) {
+        Iterable<Transaction> allTransactions = transactionRepo.findAll();
+        Iterator<Transaction> iter = allTransactions.iterator();
+
+        while(iter.hasNext()) {
+            Transaction currentTransaction = iter.next();
+            if (currentTransaction.getExpenseID() == expenseID) {
+                transactionRepo.deleteById(currentTransaction.getId());
+            }
+        }
+
+        return expenseID;
+    }
+
     // getTransactionsByMonth with param month (number of month or string)
     //
     @GetMapping(path= "/selectedTransactions/{selectedMonth}/{selectedYear}")

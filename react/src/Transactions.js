@@ -3,6 +3,9 @@ import axios from 'axios'
 import './App.css'
 import {Link} from "react-router-dom";
 import { ThemeProvider } from 'react-bootstrap';
+import Home from './Home';
+import {createBrowserHistory} from "history";
+
 
 
 export default class Transactions extends React.Component {
@@ -17,7 +20,10 @@ export default class Transactions extends React.Component {
             selectedMonth: -1,
             selectedYear: -1,
             
-            today: new Date()
+            today: new Date(),
+
+            showTransactions: true,
+            showHome: false
         };
 
         this.handleSelectedMonthDropDownChange = this.handleSelectedMonthDropDownChange.bind(this);
@@ -25,6 +31,8 @@ export default class Transactions extends React.Component {
         this.handleSortByChange = this.handleSortByChange.bind(this);
 
         this.renderTableData = this.renderTableData.bind(this);
+        this.renderTransactions = this.renderTransactions.bind(this);
+        this.renderHome = this.renderHome.bind(this);
     }
 
     handleSelectedMonthDropDownChange(e) {
@@ -179,6 +187,75 @@ export default class Transactions extends React.Component {
         
     }
 
+    renderTransactions() {
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+        
+        
+        return (
+            <div>
+                <h1 className="mainTitle">{username}</h1>
+                <div>
+                    {/* <Link to="/"> */}
+                        <button onClick={() => {this.setState({showHome: true, showTransactions: false})}}className="buttons-invariant">Go Back</button>
+                    {/* </Link> */}
+                </div>
+                
+                <div className="dropdown-flex" id="dateDropDown">
+                    <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                        <option disabled value="-1">--Month--</option>
+                        {
+                        this.state.listOfMonths.map((element) => (
+                            <option value={element.monthNum}>{element.month}</option>
+                        ))}
+                    </select>
+                    <select onChange={this.handleSelectedYearDropDownChange}>
+                        <option disabled value="-1">--Year--</option>
+                        <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
+                        <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
+                        <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
+                        <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
+                        <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
+                    </select>
+                    <select onChange={this.handleSortByChange}>
+                            <option value="All">--Filter/All--</option>
+                            {this.state.expenses.map((element) => (
+                                <option value={element.id}>{element.expense}</option>
+                            ))}
+                    </select>
+                </div>
+                
+                
+                <table className="expense-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Payee</th>
+                            <th>Spent</th>
+                            <th>Delete()</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.renderTableData()}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+
+    renderHome() {
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+        
+        const history = createBrowserHistory();
+        history.push('/home/' + username);   //changes address and bottom code changes the rendering
+        return (<>
+            {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
+            <Home />
+        </>)
+    }
+
     componentDidMount() {
 
         const pathName = window.location.pathname;
@@ -235,59 +312,12 @@ export default class Transactions extends React.Component {
 
     render() {
 
-        
-        const pathName = window.location.pathname;
-        const username = pathName.split('/')[2];
-        
-        return (
+        return(<>
             <div>
-                <h1 className="mainTitle">{username}</h1>
-                <div>
-                    <Link to="/">
-                        <button className="buttons-invariant">Go Back</button>
-                    </Link>
-                </div>
-                
-                <div className="dropdown-flex" id="dateDropDown">
-                    <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
-                        <option disabled value="-1">--Month--</option>
-                        {
-                        this.state.listOfMonths.map((element) => (
-                            <option value={element.monthNum}>{element.month}</option>
-                        ))}
-                    </select>
-                    <select onChange={this.handleSelectedYearDropDownChange}>
-                        <option disabled value="-1">--Year--</option>
-                        <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
-                        <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
-                        <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
-                        <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
-                        <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
-                    </select>
-                    <select onChange={this.handleSortByChange}>
-                            <option value="All">--Filter/All--</option>
-                            {this.state.expenses.map((element) => (
-                                <option value={element.id}>{element.expense}</option>
-                            ))}
-                    </select>
-                </div>
-                
-                
-                <table className="expense-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Category</th>
-                            <th>Payee</th>
-                            <th>Spent</th>
-                            <th>Delete()</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderTableData()}
-                    </tbody>
-                </table>
+                {this.state.showTransactions && this.renderTransactions()}
+                {this.state.showHome && this.renderHome()}
             </div>
-        )
+        </>)
+        
     }
 }

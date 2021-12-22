@@ -9,6 +9,7 @@ import Transactions from './Transactions';
 import NavBar from './NavBar';
 import {Link} from "react-router-dom";
 import Moment from 'moment';
+import {createBrowserHistory} from "history";
 
 
 export default class Home extends React.Component {
@@ -32,7 +33,10 @@ export default class Home extends React.Component {
             selectedYear: -1,
             
             today: new Date(),
-            spentValsForAllExpenses: new Map()
+            spentValsForAllExpenses: new Map(),
+
+            showHome: true,
+            showTransactions: false
 
         };
 
@@ -64,7 +68,7 @@ export default class Home extends React.Component {
         axios.post("http://localhost:8080/expense/addRow",{
             expense: e.target[0].value,
             budget: e.target[1].value,
-            userName: this.props.username
+            userName: username
         }).then(response => {
             
             const newId = response.data;
@@ -78,7 +82,7 @@ export default class Home extends React.Component {
                 budget: newBudget,
                 spent: 0.0,
                 remaining: newBudget,
-                userName: this.props.username
+                userName: username
             }
             
             this.setState({
@@ -121,7 +125,7 @@ export default class Home extends React.Component {
             spent: parseFloat(e.target[2].value),
             expenseValue: nameOfExpense, 
             transactionDate: today,
-            userName: this.props.username
+            userName: username
         }).then(response => {
             console.log(response)
         }).catch(error => {
@@ -184,6 +188,20 @@ export default class Home extends React.Component {
                     }
                 });
                 this.setState({expenses: updatedExpenses});
+                console.log(response)
+            }).catch(error => {
+                console.log(error)
+            }) 
+
+            axios.delete('http://localhost:8080/transaction/deleteExpenseTransactions/' + e.target.value)
+            .then(response => {
+                const idOfExpense = response.data;
+                const updatedTransactions = this.state.selectedTransactions.filter((transaction) => {
+                    if (transaction.expenseID !== idOfExpense) {
+                        return transaction; // fix syntax
+                    }
+                });
+                this.setState({selectedTransactions: updatedTransactions});
                 console.log(response)
             }).catch(error => {
                 console.log(error)
@@ -401,6 +419,79 @@ export default class Home extends React.Component {
     //     this.setState({showTransactions: true});
     // }
 
+    renderHome() {
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+
+        const transactionsPage = { 
+            pathname: "/transactionsTable/" + username, 
+        };
+        
+        return (
+            <div>
+                <div>
+                    <h1 className="mainTitle">{username}</h1>
+            
+                    <div className="buttons-flex">
+                        <button type="button" class="btn btn-danger" onClick={this.toggleAddExpenseModal}>Add Expense</button>
+                        <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
+                        <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
+                        {/* <Link to={transactionsPage} > */}
+                            <button className="buttons-flex" onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
+                        {/* </Link> */}
+                    </div>
+                    <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
+                    <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
+                    <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
+                    
+                    <div className="dropdown-flex" id="dateDropDown">
+                        <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                            <option disabled value="-1">--Month--</option>
+                            {
+                            this.state.listOfMonths.map((element) => (
+                                <option value={element.monthNum}>{element.month}</option>
+                            ))}
+                        </select>
+                        <select onChange={this.handleSelectedYearDropDownChange}>
+                            <option disabled value="-1">--Year--</option>
+                            <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
+                            <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
+                            <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
+                            <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
+                            <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
+                        </select>
+                    </div>
+                    
+                    <table className="expense-table">
+                        <thead>
+                            <tr>
+                                <th>Expense</th>
+                                <th>Budget</th>
+                                <th>Spent</th>
+                                <th>Remaining</th>
+                                <th>Delete()</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderTableData()}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        )
+    }
+
+    renderTransactions() {
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+        
+        const history = createBrowserHistory();
+        history.push('/transactionsTable/' + username);   //changes address and bottom code changes the rendering
+        return (<>
+            {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
+            <Transactions />
+        </>)
+    }
     componentDidMount() {
         
         axios.get("http://localhost:8080/expense/allExpenses")  // gets all expenses from mysql
@@ -410,7 +501,7 @@ export default class Home extends React.Component {
             const username = pathName.split('/')[2];
 
             let userExpenses = (res.data).filter((expense) => {
-                if (expense.userName === this.props.username) {
+                if (expense.userName === username) {
                     return expense;
                 }
             })
@@ -425,7 +516,7 @@ export default class Home extends React.Component {
                 .then(res => {
 
                     let userTransactions = (res.data).filter((transaction) => {
-                        if (transaction.userName === this.props.username) {
+                        if (transaction.userName === username) {
                             return transaction;
                         }
                     })
@@ -469,64 +560,19 @@ export default class Home extends React.Component {
 
 
     render() {
-        const pathName = window.location.pathname;
-        const username = pathName.split('/')[2];
-
-        const transactionsPage = { 
-            pathname: "/transactionsTable/" + this.props.username, 
-        };
-        
-        return (
+        return (<>
             <div>
-                <div>
-                    <h1 className="mainTitle">{this.props.username}</h1>
-            
-                    <div className="buttons-flex">
-                        <button type="button" class="btn btn-danger" onClick={this.toggleAddExpenseModal}>Add Expense</button>
-                        <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
-                        <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
-                        <Link to={transactionsPage} >
-                            <button className="buttons-flex">Show Transactions</button>
-                        </Link>
-                    </div>
-                    <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
-                    <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
-                    <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
-                    
-                    <div className="dropdown-flex" id="dateDropDown">
-                        <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
-                            <option disabled value="-1">--Month--</option>
-                            {
-                            this.state.listOfMonths.map((element) => (
-                                <option value={element.monthNum}>{element.month}</option>
-                            ))}
-                        </select>
-                        <select onChange={this.handleSelectedYearDropDownChange}>
-                            <option disabled value="-1">--Year--</option>
-                            <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
-                            <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
-                            <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
-                            <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
-                            <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
-                        </select>
-                    </div>
-                    
-                    <table className="expense-table">
-                        <thead>
-                            <tr>
-                                <th>Expense</th>
-                                <th>Budget</th>
-                                <th>Spent</th>
-                                <th>Remaining</th>
-                                <th>Delete()</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.renderTableData()}
-                        </tbody>
-                    </table>
-                </div>
+                {this.state.showHome && this.renderHome()}
+                {this.state.showTransactions && this.renderTransactions()}
+                
+                {/* {this.renderLinkIf(
+                    <Home username={this.state.username} />,
+                    this.state.showHome,
+                    '/home',
+                )} */}
+                
             </div>
-        )
+            
+        </>)
     }
 }

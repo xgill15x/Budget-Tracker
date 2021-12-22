@@ -4,6 +4,7 @@ import './App.css'
 import Button from 'react-bootstrap/Button'
 import Home from './Home';
 import {Link, Route, Routes} from "react-router-dom";
+import {createBrowserHistory} from "history";
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -112,8 +113,9 @@ export default class Login extends React.Component {
         // const homePage = { 
         //     pathname: "/home" + this.state.username, 
         // };
-        const homePage = "/home";
         
+        const history = createBrowserHistory();
+        history.push('/home/' + this.state.username);   //changes address and bottom code changes the rendering
         return (<>
             {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
             <Home username={this.state.username}/>
