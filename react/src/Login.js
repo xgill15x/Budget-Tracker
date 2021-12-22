@@ -46,12 +46,11 @@ export default class Login extends React.Component {
             };
 
             if (e.target[1].value === targetPassword) {
+                localStorage.setItem("auth", "authenticated");
                 this.setState({username: e.target[0].value, showHome: true, showLogin: false}, function() {
                     console.log("Login Successful for: ", e.target[0].value);
                 });
-                return(
-                    <Link to={homePage} ></Link>
-                )
+                
             }
             else {
                 e.target[0].value = '';
@@ -78,6 +77,8 @@ export default class Login extends React.Component {
             })
             
         })
+        
+        localStorage.setItem("auth", "notAuthenticated");
     }
 
     renderLogin() {
@@ -116,10 +117,12 @@ export default class Login extends React.Component {
         
         const history = createBrowserHistory();
         history.push('/home/' + this.state.username);   //changes address and bottom code changes the rendering
+
         return (<>
             {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
-            <Home username={this.state.username}/>
+            <Home />
         </>)
+
     }
     
 

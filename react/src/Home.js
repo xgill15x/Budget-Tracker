@@ -10,6 +10,7 @@ import NavBar from './NavBar';
 import {Link} from "react-router-dom";
 import Moment from 'moment';
 import {createBrowserHistory} from "history";
+import Login from './Login';
 
 
 export default class Home extends React.Component {
@@ -36,7 +37,8 @@ export default class Home extends React.Component {
             spentValsForAllExpenses: new Map(),
 
             showHome: true,
-            showTransactions: false
+            showTransactions: false,
+            showLogin: false
 
         };
 
@@ -54,6 +56,8 @@ export default class Home extends React.Component {
         this.initEditDropDown = this.initEditDropDown.bind(this);
         this.initTransactionDropDown = this.initTransactionDropDown.bind(this);
         this.submitHandlerEditExpense = this.submitHandlerEditExpense.bind(this);
+        this.signOut = this.signOut.bind(this);
+        this.signOutsetState = this.signOutsetState.bind(this);
         //this.showTransactions = this.showTransactions.bind(this);
         //this.listOfMonths = this.listOfMonths.bind(this);
         
@@ -415,9 +419,23 @@ export default class Home extends React.Component {
         
     }
 
-    // showTransactions () {
-    //     this.setState({showTransactions: true});
-    // }
+    signOut() {
+        console.log("signed OUt")
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+        localStorage.setItem("auth", false);
+
+
+        const history = createBrowserHistory();
+        history.push('/');   //changes address and bottom code changes the rendering
+        return (<>
+            {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
+            <Login />
+        </>)
+    }
+    signOutsetState() {
+        this.setState({showLogin: true, showHome: false, showTransactions: false});
+    }
 
     renderHome() {
         const pathName = window.location.pathname;
@@ -426,59 +444,74 @@ export default class Home extends React.Component {
         const transactionsPage = { 
             pathname: "/transactionsTable/" + username, 
         };
+
+        if (localStorage.getItem("auth") === "authenticated") {
         
-        return (
-            <div>
+            return (
                 <div>
-                    <h1 className="mainTitle">{username}</h1>
-            
-                    <div className="buttons-flex">
-                        <button type="button" class="btn btn-danger" onClick={this.toggleAddExpenseModal}>Add Expense</button>
-                        <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
-                        <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
-                        {/* <Link to={transactionsPage} > */}
-                            <button className="buttons-flex" onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
-                        {/* </Link> */}
-                    </div>
-                    <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
-                    <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
-                    <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
+                    <div>
+                        <h1 className="mainTitle">{localStorage.getItem("auth")}</h1>
+                        <div>
+                            <button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button>
+                        </div>
+                        <div className="buttons-flex">
+                            <button type="button" class="btn btn-danger" onClick={this.toggleAddExpenseModal}>Add Expense</button>
+                            <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
+                            <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
+                            {/* <Link to={transactionsPage} > */}
+                                <button className="buttons-flex" onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
+                            {/* </Link> */}
+                        </div>
+                        <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
+                        <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
+                        <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
+                        
+                        <div className="dropdown-flex" id="dateDropDown">
+                            <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                                <option disabled value="-1">--Month--</option>
+                                {
+                                this.state.listOfMonths.map((element) => (
+                                    <option value={element.monthNum}>{element.month}</option>
+                                ))}
+                            </select>
+                            <select onChange={this.handleSelectedYearDropDownChange}>
+                                <option disabled value="-1">--Year--</option>
+                                <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
+                                <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
+                                <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
+                                <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
+                                <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
+                            </select>
+                        </div>
+                        
+                        <table className="expense-table">
+                            <thead>
+                                <tr>
+                                    <th>Expense</th>
+                                    <th>Budget</th>
+                                    <th>Spent</th>
+                                    <th>Remaining</th>
+                                    <th>Delete()</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.renderTableData()}
+                            </tbody>
+                        </table>
                     
-                    <div className="dropdown-flex" id="dateDropDown">
-                        <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
-                            <option disabled value="-1">--Month--</option>
-                            {
-                            this.state.listOfMonths.map((element) => (
-                                <option value={element.monthNum}>{element.month}</option>
-                            ))}
-                        </select>
-                        <select onChange={this.handleSelectedYearDropDownChange}>
-                            <option disabled value="-1">--Year--</option>
-                            <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
-                            <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
-                            <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
-                            <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
-                            <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
-                        </select>
                     </div>
-                    
-                    <table className="expense-table">
-                        <thead>
-                            <tr>
-                                <th>Expense</th>
-                                <th>Budget</th>
-                                <th>Spent</th>
-                                <th>Remaining</th>
-                                <th>Delete()</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.renderTableData()}
-                        </tbody>
-                    </table>
                 </div>
-            </div>
-        )
+            )
+        }
+        else {
+            
+            return (<>
+                {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
+                <div><h2>You need to sign in to access this page.</h2></div>
+                <div className="buttons-flex"><button id="signIn-button" onClick={() => this.signOutsetState()}>Sign in</button></div>
+                
+            </>)
+        }
     }
 
     renderTransactions() {
@@ -496,6 +529,8 @@ export default class Home extends React.Component {
         
         axios.get("http://localhost:8080/expense/allExpenses")  // gets all expenses from mysql
         .then(res => {
+
+            console.log("auth",localStorage.getItem("auth"))
 
             const pathName = window.location.pathname;
             const username = pathName.split('/')[2];
@@ -564,12 +599,8 @@ export default class Home extends React.Component {
             <div>
                 {this.state.showHome && this.renderHome()}
                 {this.state.showTransactions && this.renderTransactions()}
+                {this.state.showLogin && this.signOut()}
                 
-                {/* {this.renderLinkIf(
-                    <Home username={this.state.username} />,
-                    this.state.showHome,
-                    '/home',
-                )} */}
                 
             </div>
             

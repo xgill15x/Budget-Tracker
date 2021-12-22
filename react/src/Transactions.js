@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import { ThemeProvider } from 'react-bootstrap';
 import Home from './Home';
 import {createBrowserHistory} from "history";
+import Login from './Login'
 
 
 
@@ -23,7 +24,8 @@ export default class Transactions extends React.Component {
             today: new Date(),
 
             showTransactions: true,
-            showHome: false
+            showHome: false,
+            showLogin: false
         };
 
         this.handleSelectedMonthDropDownChange = this.handleSelectedMonthDropDownChange.bind(this);
@@ -33,6 +35,8 @@ export default class Transactions extends React.Component {
         this.renderTableData = this.renderTableData.bind(this);
         this.renderTransactions = this.renderTransactions.bind(this);
         this.renderHome = this.renderHome.bind(this);
+        this.renderLogin = this.renderLogin.bind(this);
+        this.changeLoginSetState = this.changeLoginSetState.bind(this);
     }
 
     handleSelectedMonthDropDownChange(e) {
@@ -187,61 +191,85 @@ export default class Transactions extends React.Component {
         
     }
 
+    renderLogin() {
+        
+        const history = createBrowserHistory();
+        history.push('/');   //changes address and bottom code changes the rendering
+            return (<>
+                {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
+                
+                <Login />
+            </>)
+    }
+    changeLoginSetState() {
+        this.setState({showLogin: true, showHome: false, showTransactions: false});
+    }
+
     renderTransactions() {
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
         
-        
-        return (
-            <div>
-                <h1 className="mainTitle">{username}</h1>
+        if (localStorage.getItem("auth") === "authenticated"){
+            return (
                 <div>
-                    {/* <Link to="/"> */}
-                        <button onClick={() => {this.setState({showHome: true, showTransactions: false})}}className="buttons-invariant">Go Back</button>
-                    {/* </Link> */}
-                </div>
-                
-                <div className="dropdown-flex" id="dateDropDown">
-                    <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
-                        <option disabled value="-1">--Month--</option>
-                        {
-                        this.state.listOfMonths.map((element) => (
-                            <option value={element.monthNum}>{element.month}</option>
-                        ))}
-                    </select>
-                    <select onChange={this.handleSelectedYearDropDownChange}>
-                        <option disabled value="-1">--Year--</option>
-                        <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
-                        <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
-                        <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
-                        <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
-                        <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
-                    </select>
-                    <select onChange={this.handleSortByChange}>
-                            <option value="All">--Filter/All--</option>
-                            {this.state.expenses.map((element) => (
-                                <option value={element.id}>{element.expense}</option>
+                    <h1 className="mainTitle">{username}</h1>
+                    <div>
+                        {/* <Link to="/"> */}
+                            <button onClick={() => {this.setState({showHome: true, showTransactions: false})}}className="buttons-invariant">Go Back</button>
+                        {/* </Link> */}
+                    </div>
+                    
+                    <div className="dropdown-flex" id="dateDropDown">
+                        <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                            <option disabled value="-1">--Month--</option>
+                            {
+                            this.state.listOfMonths.map((element) => (
+                                <option value={element.monthNum}>{element.month}</option>
                             ))}
-                    </select>
+                        </select>
+                        <select onChange={this.handleSelectedYearDropDownChange}>
+                            <option disabled value="-1">--Year--</option>
+                            <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
+                            <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
+                            <option value={this.state.today.getFullYear()-2}>{this.state.today.getFullYear()-2}</option>
+                            <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
+                            <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
+                        </select>
+                        <select onChange={this.handleSortByChange}>
+                                <option value="All">--Filter/All--</option>
+                                {this.state.expenses.map((element) => (
+                                    <option value={element.id}>{element.expense}</option>
+                                ))}
+                        </select>
+                    </div>
+                    
+                    
+                    <table className="expense-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Payee</th>
+                                <th>Spent</th>
+                                <th>Delete()</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderTableData()}
+                        </tbody>
+                    </table>
                 </div>
+            )
+        }
+        else {
+            
+            return (<>
+                {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
+                <div><h2>You need to sign in to access this page.</h2></div>
+                <div className="buttons-flex"><button id="signIn-button" onClick={() => this.changeLoginSetState()}>Sign in</button></div>
                 
-                
-                <table className="expense-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Category</th>
-                            <th>Payee</th>
-                            <th>Spent</th>
-                            <th>Delete()</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderTableData()}
-                    </tbody>
-                </table>
-            </div>
-        )
+            </>)
+        }
     }
 
     renderHome() {
@@ -316,6 +344,7 @@ export default class Transactions extends React.Component {
             <div>
                 {this.state.showTransactions && this.renderTransactions()}
                 {this.state.showHome && this.renderHome()}
+                {this.state.showLogin && this.renderLogin()}
             </div>
         </>)
         
