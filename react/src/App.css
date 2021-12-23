@@ -65,7 +65,7 @@ input[type=text], input[type=number], input[type=password], select {
 #signOut-button {
   align-content: center;
   padding: 15x;
-  margin-top: 1.5em;
+  
 }
 #signIn-button {
   align-content: center;
@@ -144,6 +144,11 @@ input[type=text], input[type=number], input[type=password], select {
 }
 #hideLoginBox {
   display:none;
+}
+
+#signedInUser {
+  color: lawngreen;
+  margin-top: 0.5em;
 }
 
 .modal {

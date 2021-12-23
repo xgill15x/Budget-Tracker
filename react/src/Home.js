@@ -95,6 +95,8 @@ export default class Home extends React.Component {
                 let updatedMap = new Map(this.state.spentValsForAllExpenses);
                 updatedMap.set(newExpenseObject.id, 0.0);
                 this.setState({spentValsForAllExpenses: updatedMap});
+                e.target[0].value = null;
+                e.target[1].value = null;
             })
         }).catch(error => {
             console.log(error)
@@ -171,7 +173,8 @@ export default class Home extends React.Component {
         })
 
         this.setState({expenses: updatedExpenses, spentValsForAllExpenses: updatedMap})
-    
+        e.target[1].value = null;
+        e.target[2].value = null;
     }
 
     handleConfirmDelete(element){
@@ -238,6 +241,9 @@ export default class Home extends React.Component {
                 
             })
             this.setState({expenses: updatedExpenses});
+            
+            e.target[1].value = null;
+            e.target[2].value = null;
         }).catch(error => {
             console.log(error)
         })
@@ -441,16 +447,16 @@ export default class Home extends React.Component {
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
 
-        const transactionsPage = { 
-            pathname: "/transactionsTable/" + username, 
-        };
-
         if (localStorage.getItem("auth") === "authenticated") {
         
             return (
                 <div>
                     <div>
-                        <h1 className="mainTitle">{localStorage.getItem("auth")}</h1>
+                        <div>
+                            <h1 className="mainTitle">My Expenses</h1>
+                        </div>
+                        <div id="signedInUser">{"Signed In User: " + username}</div>
+        
                         <div>
                             <button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button>
                         </div>

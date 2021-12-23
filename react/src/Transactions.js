@@ -40,6 +40,10 @@ export default class Transactions extends React.Component {
     }
 
     handleSelectedMonthDropDownChange(e) {
+        
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+        
         let selectedElement=0;
         //console.log(e.target.value)
         if (e.target.value === "-1") {
@@ -55,7 +59,13 @@ export default class Transactions extends React.Component {
             this.setState({selectedMonth: selectedElement}, function () {
                 axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
-                    console.log("newTransactionDate(MonthChange): ", res.data);
+                    console.log(res.data);
+
+                    let userTransactions = (res.data).filter((transaction) => {
+                        if (transaction.userName === username) {
+                            return transaction;
+                        }
+                    })
                     
                     let updatedMap = new Map(this.state.spentValsForAllExpenses);
 
@@ -63,7 +73,7 @@ export default class Transactions extends React.Component {
                         updatedMap.set(expense.id, 0.0);
                     })
                     
-                    this.setState({selectedTransactions: res.data, spentValsForAllExpenses: updatedMap}, function(){
+                    this.setState({selectedTransactions: userTransactions, spentValsForAllExpenses: userTransactions}, function(){
                         let changingSpentMap = new Map(this.state.spentValsForAllExpenses);
                         
                         this.state.selectedTransactions.map((transaction) => {
@@ -79,6 +89,10 @@ export default class Transactions extends React.Component {
     }
 
     handleSelectedYearDropDownChange(e) {
+        
+        const pathName = window.location.pathname;
+        const username = pathName.split('/')[2];
+
         let selectedElement=0;
         //console.log(e.target.value)
         if (e.target.value === "-1") {
@@ -91,12 +105,23 @@ export default class Transactions extends React.Component {
             this.setState({selectedYear: selectedElement}, function () {
                 axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
-                    console.log("newTransactionDate(YearChange): " ,res.data);
+                    // console.log("newTransactionDate(YearChange): " ,res.data);
                     
         
-                    this.setState({selectedTransactions: res.data, allTransactionsForSelectedDate: res.data}, function() {
+                    // this.setState({selectedTransactions: res.data, allTransactionsForSelectedDate: res.data}, function() {
                         
                         
+                    // });
+                    console.log(res.data);
+
+                    let userTransactions = (res.data).filter((transaction) => {
+                        if (transaction.userName === username) {
+                            return transaction;
+                        }
+                    })
+                    console.log("users transactions", userTransactions)
+                    this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
+                        console.log(this.state.selectedTransactions)
                     });
                     
                 })
@@ -212,7 +237,7 @@ export default class Transactions extends React.Component {
         if (localStorage.getItem("auth") === "authenticated"){
             return (
                 <div>
-                    <h1 className="mainTitle">{username}</h1>
+                    <h1 className="mainTitle">My Transactions</h1>
                     <div>
                         {/* <Link to="/"> */}
                             <button onClick={() => {this.setState({showHome: true, showTransactions: false})}}className="buttons-invariant">Go Back</button>

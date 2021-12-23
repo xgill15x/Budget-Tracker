@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Home from './Home';
 import {Link, Route, Routes} from "react-router-dom";
 import {createBrowserHistory} from "history";
+import Register from './Register';
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -15,13 +16,15 @@ export default class Login extends React.Component {
             users: [],
             username: '',
             showHome: false,
-            showLogin: true
+            showLogin: true,
+            showRegister: false
         }
 
         this.submitUser = this.submitUser.bind(this);
         this.renderLogin = this.renderLogin.bind(this);
         this.renderHome = this.renderHome.bind(this);
-        this.renderLinkIf = this.renderLinkIf.bind(this);
+        this.changeRegisterState = this.changeRegisterState.bind(this);
+        this.renderRegister = this.renderRegister.bind(this);
     }
 
     submitUser = e => {
@@ -79,36 +82,44 @@ export default class Login extends React.Component {
         })
         
         localStorage.setItem("auth", "notAuthenticated");
+        this.setState({showHome: false, showLogin: true, showRegister: false})
     }
 
     renderLogin() {
         return (
             <div className="registerBox">
-            <h1 className="mainTitle" id='formText'>Login</h1>
-            <form onSubmit={this.submitUser}>
-                <label className="black">Username: 
-                <div>
-                    <input id="registerInput" required type="text" name="expense"  placeholder="Username_99" />
-                </div>
-                </label>
-                <label className="black">Password:  
-                    <input name="password" placeholder="Password123" required type="password"/>
-                </label>
-                <div className="buttons-flex">
-                    <button type="submit" className="buttons-invariant">Submit</button>
-                    <button type="button" className="buttons-invariant">Close</button>
-                </div>
-                
-            </form>
+                <h1 className="mainTitle" id='formText'>Login</h1>
+                <form onSubmit={this.submitUser}>
+                    <label className="black">Username: 
+                    <div>
+                        <input id="registerInput" required type="text" name="expense"  placeholder="Username_99" />
+                    </div>
+                    </label>
+                    <label className="black">Password:  
+                        <input name="password" placeholder="Password123" required type="password"/>
+                    </label>
+                    <div className="buttons-flex">
+                        <button type="submit" className="buttons-invariant">Submit</button>
+                        <button type="button" onClick={() => {this.changeRegisterState()}} className="buttons-invariant">Register</button>
+                    </div>
+                    
+                </form>
             </div>
         );
     }
 
-    renderLinkIf = (content, condition, href) => {
-        if (condition) {
-          return (<Link to={href}>{content}</Link>);
-        }
-      };
+    changeRegisterState() {
+        this.setState({showLogin: false, showRegister: true, showHome: false})
+    }
+    renderRegister() {
+        const history = createBrowserHistory();
+        history.push('/registerPage');   //changes address and bottom code changes the rendering
+
+        return (<>
+            {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
+            <Register />
+        </>)
+    }
 
     renderHome() {
         // const homePage = { 
@@ -132,6 +143,7 @@ export default class Login extends React.Component {
             <div>
                 {this.state.showLogin && this.renderLogin()}
                 {this.state.showHome && this.renderHome()}
+                {this.state.showRegister && this.renderRegister()}
                 
                 {/* {this.renderLinkIf(
                     <Home username={this.state.username} />,
