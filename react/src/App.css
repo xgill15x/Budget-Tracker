@@ -119,11 +119,29 @@ input[type=text], input[type=number], input[type=password], select {
 }
 .expense-table tbody tr:nth-of-type(even) {
   background-color: #181d24;
-
 }
 .expense-table tbody tr:last-of-type {
   border-bottom: 2px solid darkcyan;
+  background-color: black;
+}
+.expense-table tbody tr:nth-last-child(2) {
+  border-bottom: 4px solid darkcyan;
+}
 
+#remainingPos {
+  color: lawngreen;
+}
+#remainingPos2 {
+  color: lightgreen;
+}
+#remainingNeg {
+  color: crimson;
+}
+#remainingNeg2 {
+  color: lightcoral;
+}
+.bold {
+  font-weight: bold;
 }
 
 .registerBox {

@@ -408,20 +408,36 @@ export default class Home extends React.Component {
 
     renderTableData() {
 
-        return this.state.expenses.map((element) => {
+        let sumOfBudget = 0;
+        let sumOfSpent = 0;
+
+        return (<>
+            {this.state.expenses.map((element) => {
             
-           const amountSpent = parseFloat(this.state.spentValsForAllExpenses.get(element.id));
-           //console.log(amountSpent);
-           return (
-              <tr>
-                 <td>{element.expense}</td>
-                 <td>${(element.budget).toFixed(2)}</td>
-                 <td>${(amountSpent).toFixed(2)}</td>
-                 <td>${(element.budget-amountSpent).toFixed(2)}</td>
-                 <td><button name="deleteButton" value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}>Delete</button></td>
-              </tr>
-           )
-        })
+                const amountSpent = parseFloat(this.state.spentValsForAllExpenses.get(element.id));
+                sumOfBudget += element.budget;
+                sumOfSpent += amountSpent;
+                //console.log(amountSpent);
+                return (
+                    <tr>
+                        <td>{element.expense}</td>
+                        <td>${(element.budget).toFixed(2)}</td>
+                        <td>${(amountSpent).toFixed(2)}</td>
+                        <td id={(sumOfBudget-sumOfSpent) > 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
+                        <td><button name="deleteButton" value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}>Delete</button></td>
+                    </tr>
+                )
+
+            })}
+            <tr>
+                <td className='bold'>TOTAL : </td>
+                <td className='bold'>${sumOfBudget.toFixed(2)}</td>
+                <td className='bold'>${sumOfSpent.toFixed(2)}</td>
+                <td className='bold' id={(sumOfBudget-sumOfSpent) > 0 ? "remainingPos":"remainingNeg"}>${(sumOfBudget-sumOfSpent).toFixed(2)}</td>
+                <td></td>
+            </tr>
+
+        </>)
         
     }
 
@@ -468,6 +484,7 @@ export default class Home extends React.Component {
                                 <button className="buttons-flex" onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
                             {/* </Link> */}
                         </div>
+
                         <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
                         <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
                         <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>

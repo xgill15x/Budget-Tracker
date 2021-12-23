@@ -196,23 +196,36 @@ export default class Transactions extends React.Component {
     }
 
     renderTableData() {
-        return this.state.selectedTransactions.reverse().map((transaction) => {
-           let expenseName;
-           this.state.expenses.map((expense) => {
-               if (expense.id === transaction.expenseID) {
-                   expenseName = expense.expense;
-               }
-           })
-           return (
-              <tr>
-                 <td>{transaction.transactionDate}</td>
-                 <td>{expenseName}</td>
-                 <td>{transaction.payee}</td>
-                 <td>${(transaction.spent).toFixed(2)}</td>
-                 <td><button name="deleteButton" value={transaction.id} onClick={(e) => {this.submitHandlerDeleteTransaction(e);}}>Delete</button></td>
-              </tr>
-           )
-        })
+
+        let sumOfSpent = 0;
+
+        return(<>
+            {this.state.selectedTransactions.reverse().map((transaction) => {
+                let expenseName;
+                this.state.expenses.map((expense) => {
+                    if (expense.id === transaction.expenseID) {
+                        expenseName = expense.expense;
+                    }
+                })
+                sumOfSpent += transaction.spent;
+                return (
+                    <tr>
+                        <td>{transaction.transactionDate}</td>
+                        <td>{expenseName}</td>
+                        <td>{transaction.payee}</td>
+                        <td>${(transaction.spent).toFixed(2)}</td>
+                        <td><button name="deleteButton" value={transaction.id} onClick={(e) => {this.submitHandlerDeleteTransaction(e);}}>Delete</button></td>
+                    </tr>
+                )
+            })}
+            <tr>
+                <td className='bold'>Total Spent : </td>
+                <td className='bold'></td>
+                <td className='bold'></td>
+                <td className='bold'>${sumOfSpent.toFixed(2)}</td>
+                <td></td>
+            </tr>
+        </>)
         
     }
 
