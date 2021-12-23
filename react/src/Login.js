@@ -87,23 +87,25 @@ export default class Login extends React.Component {
 
     renderLogin() {
         return (
-            <div className="registerBox">
-                <h1 className="mainTitle" id='formText'>Login</h1>
-                <form onSubmit={this.submitUser}>
-                    <label className="black">Username: 
-                    <div>
-                        <input id="registerInput" required type="text" name="expense"  placeholder="Username_99" />
-                    </div>
-                    </label>
-                    <label className="black">Password:  
-                        <input name="password" placeholder="Password123" required type="password"/>
-                    </label>
-                    <div className="buttons-flex">
-                        <button type="submit" className="buttons-invariant">Submit</button>
-                        <button type="button" onClick={() => {this.changeRegisterState()}} className="buttons-invariant">Register</button>
-                    </div>
-                    
-                </form>
+            <div>
+                <div className="registerBox">
+                    <h1 className="mainTitle" id='formText'>{"Budget Tracker\n\nLogin"}</h1>
+                    <form onSubmit={this.submitUser}>
+                        <label className="black">Username: 
+                        <div>
+                            <input id="registerInput" required type="text" name="expense"  placeholder="Username_99" />
+                        </div>
+                        </label>
+                        <label className="black">Password:  
+                            <input name="password" placeholder="Password123" required type="password"/>
+                        </label>
+                        <div className="buttons-flex">
+                            <button type="submit" className="buttons-invariant">Submit</button>
+                            <button type="button" onClick={() => {this.changeRegisterState()}} className="buttons-invariant">Register</button>
+                        </div>
+                        
+                    </form>
+                </div>
             </div>
         );
     }
