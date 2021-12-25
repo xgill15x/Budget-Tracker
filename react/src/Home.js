@@ -13,6 +13,7 @@ import {createBrowserHistory} from "history";
 import Login from './Login';
 import { FaTrash } from 'react-icons/fa'
 import {IconContext} from "react-icons"
+import myLogo from './TrackerExLogoblue.png'
 
 
 export default class Home extends React.Component {
@@ -469,25 +470,28 @@ export default class Home extends React.Component {
         
             return (
                 <div className='App-header'>
+
+                    <div className='display-block'>
+                            <p id="signedInUser">{"Signed In User: " + username}</p>
+                            <button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button>
+                    </div>
+
                     <div id="navContainer">
-                        
+                        <div id='home-title'>
+                                <img id='myLogo'src={myLogo}/>
+                        </div>
                         <div className='navButtons'>
                             <button className='button-25' onClick={this.toggleAddExpenseModal}>Add Expense</button>
                             <button className='button-25' onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
                             <button className='button-25' onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
                             <button className='button-25' id='trans-button' onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
-                            <p id="signedInUser">{"Signed In User: " + username}</p>
-                            <div className='display-block'>
-                                <p id="signedInUser">{"Signed In User: " + username}</p>
-                                <button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button>
-                            </div>
                         </div>
                     </div>
-                    <div>
+                    <div id='homeContent'>
                         
-                        <div>
+                        {/* <div>
                             <h1 className="mainTitle">My Budget</h1>
-                        </div>
+                        </div> */}
                         {/* <div id="signedInUser">{"Signed In User: " + username}</div> */}
 
                         <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
@@ -495,14 +499,14 @@ export default class Home extends React.Component {
                         <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
                         
                         <div className="dropdown-flex" id="dateDropDown">
-                            <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                            <select id='selectColor' value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
                                 <option disabled value="-1">--Month--</option>
                                 {
                                 this.state.listOfMonths.map((element) => (
                                     <option value={element.monthNum}>{element.month}</option>
                                 ))}
                             </select>
-                            <select onChange={this.handleSelectedYearDropDownChange}>
+                            <select id='selectColor' onChange={this.handleSelectedYearDropDownChange}>
                                 <option disabled value="-1">--Year--</option>
                                 <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
                                 <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
