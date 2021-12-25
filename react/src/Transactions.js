@@ -6,6 +6,8 @@ import { ThemeProvider } from 'react-bootstrap';
 import Home from './Home';
 import {createBrowserHistory} from "history";
 import Login from './Login'
+import { FaTrash } from 'react-icons/fa'
+import {IconContext} from "react-icons"
 
 
 
@@ -214,7 +216,7 @@ export default class Transactions extends React.Component {
                         <td>{expenseName}</td>
                         <td>{transaction.payee}</td>
                         <td>${(transaction.spent).toFixed(2)}</td>
-                        <td><button name="deleteButton" value={transaction.id} onClick={(e) => {this.submitHandlerDeleteTransaction(e);}}>Delete</button></td>
+                        <td><button name="deleteButton" id='trashCan' value={transaction.id} onClick={(e) => {this.submitHandlerDeleteTransaction(e);}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrash/></IconContext.Provider></button></td>
                     </tr>
                 )
             })}
@@ -249,15 +251,15 @@ export default class Transactions extends React.Component {
         
         if (localStorage.getItem("auth") === "authenticated"){
             return (
-                <div>
-                    <h1 className="mainTitle">My Transactions</h1>
+                <div className='App-header'>
+                    <h1 className="mainTitle" id='trans-title'>My Transactions</h1>
                     <div>
                         {/* <Link to="/"> */}
-                            <button onClick={() => {this.setState({showHome: true, showTransactions: false})}}className="buttons-invariant">Go Back</button>
+                            <button onClick={() => {this.setState({showHome: true, showTransactions: false})}} id='goBack-button' className="button-25">Go Back</button>
                         {/* </Link> */}
                     </div>
                     
-                    <div className="dropdown-flex" id="dateDropDown">
+                    <div className="dropdown-flex" id="transDropDown">
                         <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
                             <option disabled value="-1">--Month--</option>
                             {

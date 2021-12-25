@@ -16,7 +16,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
+        <header>
           <BrowserRouter>
             <Routes>
               <Route exact path="/home/:username" element={<Home auth={false} />}/>

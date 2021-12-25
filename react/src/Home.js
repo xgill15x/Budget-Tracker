@@ -11,6 +11,8 @@ import {Link} from "react-router-dom";
 import Moment from 'moment';
 import {createBrowserHistory} from "history";
 import Login from './Login';
+import { FaTrash } from 'react-icons/fa'
+import {IconContext} from "react-icons"
 
 
 export default class Home extends React.Component {
@@ -424,7 +426,7 @@ export default class Home extends React.Component {
                         <td>${(element.budget).toFixed(2)}</td>
                         <td>${(amountSpent).toFixed(2)}</td>
                         <td id={(sumOfBudget-sumOfSpent) > 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
-                        <td><button name="deleteButton" value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}>Delete</button></td>
+                        <td><button name="deleteButton" id='trashCan' value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrash/></IconContext.Provider></button></td>
                     </tr>
                 )
 
@@ -466,24 +468,27 @@ export default class Home extends React.Component {
         if (localStorage.getItem("auth") === "authenticated") {
         
             return (
-                <div>
+                <div className='App-header'>
+                    <div id="navContainer">
+                        
+                        <div className='navButtons'>
+                            <button className='button-25' onClick={this.toggleAddExpenseModal}>Add Expense</button>
+                            <button className='button-25' onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
+                            <button className='button-25' onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
+                            <button className='button-25' id='trans-button' onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
+                            <p id="signedInUser">{"Signed In User: " + username}</p>
+                            <div className='display-block'>
+                                <p id="signedInUser">{"Signed In User: " + username}</p>
+                                <button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button>
+                            </div>
+                        </div>
+                    </div>
                     <div>
+                        
                         <div>
-                            <h1 className="mainTitle">My Expenses</h1>
+                            <h1 className="mainTitle">My Budget</h1>
                         </div>
-                        <div id="signedInUser">{"Signed In User: " + username}</div>
-        
-                        <div>
-                            <button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button>
-                        </div>
-                        <div className="buttons-flex">
-                            <button type="button" class="btn btn-danger" onClick={this.toggleAddExpenseModal}>Add Expense</button>
-                            <button onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
-                            <button onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
-                            {/* <Link to={transactionsPage} > */}
-                                <button className="buttons-flex" onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
-                            {/* </Link> */}
-                        </div>
+                        {/* <div id="signedInUser">{"Signed In User: " + username}</div> */}
 
                         <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
                         <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
@@ -514,7 +519,7 @@ export default class Home extends React.Component {
                                     <th>Budget</th>
                                     <th>Spent</th>
                                     <th>Remaining</th>
-                                    <th>Delete()</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -19,9 +19,13 @@
   overflow: hidden;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   padding: 10px 15px 10px;
-  margin-bottom: -5px;
+  margin-bottom: -7px;
+  margin-top: 0.1em;
   text-align: center;
   
+}
+#trans-title {
+  margin-top: 0.5em;
 }
 
 #RegisterContainer {
@@ -62,14 +66,15 @@ input[type=text], input[type=number], input[type=password], select {
   justify-content:space-evenly;
   padding: 20px;
 }
-#signOut-button {
-  align-content: center;
-  padding: 15x;
-  
-}
+
 #signIn-button {
   align-content: center;
   padding: 20px;
+}
+
+#goBack-button {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
 }
 
 #deleteIcon {
@@ -78,7 +83,12 @@ input[type=text], input[type=number], input[type=password], select {
 }
 
 #dateDropDown {
-  min-width: 100%;
+  width: 19em;
+  margin-top: 1.3em;
+}
+#transDropDown {
+  width: 19em;
+  margin-top: 0.2em;
 }
 
 .dropdown-flex {
@@ -164,9 +174,132 @@ input[type=text], input[type=number], input[type=password], select {
   display:none;
 }
 
+
+#trans-button {
+  background-image: linear-gradient(hotpink, deeppink);
+  border: 1px solid hotpink ;
+}
 #signedInUser {
-  color: lawngreen;
-  margin-top: 0.5em;
+  color: white;
+  position: fixed;
+  right: 1.5em;
+  top: -0.3em;
+  font-size: 14px;  
+}
+#signOut-button {
+  align-content: center;
+  padding: 3px 0;
+  margin-top: 1em;
+  position: fixed;
+  right: 0.9em;
+  top: 2.5em;
+  width: 95px;
+  font-size: 12px;
+  border-radius: 0;
+
+  background-color: white;
+  background-image: linear-gradient(white, white);
+  border: 1px solid #2A8387;
+  border-radius: 0;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
+  color: black;
+  cursor: pointer;
+  margin: 0 10px;
+  font-family: -apple-system,".SFNSDisplay-Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  line-height: 100%;
+  outline: 0;
+  
+  transition: box-shadow .05s ease-in-out,opacity .05s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  
+}
+
+button {
+  cursor: pointer;
+}
+#trashCan {
+  background-color: transparent;
+}
+#trashContainer {
+  background-color: transparent;
+}
+#trashCan:hover {
+  filter: brightness(60%);
+  text-decoration: none;
+}
+
+/* CSS */
+.button-25 {
+  background-color: #36A9AE;
+  background-image: linear-gradient(#37ADB2, #329CA0);
+  border: 1px solid #2A8387;
+  border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
+  color: #FFFFFF;
+  cursor: pointer;
+  margin: 5px 10px;
+  font-family: -apple-system,".SFNSDisplay-Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 15px;
+  line-height: 100%;
+  
+  outline: 0;
+  padding: 11px 15px 12px;
+  
+  transition: box-shadow .05s ease-in-out,opacity .05s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+}
+
+.button-25:hover {
+  filter: brightness(60%);
+  text-decoration: none;
+  transition-duration: .15s, .15s;
+}
+
+.button-25:active {
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 4px inset, rgba(0, 0, 0, 0.4) 0 1px 1px;
+}
+
+.button-25:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
+.button-25:disabled:active {
+  pointer-events: none;
+}
+
+.button-25:disabled:hover {
+  box-shadow: none;
+}
+
+#navContainer {
+  background-color: #181d24;
+  width: 100%;
+  min-height: 3em;
+  position: fixed;
+  top:1px;
+  display:flex;
+  justify-content: center;
+  
+}
+.navButtons {
+  padding: 10px;
+  display: inline-flex;
+}
+
+select {
+  margin: 2px 4px;
+}
+
+img {
+  width: 2px;
+  height: 2px;
 }
 
 .modal {
@@ -186,7 +319,7 @@ input[type=text], input[type=number], input[type=password], select {
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
-  border-radius: 10px;
+  border-radius: 20px;
   text-align: left;
 }
 .display-block {

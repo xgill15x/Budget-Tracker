@@ -87,7 +87,7 @@ export default class Login extends React.Component {
 
     renderLogin() {
         return (
-            <div>
+            <div className='App-header'>
                 <div className="registerBox">
                     <h1 className="mainTitle" id='formText'>{"Budget Tracker\n\nLogin"}</h1>
                     <form onSubmit={this.submitUser}>
