@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 import Moment from 'moment';
 import {createBrowserHistory} from "history";
 import Login from './Login';
-import { FaTrash } from 'react-icons/fa'
+import { FaTrashAlt } from 'react-icons/fa'
 import {IconContext} from "react-icons"
 import myLogo from './TrackerExLogoblue.png'
 
@@ -41,8 +41,9 @@ export default class Home extends React.Component {
 
             showHome: true,
             showTransactions: false,
-            showLogin: false
-
+            showLogin: false,
+            userOnCurrentDate: true,
+            oldExpenseName: ''
         };
 
         this.toggleAddExpenseModal = this.toggleAddExpenseModal.bind(this);
@@ -255,6 +256,10 @@ export default class Home extends React.Component {
     }
 
     initEditDropDown() {
+        let firstElementInExpenses;
+        if (this.state.expenses.length !== 0) {
+            firstElementInExpenses= this.state.expenses[0].expense;
+        }
         let lowestIndexExpense = -1;
         {this.state.expenses.map((element) => {
             if (lowestIndexExpense === -1) {
@@ -274,7 +279,16 @@ export default class Home extends React.Component {
             }
         })}
 
-        this.setState({editDropDownSelection: elementWithSmallestIndex});
+        this.setState({editDropDownSelection: elementWithSmallestIndex}, function() {
+            {this.state.expenses.map((expense) => {
+                if (expense.id === elementWithSmallestIndex) {
+                    
+                    this.setState({oldExpenseName: firstElementInExpenses})
+                    console.log(elementWithSmallestIndex, this.state.oldExpenseName)
+                }
+            })}
+        });
+        
     }
     handleEditDropDownChange(e) {
         //console.log(e);
@@ -284,7 +298,14 @@ export default class Home extends React.Component {
                 selectedElement = element.id;
             }
         })}
-        this.setState({ editDropDownSelection: selectedElement });
+        this.setState({ editDropDownSelection: selectedElement }, function() {
+            {this.state.expenses.map((expense) => {
+                if (expense.id === selectedElement) {
+                    this.setState({oldExpenseName: expense.expense})
+                    console.log(selectedElement, this.state.oldExpenseName )
+                }
+            })}
+        });
     }
 
     initTransactionDropDown() {
@@ -333,6 +354,15 @@ export default class Home extends React.Component {
                 }
             })}
             this.setState({selectedMonth: selectedElement}, function () {
+
+                //check to see if user on current date
+                if (parseInt(this.state.selectedYear) === this.state.today.getFullYear() && this.state.selectedMonth === this.state.today.getMonth()+1) {
+                    this.setState({userOnCurrentDate: true});
+                }
+                else {
+                    this.setState({userOnCurrentDate: false});
+                }
+
                 axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
                     console.log("newTransactionDate(MonthChange): ", res.data);
@@ -369,6 +399,15 @@ export default class Home extends React.Component {
             selectedElement = e.target.value;
             
             this.setState({selectedYear: selectedElement}, function () {
+                
+                //check to see if user on current date
+                if (parseInt(this.state.selectedYear) === this.state.today.getFullYear() && this.state.selectedMonth === this.state.today.getMonth()+1) {
+                    this.setState({userOnCurrentDate: true});
+                }
+                else {
+                    this.setState({userOnCurrentDate: false});
+                }
+
                 axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
                     console.log("newTransactionDate(YearChange): " ,res.data);
@@ -427,7 +466,7 @@ export default class Home extends React.Component {
                         <td>${(element.budget).toFixed(2)}</td>
                         <td>${(amountSpent).toFixed(2)}</td>
                         <td id={(sumOfBudget-sumOfSpent) > 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
-                        <td><button name="deleteButton" id='trashCan' value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrash/></IconContext.Provider></button></td>
+                        <td><button name="deleteButton" id='trashCan' value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrashAlt /></IconContext.Provider></button></td>
                     </tr>
                 )
 
@@ -469,21 +508,24 @@ export default class Home extends React.Component {
         if (localStorage.getItem("auth") === "authenticated") {
         
             return (
+                
                 <div className='App-header'>
-
-                    <div className='display-block'>
-                            <p id="signedInUser">{"Signed In User: " + username}</p>
-                            <button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button>
+                    
+                    <h1 id='myLogo'>TrackerX</h1>
+                    <div id='credentials'>
+                        <p id="signedInUser">{"Signed In User: " + username}</p>
+                        <div id="signOut-button" ><button  onClick={() => {this.signOutsetState()}}>Sign Out</button></div>
+                        
                     </div>
-
-                    <div id="navContainer">
-                        <div id='home-title'>
+                    {/* <div id='home-title'>
                                 <img id='myLogo'src={myLogo}/>
-                        </div>
+                    </div> */}
+                
+                    <div id="navContainer">
                         <div className='navButtons'>
-                            <button className='button-25' onClick={this.toggleAddExpenseModal}>Add Expense</button>
-                            <button className='button-25' onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
-                            <button className='button-25' onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
+                            <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={this.toggleAddExpenseModal}>Add Expense</button>
+                            <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
+                            <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
                             <button className='button-25' id='trans-button' onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
                         </div>
                     </div>
@@ -495,7 +537,7 @@ export default class Home extends React.Component {
                         {/* <div id="signedInUser">{"Signed In User: " + username}</div> */}
 
                         <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
-                        <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense}/>
+                        <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense} oldExpenseName={this.state.oldExpenseName}/>
                         <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
                         
                         <div className="dropdown-flex" id="dateDropDown">
