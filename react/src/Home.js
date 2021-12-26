@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios'
-import './App.css'
+import axios from 'axios';
+import './App.css';
 import AddExpenseForm from './AddExpenseForm';
 import DeleteExpenseForm from './DeleteExpenseForm';
 import EditExpenseForm from './EditExpenseForm';
@@ -11,9 +11,10 @@ import {Link} from "react-router-dom";
 import Moment from 'moment';
 import {createBrowserHistory} from "history";
 import Login from './Login';
-import { FaTrashAlt } from 'react-icons/fa'
-import {IconContext} from "react-icons"
-import myLogo from './TrackerExLogoblue.png'
+
+import { Trash } from 'react-bootstrap-icons';
+
+
 
 
 export default class Home extends React.Component {
@@ -58,6 +59,8 @@ export default class Home extends React.Component {
         this.handleSelectedYearDropDownChange = this.handleSelectedYearDropDownChange.bind(this);
 
         this.initEditDropDown = this.initEditDropDown.bind(this);
+        this.secondaryInitEdit = this.secondaryInitEdit.bind(this);
+
         this.initTransactionDropDown = this.initTransactionDropDown.bind(this);
         this.submitHandlerEditExpense = this.submitHandlerEditExpense.bind(this);
         this.signOut = this.signOut.bind(this);
@@ -185,12 +188,12 @@ export default class Home extends React.Component {
         // Update the document title using the browser API
         element = true;
     }
-    submitHandlerDeleteExpense (e) {
+    submitHandlerDeleteExpense (expenseID) {
         //this.setState({id: e.target.value}) // value = expense id
-        console.log(e.target.value)
+        console.log(expenseID)
         
         //if (this.state.deleteConfirmVal) {
-            axios.delete('http://localhost:8080/expense/deleteRow/' + e.target.value)
+            axios.delete('http://localhost:8080/expense/deleteRow/' + expenseID)
             .then(response => {
                 const idOfDeletedExpense = response.data;
                 const updatedExpenses = this.state.expenses.filter((expense) => {
@@ -204,7 +207,7 @@ export default class Home extends React.Component {
                 console.log(error)
             }) 
 
-            axios.delete('http://localhost:8080/transaction/deleteExpenseTransactions/' + e.target.value)
+            axios.delete('http://localhost:8080/transaction/deleteExpenseTransactions/' + expenseID)
             .then(response => {
                 const idOfExpense = response.data;
                 const updatedTransactions = this.state.selectedTransactions.filter((transaction) => {
@@ -244,7 +247,7 @@ export default class Home extends React.Component {
                 }
                 
             })
-            this.setState({expenses: updatedExpenses});
+            this.setState({expenses: updatedExpenses, oldExpenseName: data.expense});
             
             e.target[1].value = null;
             e.target[2].value = null;
@@ -259,37 +262,52 @@ export default class Home extends React.Component {
         let firstElementInExpenses;
         if (this.state.expenses.length !== 0) {
             firstElementInExpenses= this.state.expenses[0].expense;
-        }
-        let lowestIndexExpense = -1;
-        {this.state.expenses.map((element) => {
-            if (lowestIndexExpense === -1) {
-                lowestIndexExpense = element.id;
-            }
-            else {
-                if (element.id < lowestIndexExpense) {
+
+            let lowestIndexExpense = -1;
+            {this.state.expenses.map((element) => {
+                if (lowestIndexExpense === -1) {
                     lowestIndexExpense = element.id;
                 }
-            }
-        })}
-        
-        let elementWithSmallestIndex = "";
-        {this.state.expenses.map((element) => {
-            if (element.id === lowestIndexExpense) {
-                elementWithSmallestIndex = element.id;
-            }
-        })}
-
-        this.setState({editDropDownSelection: elementWithSmallestIndex}, function() {
-            {this.state.expenses.map((expense) => {
-                if (expense.id === elementWithSmallestIndex) {
-                    
-                    this.setState({oldExpenseName: firstElementInExpenses})
-                    console.log(elementWithSmallestIndex, this.state.oldExpenseName)
+                else {
+                    if (element.id < lowestIndexExpense) {
+                        lowestIndexExpense = element.id;
+                    }
                 }
             })}
-        });
-        
+            
+            let elementWithSmallestIndex = "";
+            {this.state.expenses.map((element) => {
+                if (element.id === lowestIndexExpense) {
+                    elementWithSmallestIndex = element.id;
+                }
+            })}
+    
+            this.setState({editDropDownSelection: elementWithSmallestIndex}, function() {
+                {this.state.expenses.map((expense) => {
+                    if (expense.id === elementWithSmallestIndex) {
+                        
+                        this.setState({oldExpenseName: firstElementInExpenses})
+                        console.log(elementWithSmallestIndex, this.state.oldExpenseName)
+                    }
+                })}
+            });
+        }
+        else {
+            this.setState({oldExpenseName: "No Expenses to Change"});
+        }  
     }
+
+    secondaryInitEdit() {
+        if (this.state.oldExpenseName === "No Expenses to Change") {
+            if (this.state.expenses.length !== 0) {
+                this.setState({oldExpenseName: this.state.expenses[0].expense});
+            }
+        }
+        else if (this.state.expenses.length === 0) {
+            this.setState({oldExpenseName: "No Expenses to Change"});
+        }
+    }
+
     handleEditDropDownChange(e) {
         //console.log(e);
         let selectedElement=0;
@@ -330,6 +348,7 @@ export default class Home extends React.Component {
 
         this.setState({transactionDropDownSelection: elementWithSmallestIndex});
     }
+
     handleTransactionDropDownChange(e) {
         let selectedElement=0;
         {this.state.expenses.map((element) => {
@@ -339,7 +358,6 @@ export default class Home extends React.Component {
         })}
         this.setState({ transactionDropDownSelection: selectedElement });
     }
-
     handleSelectedMonthDropDownChange(e) {
         let selectedElement=0;
         //console.log(e.target.value)
@@ -387,7 +405,6 @@ export default class Home extends React.Component {
             });
         }
     }
-
     handleSelectedYearDropDownChange(e) {
         let selectedElement=0;
         //console.log(e.target.value)
@@ -466,7 +483,8 @@ export default class Home extends React.Component {
                         <td>${(element.budget).toFixed(2)}</td>
                         <td>${(amountSpent).toFixed(2)}</td>
                         <td id={(sumOfBudget-sumOfSpent) > 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
-                        <td><button name="deleteButton" id='trashCan' value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrashAlt /></IconContext.Provider></button></td>
+                        {/* <td><button name="deleteButton" id='trashCan' value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrashAlt onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}/></IconContext.Provider></button></td> */}
+                        <td><button id='trashCan'><Trash color="crimson" size={35} onClick={(e) => {this.submitHandlerDeleteExpense(element.id);this.toggleDeleteExpenseModal()}}/></button></td>
                     </tr>
                 )
 
@@ -525,7 +543,7 @@ export default class Home extends React.Component {
                         <div className='navButtons'>
                             <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={this.toggleAddExpenseModal}>Add Expense</button>
                             <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
-                            <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={ () => {this.toggleEditExpenseModal();this.initEditDropDown();}}>Edit Expense</button>
+                            <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={ () => {this.toggleEditExpenseModal();this.secondaryInitEdit(); console.log("list length",this.state.expenses.length)}}>Edit Expense</button>
                             <button className='button-25' id='trans-button' onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
                         </div>
                     </div>
@@ -599,6 +617,7 @@ export default class Home extends React.Component {
             <Transactions />
         </>)
     }
+
     componentDidMount() {
         
         axios.get("http://localhost:8080/expense/allExpenses")  // gets all expenses from mysql
@@ -659,6 +678,9 @@ export default class Home extends React.Component {
                     //        newMap.set(expenseId, newMap.get(expenseId) + transaction.spentVal) 
                     //     }
                     // });
+                    console.log("edit Selection", this.state.editDropDownSelection);
+                    this.initEditDropDown();
+                    console.log("changed edit selection", this.state.editDropDownSelection);
                 })
             });
     
@@ -666,7 +688,6 @@ export default class Home extends React.Component {
         })
 
     }
-
 
     render() {
         return (<>

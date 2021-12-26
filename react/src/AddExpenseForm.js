@@ -13,10 +13,10 @@ const AddExpenseForm = ({handleClose, show, submitHandler}) => {
                 <h2 className="black">Add Expense: </h2>
                 <form onSubmit={submitHandler}>
                     <label className="black">Expense Name: 
-                        <input required type="text" name="expense"  placeholder="Food" />
+                        <input required type="text" name="expense"  placeholder="Eg. Food" />
                     </label>
                     <label className="black">Monthly Budget: $ 
-                        <input required type="number" step="0.01" pattern="^\d*(\.\d{0,2})?$" min="0" name="budget" placeholder="300.00" />
+                        <input required type="number" step="0.01" pattern="^\d*(\.\d{0,2})?$" min="0" name="budget" placeholder="0.00" />
                     </label>
                     <div className="buttons-flex">
                         <button type="submit" onClick={handleClose} className="buttons-invariant">Submit</button>

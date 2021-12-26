@@ -6,8 +6,8 @@ import { ThemeProvider } from 'react-bootstrap';
 import Home from './Home';
 import {createBrowserHistory} from "history";
 import Login from './Login'
-import { FaTrash } from 'react-icons/fa'
-import {IconContext} from "react-icons"
+
+import { Trash } from 'react-bootstrap-icons';
 
 
 
@@ -163,10 +163,10 @@ export default class Transactions extends React.Component {
 
     submitHandlerDeleteTransaction(e) {
         
-        console.log(e.target.value)
+        console.log(e)
         
         //if (this.state.deleteConfirmVal) {
-            axios.delete('http://localhost:8080/transaction/deleteRow/' + e.target.value)
+            axios.delete('http://localhost:8080/transaction/deleteRow/' + e)
             .then(response => {
                 const idOfDeletedTransaction = response.data;
                 
@@ -216,7 +216,8 @@ export default class Transactions extends React.Component {
                         <td>{expenseName}</td>
                         <td>{transaction.payee}</td>
                         <td>${(transaction.spent).toFixed(2)}</td>
-                        <td><button name="deleteButton" id='trashCan' value={transaction.id} onClick={(e) => {this.submitHandlerDeleteTransaction(e);}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrash/></IconContext.Provider></button></td>
+                        {/* <td><button name="deleteButton" id='trashCan' value={transaction.id} onClick={(e) => {this.submitHandlerDeleteTransaction(e);}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrash/></IconContext.Provider></button></td> */}
+                        <td><button id='trashCan'><Trash color="crimson" size={35} onClick={(e) => {this.submitHandlerDeleteTransaction(transaction.id);}}/></button></td>
                     </tr>
                 )
             })}
@@ -291,7 +292,7 @@ export default class Transactions extends React.Component {
                                 <th>Category</th>
                                 <th>Payee</th>
                                 <th>Spent</th>
-                                <th>Delete()</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
