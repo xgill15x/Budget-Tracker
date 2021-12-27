@@ -8,6 +8,7 @@ import Login from './Login'
 import { Trash } from 'react-bootstrap-icons';
 
 
+const api = 'Budgettracker-env.eba-vithmiis.us-east-2.elasticbeanstalk.com';
 
 export default class Transactions extends React.Component {
     constructor(props) {
@@ -57,7 +58,7 @@ export default class Transactions extends React.Component {
                 }
             })}
             this.setState({selectedMonth: selectedElement}, function () {
-                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
                     console.log(res.data);
 
@@ -103,7 +104,7 @@ export default class Transactions extends React.Component {
             selectedElement = e.target.value;
             
             this.setState({selectedYear: selectedElement}, function () {
-                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
                     // console.log("newTransactionDate(YearChange): " ,res.data);
                     
@@ -164,7 +165,7 @@ export default class Transactions extends React.Component {
         console.log(e)
         
         //if (this.state.deleteConfirmVal) {
-            axios.delete('http://localhost:8080/transaction/deleteRow/' + e)
+            axios.delete(api + '/transaction/deleteRow/' + e)
             .then(response => {
                 const idOfDeletedTransaction = response.data;
                 
@@ -328,13 +329,13 @@ export default class Transactions extends React.Component {
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
         
-        axios.get("http://localhost:8080/transaction/allTransactions") //getting all transactions in db
+        axios.get(api + "/transaction/allTransactions") //getting all transactions in db
         .then(res => { 
             const transactions = res.data;
             this.setState({allTransactions: transactions});
         })
 
-        axios.get("http://localhost:8080/expense/allExpenses")  //getting all expenses in db
+        axios.get(api + "/expense/allExpenses")  //getting all expenses in db
         .then(res => {
 
             let userExpenses = (res.data).filter((expense) => {
@@ -351,7 +352,7 @@ export default class Transactions extends React.Component {
         
         const today = new Date();
         this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () {
-            axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+            axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
                     console.log(res.data);
                     

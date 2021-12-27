@@ -7,6 +7,7 @@ import {createBrowserHistory} from "history";
 import Login from './Login';
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
+const api = 'Budgettracker-env.eba-vithmiis.us-east-2.elasticbeanstalk.com';
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -35,7 +36,7 @@ export default class Register extends React.Component {
         
         if (isUsernameTaken === false) {
             if (e.target[1].value === e.target[2].value) {
-                axios.post("http://localhost:8080/user/addRow",{
+                axios.post(api + "/user/addRow",{
                     username: e.target[0].value,
                     password: e.target[1].value
                 }).then(response => {
@@ -79,7 +80,7 @@ export default class Register extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8080/user/allUsers")
+        axios.get(api + "/user/allUsers")
         .then(res => {
             this.setState({users: res.data}, function() {
                 console.log(this.state.users);

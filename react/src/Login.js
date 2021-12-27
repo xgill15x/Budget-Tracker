@@ -8,6 +8,7 @@ import {createBrowserHistory} from "history";
 import Register from './Register';
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
+const api = 'Budgettracker-env.eba-vithmiis.us-east-2.elasticbeanstalk.com';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -73,7 +74,7 @@ export default class Login extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8080/user/allUsers")
+        axios.get(api + "/user/allUsers")
         .then(res => {
             this.setState({users: res.data}) 
         })

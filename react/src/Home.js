@@ -12,7 +12,7 @@ import Login from './Login';
 import { Trash } from 'react-bootstrap-icons';
 
 
-
+const api = 'Budgettracker-env.eba-vithmiis.us-east-2.elasticbeanstalk.com';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -73,7 +73,7 @@ export default class Home extends React.Component {
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
 
-        axios.post("http://localhost:8080/expense/addRow",{
+        axios.post(api + "/expense/addRow",{
             expense: e.target[0].value,
             budget: e.target[1].value,
             userName: username
@@ -129,7 +129,7 @@ export default class Home extends React.Component {
             }
         })
 
-        axios.post("http://localhost:8080/transaction/addRow",{
+        axios.post(api + "/transaction/addRow",{
             expenseID: this.state.transactionDropDownSelection,
             payee: e.target[1].value,
             spent: parseFloat(e.target[2].value),
@@ -146,7 +146,7 @@ export default class Home extends React.Component {
             spent: expenseSpent + parseFloat(e.target[2].value)
         }
 
-        axios.patch('http://localhost:8080/expense/editSpent/' + this.state.transactionDropDownSelection, updateData)
+        axios.patch(api + '/expense/editSpent/' + this.state.transactionDropDownSelection, updateData)
         
         let updatedMap = new Map(this.state.spentValsForAllExpenses);
         let targetID;
@@ -190,7 +190,7 @@ export default class Home extends React.Component {
         console.log(expenseID)
         
         //if (this.state.deleteConfirmVal) {
-            axios.delete('http://localhost:8080/expense/deleteRow/' + expenseID)
+            axios.delete(api + '/expense/deleteRow/' + expenseID)
             .then(response => {
                 const idOfDeletedExpense = response.data;
                 const updatedExpenses = this.state.expenses.filter((expense) => {
@@ -204,7 +204,7 @@ export default class Home extends React.Component {
                 console.log(error)
             }) 
 
-            axios.delete('http://localhost:8080/transaction/deleteExpenseTransactions/' + expenseID)
+            axios.delete(api + '/transaction/deleteExpenseTransactions/' + expenseID)
             .then(response => {
                 const idOfExpense = response.data;
                 const updatedTransactions = this.state.selectedTransactions.filter((transaction) => {
@@ -229,7 +229,7 @@ export default class Home extends React.Component {
             expense: e.target[1].value,
             budget: parseFloat(e.target[2].value)
         }
-        axios.patch('http://localhost:8080/expense/editRow/' + this.state.editDropDownSelection, data)
+        axios.patch(api + '/expense/editRow/' + this.state.editDropDownSelection, data)
         .then(response => {
             console.log(response)
             const idOfEditedExpense = response.data;
@@ -378,7 +378,7 @@ export default class Home extends React.Component {
                     this.setState({userOnCurrentDate: false});
                 }
 
-                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
                     console.log("newTransactionDate(MonthChange): ", res.data);
                     
@@ -422,7 +422,7 @@ export default class Home extends React.Component {
                     this.setState({userOnCurrentDate: false});
                 }
 
-                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
                     console.log("newTransactionDate(YearChange): " ,res.data);
 
@@ -617,7 +617,7 @@ export default class Home extends React.Component {
 
     componentDidMount() {
         
-        axios.get("http://localhost:8080/expense/allExpenses")  // gets all expenses from mysql
+        axios.get(api + "/expense/allExpenses")  // gets all expenses from mysql
         .then(res => {
 
             console.log("auth",localStorage.getItem("auth"))
@@ -637,7 +637,7 @@ export default class Home extends React.Component {
 
             const today = new Date();
             this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () { //gets transactions for current month and year
-                axios.get("http://localhost:8080/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
+                axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
 
                     let userTransactions = (res.data).filter((transaction) => {
