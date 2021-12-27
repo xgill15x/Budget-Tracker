@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios'
 import './App.css'
-import {Link} from "react-router-dom";
-import { ThemeProvider } from 'react-bootstrap';
 import Home from './Home';
 import {createBrowserHistory} from "history";
 import Login from './Login'

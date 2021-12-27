@@ -1,9 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import Home from './Home';
 import React from 'react';
-import { render } from '@testing-library/react';
-import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Transactions from './Transactions';
 import Register from './Register';
 import Login from './Login'
