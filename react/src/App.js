@@ -15,7 +15,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <header>
-          <BrowserRouter>
+          <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Routes>
               <Route exact path="/home/:username" element={<Home auth={false} />}/>
               <Route exact path="/transactionsTable/:username" element={<Transactions/>}/>
