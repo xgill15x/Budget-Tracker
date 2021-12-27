@@ -75,10 +75,7 @@ export default class Login extends React.Component {
     componentDidMount() {
         axios.get("http://localhost:8080/user/allUsers")
         .then(res => {
-            this.setState({users: res.data}, function() {
-                console.log(this.state.users);
-            })
-            
+            this.setState({users: res.data}) 
         })
         
         localStorage.setItem("auth", "notAuthenticated");
