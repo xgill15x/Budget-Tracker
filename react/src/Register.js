@@ -7,7 +7,7 @@ import {createBrowserHistory} from "history";
 import Login from './Login';
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
-const api = 'http://Budgettracker-env.eba-vithmiis.us-east-2.elasticbeanstalk.com';
+const api = 'https://Budgettracker-env.eba-vithmiis.us-east-2.elasticbeanstalk.com';
 
 export default class Register extends React.Component {
     constructor(props) {
