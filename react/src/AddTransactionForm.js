@@ -21,11 +21,11 @@ const AddTransactionForm = ({myList, handleClose, show, submitHandler, handleCha
                         </select>
                     </label>
 
-                    <label className="black">Payee: 
-                        <input required type="text" name="payee"  placeholder="Food" />
+                    <label className="black">Payee Info: 
+                        <input required type="text" name="payee"  placeholder="Eg. Superstore" />
                     </label>
                     <label className="black">Spent: $ 
-                        <input required type="number" step="0.01" pattern="^\d*(\.\d{0,2})?$" min="0" name="spent" placeholder="300.00" />
+                        <input required type="number" step="0.01" pattern="^\d*(\.\d{0,2})?$" min="0" name="spent" placeholder="0.00" />
                     </label>
                     <div className="buttons-flex">
                         <button type="submit" onClick={handleClose} className="buttons-invariant">Submit</button>

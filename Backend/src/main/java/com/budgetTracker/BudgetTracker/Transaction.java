@@ -25,6 +25,13 @@ public class Transaction {
     @Column(name="transaction_date")
     private String transactionDate;
 
+    @Column(name="user_name")
+    private String userName;
+
+    public String getUserName() { return userName; }
+
+    public void setUserName(String userName) { this.userName = userName; }
+
     public int getId() {
         return id;
     }
