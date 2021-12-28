@@ -526,7 +526,7 @@ export default class Home extends React.Component {
                 
                 <div className='App-header'>
                     
-                    <h1 id='myLogo'>TrackerX</h1>
+                    <h1 id='myLogo'>Bijou Budget</h1>
                     <div id='credentials'>
                         <p id="signedInUser">{"Signed In User: " + username}</p>
                         <div id="signOut-button" ><button  onClick={() => {this.signOutsetState()}}>Sign Out</button></div>
