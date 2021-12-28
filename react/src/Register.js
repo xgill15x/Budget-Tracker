@@ -109,7 +109,8 @@ export default class Register extends React.Component {
 
     renderRegister() {
         return (<>
-            <div className='modal-main'>
+            <div className='App-header'>
+                <div className='registerBox'>
                     <h1 className="mainTitle" id='formText'>Register</h1>
                     <form onSubmit={this.submitUser}>
                         <label className="black">Username: 
@@ -131,6 +132,7 @@ export default class Register extends React.Component {
                     </form>
                     
                 </div>
+            </div>
         </>)
     }
 
