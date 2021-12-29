@@ -20,7 +20,7 @@ export default class App extends React.Component {
               <Route exact path="/home/:username" element={<Home auth={false} />}/>
               <Route exact path="/transactionsTable/:username" element={<Transactions/>}/>
               <Route exact path="/registerPage" element={<Register/>}/>
-              <Route exact path="/" element={<Login/>}/>
+              <Route exact path="/index.html" element={<Login/>}/>
             </Routes>
           </BrowserRouter>
         </header>
