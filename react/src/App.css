@@ -55,6 +55,7 @@
   border-radius: 5px 5px 5px 5px;
   width: 50%;
   height: 50%;
+  border-color:#181d24;
 }
 
 #selectColor {
@@ -131,10 +132,10 @@ input[type=text], input[type=number], input[type=password], select {
 
 .expense-table {
   
-  border-collapse: collapse;
+  border-collapse:collapse;
   margin: 25px 0;
   font-size: 0.9em;
-  min-width: 800px;
+  min-width: 700px;
   border-radius: 5px 5px 0 0;
   box-shadow: 0 0 15px rgba(52,63,79,0.30);
   overflow: hidden;
@@ -193,6 +194,7 @@ input[type=text], input[type=number], input[type=password], select {
   transform: translate(-50%,-50%);
   border-radius: 10px;
   text-align: left;
+  border: 1px solid #181d24;
 }
 
 #showLoginbox {
