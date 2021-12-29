@@ -12,7 +12,7 @@ import Login from './Login';
 import { Trash } from 'react-bootstrap-icons';
 
 
-const api = 'http://Budgettracker-env.eba-vithmiis.us-east-2.elasticbeanstalk.com';
+const api = 'http://Budgettracker-env.eba-cczdm3md.us-east-1.elasticbeanstalk.com ';
 
 export default class Home extends React.Component {
     constructor(props) {
