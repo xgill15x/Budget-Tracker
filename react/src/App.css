@@ -3,7 +3,7 @@
 }
 
 .App-header {
-  background-color: #f7f4e9;
+  background-color: whitesmoke;
   position: relative;
   min-height: 100vh;
   width: 100%;
@@ -17,10 +17,10 @@
 
 
 .mainTitle {
-  background-color: #181d24;
+  background-color: darkcyan;
   border-radius: 5px 5px 5px 5px;
   overflow: hidden;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   padding: 10px 15px 10px;
   margin-bottom: -7px;
   margin-top: 1.5em;
@@ -28,6 +28,8 @@
 }
 #trans-title {
   margin-top: 0.5em;
+  padding: 0.3em;
+  background-image: linear-gradient(black, darkcyan);
 }
 #home-title {
   
@@ -42,11 +44,12 @@
 }
 #myLogo {
   color: white;
-  background-color: #181d24;
+  background-image: linear-gradient(black, darkcyan);
   border-radius: 5px;
   font-size: 60px;
   padding: 0 10px;
   margin: 20px 0;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 #RegisterContainer {
@@ -87,11 +90,16 @@ input[type=text], input[type=number], input[type=password], select {
 }
 
 .buttons-flex {
-  display: -webkit-flex;
+  
   display: flex;
-  -webkit-justify-content: space-between;
-  justify-content:space-evenly;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-7%);
+  justify-content:center;
   padding: 20px;
+  position: relative;
+  width: 75%;
+  
 }
 
 #signIn-button {
@@ -100,7 +108,7 @@ input[type=text], input[type=number], input[type=password], select {
 }
 
 #goBack-button {
-  margin-top: 1em;
+  margin-top: 1.4em;
   margin-bottom: 0.5em;
 }
 
@@ -130,12 +138,15 @@ input[type=text], input[type=number], input[type=password], select {
   margin: 15px 5px 10px 5px;
 }
 
+
+table {
+  width: 600px;
+}
+
 .expense-table {
-  
   border-collapse:collapse;
   margin: 25px 0;
-  font-size: 0.9em;
-  min-width: 700px;
+  font-size: 20px;
   border-radius: 5px 5px 0 0;
   box-shadow: 0 0 15px rgba(52,63,79,0.30);
   overflow: hidden;
@@ -186,7 +197,7 @@ input[type=text], input[type=number], input[type=password], select {
 .registerBox {
   padding: 15px;
   position:fixed;
-  background: white;
+  background: whitesmoke;
   width: 18em;
   min-height: 10em;
   top:50%;
@@ -214,7 +225,6 @@ input[type=text], input[type=number], input[type=password], select {
   position: relative;
   display: block;
   width: 100%;
-  background-color: red;
 }
 #signedInUser {
   color: black;
@@ -229,8 +239,9 @@ input[type=text], input[type=number], input[type=password], select {
   font-size: 14px;
   border-radius: 0;
   right: 1em;
-  top: -2em;
-  
+  top: -2.2em;
+  background-color: #181d24;
+  color: white;
 }
 
 button {
@@ -250,7 +261,7 @@ button {
 /* CSS */
 .button-25 {
   background-color: #36A9AE;
-  background-image: linear-gradient(#37ADB2, #329CA0);
+  background-image: linear-gradient(#42c4c9, darkcyan);
   border: 1px solid #2A8387;
   border-radius: 30px;
   box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
@@ -269,6 +280,10 @@ button {
   -webkit-user-select: none;
   touch-action: manipulation;
   width: 100%;
+}
+
+#modalButtons {
+  width: 50%;
 }
 
 .button-25:hover {
@@ -295,11 +310,10 @@ button {
 }
 
 #navContainer {
-  background-color: #181d24;
+  
   width: 100%;
   min-height: 3em;
-  
-  
+  background-image: linear-gradient(darkcyan, black);
   display:inline-flex;
   justify-content: center;
   
@@ -328,7 +342,7 @@ select {
 }
 .modal-main {
   padding: 15px;
-  position:fixed;
+  position:absolute;
   background: white;
   min-width: 20em;
   min-height: 10em;
@@ -337,6 +351,7 @@ select {
   transform: translate(-50%,-50%);
   border-radius: 20px;
   text-align: left;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .display-block {
   display: block;

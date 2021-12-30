@@ -123,8 +123,8 @@ export default class Register extends React.Component {
                             <input name="confirmPassword" placeholder="Password123" required type="password" />
                         </label>
                         <div className="buttons-flex">
-                            <button type="submit" className="buttons-invariant">Submit</button>
-                            <button type="button" onClick={() => {this.changeLoginState()}}className="buttons-invariant">to Login</button>
+                            <button type="submit" className="button-25" id="modalButtons">Submit</button>
+                            <button type="button" className="button-25" id="modalButtons" onClick={() => {this.changeLoginState()}}>back to Login</button>
                         </div>
                         
                     </form>

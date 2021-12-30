@@ -260,14 +260,14 @@ export default class Transactions extends React.Component {
                     </div>
                     
                     <div className="dropdown-flex" id="transDropDown">
-                        <select value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
+                        <select id='selectColor' value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
                             <option disabled value="-1">--Month--</option>
                             {
                             this.state.listOfMonths.map((element) => (
                                 <option value={element.monthNum}>{element.month}</option>
                             ))}
                         </select>
-                        <select onChange={this.handleSelectedYearDropDownChange}>
+                        <select id='selectColor' onChange={this.handleSelectedYearDropDownChange}>
                             <option disabled value="-1">--Year--</option>
                             <option value={this.state.today.getFullYear()-4}>{this.state.today.getFullYear()-4}</option>
                             <option value={this.state.today.getFullYear()-3}>{this.state.today.getFullYear()-3}</option>
@@ -275,7 +275,7 @@ export default class Transactions extends React.Component {
                             <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
                             <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
                         </select>
-                        <select onChange={this.handleSortByChange}>
+                        <select id='selectColor' onChange={this.handleSortByChange}>
                                 <option value="All">--Filter/All--</option>
                                 {this.state.expenses.map((element) => (
                                     <option value={element.id}>{element.expense}</option>
@@ -306,7 +306,7 @@ export default class Transactions extends React.Component {
             return (<>
                 {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
                 <div><h2>You need to sign in to access this page.</h2></div>
-                <div className="buttons-flex"><button id="signIn-button" onClick={() => this.changeLoginSetState()}>Sign in</button></div>
+                <div className="buttons-flex"><button className="button-25" id="modalButtons" onClick={() => this.changeLoginSetState()}>Sign in</button></div>
                 
             </>)
         }
