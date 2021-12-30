@@ -87,7 +87,8 @@ export default class Login extends React.Component {
         return (
             <div className='App-header'>
                 <div className="registerBox">
-                    <h1 className="mainTitle" id='formText'>{"Budget Tracker\n\nLogin"}</h1>
+                    <h1 className="mainTitle" id='formText'>{"Bijou Budget\n\nLogin"}</h1>
+                
                     <form onSubmit={this.submitUser}>
                         <label className="black">Username: 
                         <div>
@@ -98,8 +99,8 @@ export default class Login extends React.Component {
                             <input name="password" placeholder="Password123" required type="password"/>
                         </label>
                         <div className="buttons-flex">
-                            <button type="submit" className="buttons-invariant">Submit</button>
-                            <button type="button" onClick={() => {this.changeRegisterState()}} className="buttons-invariant">Register</button>
+                            <button type="submit" className="button-25" id="modalButtons">Submit</button>
+                            <button type="button" className="button-25" id="modalButtons" onClick={() => {this.changeRegisterState()}}>Register</button>
                         </div>
                         
                     </form>

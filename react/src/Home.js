@@ -529,7 +529,7 @@ export default class Home extends React.Component {
                     <h1 id='myLogo'>Bijou Budget</h1>
                     <div id='credentials'>
                         <p id="signedInUser">{"Signed In User: " + username}</p>
-                        <div id="signOut-button" ><button  onClick={() => {this.signOutsetState()}}>Sign Out</button></div>
+                        <div ><button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button></div>
                         
                     </div>
                     {/* <div id='home-title'>
@@ -597,7 +597,7 @@ export default class Home extends React.Component {
             return (<>
                 {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
                 <div><h2>You need to sign in to access this page.</h2></div>
-                <div className="buttons-flex"><button id="signIn-button" onClick={() => this.signOutsetState()}>Sign in</button></div>
+                <div className="buttons-flex"><button className="button-25" id="modalButtons" onClick={() => this.signOutsetState()}>Sign in</button></div>
                 
             </>)
         }

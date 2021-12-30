@@ -27,8 +27,8 @@ const AddTransactionForm = ({myList, handleClose, show, submitHandler, handleCha
                         <input required type="number" step="0.01" pattern="^\d*(\.\d{0,2})?$" min="0" name="spent" placeholder="0.00" />
                     </label>
                     <div className="buttons-flex">
-                        <button type="submit" onClick={handleClose} className="buttons-invariant">Submit</button>
-                        <button type="button" onClick={handleClose} className="buttons-invariant">Close</button>
+                        <button type="submit" onClick={handleClose} className="button-25" id="modalButtons">Submit</button>
+                        <button type="button" onClick={handleClose} className="button-25" id="modalButtons">Close</button>
                     </div>
                     
                 </form>
