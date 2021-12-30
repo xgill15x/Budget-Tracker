@@ -29,7 +29,7 @@
 #trans-title {
   margin-top: 0.5em;
   padding: 0.3em;
-  background-image: linear-gradient(black, darkcyan);
+  background-image: linear-gradient(#181d24, darkcyan);
 }
 #home-title {
   
@@ -44,7 +44,7 @@
 }
 #myLogo {
   color: white;
-  background-image: linear-gradient(black, darkcyan);
+  background-image: linear-gradient(#181d24, darkcyan);
   border-radius: 5px;
   font-size: 60px;
   padding: 0 10px;
@@ -240,7 +240,7 @@ table {
   border-radius: 0;
   right: 1em;
   top: -2.2em;
-  background-color: #181d24;
+  background-color: #343f4f;
   color: white;
 }
 
@@ -313,7 +313,7 @@ button {
   
   width: 100%;
   min-height: 3em;
-  background-image: linear-gradient(darkcyan, black);
+  background-image: linear-gradient(#343f4f, black);
   display:inline-flex;
   justify-content: center;
   
