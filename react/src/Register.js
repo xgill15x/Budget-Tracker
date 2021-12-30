@@ -82,9 +82,7 @@ export default class Register extends React.Component {
     componentDidMount() {
         axios.get(api + "/user/allUsers")
         .then(res => {
-            this.setState({users: res.data}, function() {
-                console.log(this.state.users);
-            })
+            this.setState({users: res.data})
             
         })
     }
