@@ -58,21 +58,23 @@ export default class Register extends React.Component {
                     })
                     
                 }).catch(error => {
-                    console.log(error)
+                    console.log(error);
                 }) 
+
+                this.setState({showLogin: true, showRegister: false});
                 
-                window.alert("User has been created!") 
+                window.alert("User has been created!");
             }
             else {
                 
                 e.target[1].value = '';
                 e.target[2].value = '';
                 
-                window.alert("Passwords do not match.Try again.")
+                window.alert("Passwords do not match.Try again.");
             }
         }
         else {
-            window.alert("Username is taken. Try another.")
+            window.alert("Username is taken. Try another.");
             e.target[0].value = '';
             e.target[1].value = '';
             e.target[2].value = '';
