@@ -8,7 +8,7 @@ import Login from './Login'
 import { Trash } from 'react-bootstrap-icons';
 
 
-const api = 'http://Budgettracker-env.eba-cczdm3md.us-east-1.elasticbeanstalk.com';
+const api = 'https://bijoubudgetbackend.us-east-1.elasticbeanstalk.com';
 
 export default class Transactions extends React.Component {
     constructor(props) {
