@@ -523,20 +523,15 @@ export default class Home extends React.Component {
         
             return (
                 
-                <div className='App-header'>
+                <div className={window.innerWidth >= 740 ? 'App-header':'App-header-phone'}>
                     
-                    <div>
-                        <h1 id='myLogo'>Bijou Budget</h1>
-                        <div id={window.innerWidth >= 740 ? 'credentials':'phoneLogoAndCreds'}>
-                            <p id={window.innerWidth >= 740 ? 'signedInUser':'phoneSignedInUser'}>{"Signed In User: " + username}</p>
-                            <div ><button id={window.innerWidth >= 740 ? 'signOut-button':'phoneSignOutButton'} onClick={() => {this.signOutsetState()}}>Sign Out</button></div>
-                        </div>
-                        
+                    
+                    <h1 id='myLogo'>Bijou Budget</h1>
+                    <div id={window.innerWidth >= 740 ? 'credentials':'phoneLogoAndCreds'}>
+                        <p id={window.innerWidth >= 740 ? 'signedInUser':'phoneSignedInUser'}>{"Signed In User: " + username}</p>
+                        <button id={window.innerWidth >= 740 ? 'signOut-button':'phoneSignOutButton'} onClick={() => {this.signOutsetState()}}>Sign Out</button>
                     </div>
-                    {/* <div id='home-title'>
-                                <img id='myLogo'src={myLogo}/>
-                    </div> */}
-                
+                        
                     <div id="navContainer">
                         <div className='navButtons'>
                             <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={this.toggleAddExpenseModal}>Add Expense</button>

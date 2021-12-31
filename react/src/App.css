@@ -5,8 +5,20 @@
 .App-header {
   background-color: whitesmoke;
   position: relative;
-  min-height: 100vh;
-  width: 100vw;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:flex-start;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.App-header-phone {
+  background-color: white;
+  position: relative;
+  height: 100%;
+  width: 102vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,7 +61,7 @@
   border-radius: 5px;
   font-size: 60px;
   padding: 0 10px;
-  margin: 20px 0;
+  margin: 20px 0 3px;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
@@ -68,6 +80,7 @@
   background-color: #181d24;
   color: white;
   font-size: calc(8px + 0.8vw);
+  text-align: center;
 }
 #selectColor:hover {
   background-color: whitesmoke;
@@ -131,12 +144,13 @@ select:hover {
 }
 
 #dateDropDown {
-  width: 130%;
   margin-top: 1em;
   z-index: 1;
+  width: 110%;
+  right: 16px;
 }
 #dateDropDownZ {
-  width: 110%;
+  width: 100%;
   margin-top: 1em;
   z-index: -100;
 }
@@ -151,9 +165,7 @@ select:hover {
 .dropdown-flex {
   display: -webkit-flex;
   display:inline-flex;
-  min-width: 3em;
   position: relative;
-  right: 38px;
 }
 
 .buttons-invariant {
@@ -242,19 +254,18 @@ select:hover {
 }
 
 #credentials {
-  position: absolute;
+  position: relative;
   display: block;
   width: 100%;
   right: 0%;
+  margin: 0 0 15px;
 }
 
 #phoneLogoAndCreds {
   position: relative;
-  
-  margin-top: 25px;
-  margin-bottom: 35px;
-  top: 0em;
-  left: -48px;
+  width: 100%;
+  height: 47px;
+  margin: 15px 0 15px;
 }
 #signedInUser {
   color: black;
@@ -265,12 +276,11 @@ select:hover {
   top: -4em;  
 }
 #phoneSignedInUser {
-  position: relative;
+  position: absolute;
+  right: 1em;
   color: black;
   margin: 0;
   font-size: 14px;
-  left: 42px;
-  top: -20px;
 }
 
 #signOut-button {
@@ -284,12 +294,13 @@ select:hover {
 }
 #phoneSignOutButton {
   position: absolute;
+  right: 1em;
+  top: 1.5em;
   font-size: 14px;
   border-radius: 0;
   background-color: #343f4f;
   color: white;
   width: 80px;
-  margin-top: -10px;
 }
 
 button {
