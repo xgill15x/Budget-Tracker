@@ -31,7 +31,6 @@
 .mainTitle {
   background-color: darkcyan;
   border-radius: 5px 5px 5px 5px;
-  overflow: hidden;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   padding: 10px 15px 10px;
   margin-bottom: -7px;

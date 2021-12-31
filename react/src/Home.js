@@ -535,7 +535,7 @@ export default class Home extends React.Component {
                     <div id="navContainer">
                         <div className='navButtons'>
                             <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={this.toggleAddExpenseModal}>Add Expense</button>
-                            <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={ () => {this.toggleAddTransactionModal();this.initTransactionDropDown();}}>Add Transaction</button>
+                            <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={ () => {this.toggleAddTransactionModal();}}>Add Transaction</button>
                             <button disabled={this.state.userOnCurrentDate ? false : true} className='button-25' onClick={ () => {this.toggleEditExpenseModal();this.secondaryInitEdit(); console.log("list length",this.state.expenses.length)}}>Edit Expense</button>
                             <button className='button-25' id='trans-button' onClick={() => {this.setState({showHome: false, showTransactions:true})}}>Show Transactions</button>
                         </div>
@@ -671,6 +671,7 @@ export default class Home extends React.Component {
                     // });
                     console.log("edit Selection", this.state.editDropDownSelection);
                     this.initEditDropDown();
+                    this.initTransactionDropDown();
                     console.log("changed edit selection", this.state.editDropDownSelection);
                 })
             });
