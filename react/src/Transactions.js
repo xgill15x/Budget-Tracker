@@ -31,7 +31,7 @@ export default class Transactions extends React.Component {
 
         this.handleSelectedMonthDropDownChange = this.handleSelectedMonthDropDownChange.bind(this);
         this.handleSelectedYearDropDownChange = this.handleSelectedYearDropDownChange.bind(this);
-        this.handleSortByChange = this.handleSortByChange.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
 
         this.renderTableData = this.renderTableData.bind(this);
         this.renderTransactions = this.renderTransactions.bind(this);
@@ -46,17 +46,19 @@ export default class Transactions extends React.Component {
         const username = pathName.split('/')[2];
         
         let selectedElement=0;
-        //console.log(e.target.value)
+
         if (e.target.value === "-1") {
             console.log("No month selected.")
             return;
         }
         else{
-            {this.state.listOfMonths.map((element) => {
-                if (element.monthNum === parseInt(e.target.value)) {
-                    selectedElement = element.monthNum;
+
+            {this.state.listOfMonths.map((month) => {
+                if (month.monthNum === parseInt(e.target.value)) {
+                    selectedElement = month.monthNum;
                 }
             })}
+            
             this.setState({selectedMonth: selectedElement}, function () {
                 axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
                 .then(res => {
@@ -67,23 +69,23 @@ export default class Transactions extends React.Component {
                             return transaction;
                         }
                     })
-                    
-                    let updatedMap = new Map(this.state.spentValsForAllExpenses);
 
-                    this.state.expenses.map((expense) => {
-                        updatedMap.set(expense.id, 0.0);
-                    })
-                    
-                    this.setState({selectedTransactions: userTransactions, spentValsForAllExpenses: userTransactions}, function(){
-                        let changingSpentMap = new Map(this.state.spentValsForAllExpenses);
-                        
-                        this.state.selectedTransactions.map((transaction) => {
-                            const expenseSpentVal = changingSpentMap.get(transaction.expenseID)
-                            changingSpentMap.set(transaction.expenseID, expenseSpentVal + transaction.spent);
-                
+                    if (this.state.selectedExpense === -1) {
+                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
+                            console.log(this.state.selectedTransactions)
+                        });
+                    }
+                    else {
+                        console.log("users transactions", userTransactions)
+                        let filteredUserTransactions = userTransactions.filter((transaction) => {
+                            if (transaction.expenseID === this.state.selectedExpense) {
+                                return transaction;
+                            }
                         })
-                        this.setState({spentValsForAllExpenses: changingSpentMap})
-                    })
+                        this.setState({selectedTransactions: filteredUserTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
+                            console.log(this.state.selectedTransactions)
+                        });
+                    }
                 })
             });
         }
@@ -97,7 +99,7 @@ export default class Transactions extends React.Component {
         console.log("This is the selected expense: ", this.state.selectedExpense);
 
         let selectedElement=0;
-        //console.log(e.target.value)
+
         if (e.target.value === "-1") {
             console.log("No Year selected.")
             return;
@@ -140,7 +142,7 @@ export default class Transactions extends React.Component {
         }
     }
 
-    handleSortByChange(e) {
+    handleFilter(e) {
         
         console.log("e.target.val",e.target.value)
         let selectionVal = -1; //temp var
@@ -286,7 +288,7 @@ export default class Transactions extends React.Component {
                             <option value={this.state.today.getFullYear()-1}>{this.state.today.getFullYear()-1}</option>
                             <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
                         </select>
-                        <select id='selectColor' onChange={this.handleSortByChange}>
+                        <select id='selectColor' onChange={this.handleFilter}>
                                 <option value="All">--Filter/All--</option>
                                 {this.state.expenses.map((element) => (
                                     <option value={element.id}>{element.expense}</option>
