@@ -479,7 +479,7 @@ export default class Home extends React.Component {
                         <td>{element.expense}</td>
                         <td>${(element.budget).toFixed(2)}</td>
                         <td>${(amountSpent).toFixed(2)}</td>
-                        <td id={(sumOfBudget-sumOfSpent) > 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
+                        <td id={(sumOfBudget-sumOfSpent) >= 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
                         {/* <td><button name="deleteButton" id='trashCan' value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrashAlt onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}/></IconContext.Provider></button></td> */}
                         <td><button id='trashCan'><Trash color="crimson" size={35} onClick={(e) => {this.submitHandlerDeleteExpense(element.id);this.toggleDeleteExpenseModal()}}/></button></td>
                     </tr>
@@ -490,7 +490,7 @@ export default class Home extends React.Component {
                 <td className='bold'>TOTAL : </td>
                 <td className='bold'>${sumOfBudget.toFixed(2)}</td>
                 <td className='bold'>${sumOfSpent.toFixed(2)}</td>
-                <td className='bold' id={(sumOfBudget-sumOfSpent) > 0 ? "remainingPos":"remainingNeg"}>${(sumOfBudget-sumOfSpent).toFixed(2)}</td>
+                <td className='bold' id={(sumOfBudget-sumOfSpent) >= 0 ? "remainingPos":"remainingNeg"}>${(sumOfBudget-sumOfSpent).toFixed(2)}</td>
                 <td></td>
             </tr>
 
