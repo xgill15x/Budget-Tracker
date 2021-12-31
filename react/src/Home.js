@@ -12,7 +12,7 @@ import Login from './Login';
 import { Trash } from 'react-bootstrap-icons';
 
 
-const api = 'https://bijoubudgetbackend.us-east-1.elasticbeanstalk.com';
+const api = 'https://www.bijoubudgetbackend.be';
 
 export default class Home extends React.Component {
     constructor(props) {

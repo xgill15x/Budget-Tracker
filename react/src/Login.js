@@ -8,7 +8,7 @@ import {createBrowserHistory} from "history";
 import Register from './Register';
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
-const api = 'https://bijoubudgetbackend.us-east-1.elasticbeanstalk.com';
+const api = 'https://www.bijoubudgetbackend.be';
 
 export default class Login extends React.Component {
     constructor(props) {
