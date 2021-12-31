@@ -6,7 +6,7 @@
   background-color: whitesmoke;
   position: relative;
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,14 +34,15 @@
 #home-title {
   
   display: flex;
-  
-  z-index: 1;
+
   width: auto;
   
 }
 #homeContent {
   position: relative;
+  display: block;
 }
+
 #myLogo {
   color: white;
   background-image: linear-gradient(#181d24, darkcyan);
@@ -66,6 +67,7 @@
   border-color: #181d24;
   background-color: #181d24;
   color: white;
+  font-size: calc(8px + 0.8vw);
 }
 #selectColor:hover {
   background-color: whitesmoke;
@@ -129,18 +131,29 @@ select:hover {
 }
 
 #dateDropDown {
-  width: 19em;
+  width: 130%;
   margin-top: 1em;
+  z-index: 1;
 }
+#dateDropDownZ {
+  width: 110%;
+  margin-top: 1em;
+  z-index: -100;
+}
+
 #transDropDown {
-  width: 19em;
+  
+  min-width: 40%;
   margin-top: 0.2em;
+  left: 4px;
 }
 
 .dropdown-flex {
   display: -webkit-flex;
   display:inline-flex;
-  min-width: 245px;
+  min-width: 3em;
+  position: relative;
+  right: 38px;
 }
 
 .buttons-invariant {
@@ -149,18 +162,14 @@ select:hover {
   margin: 15px 5px 10px 5px;
 }
 
-
-table {
-  width: 600px;
-}
-
 .expense-table {
   border-collapse:collapse;
   margin: 25px 0;
-  font-size: 20px;
+  font-size: calc(8px + 1vw);
   border-radius: 5px 5px 0 0;
   box-shadow: 0 0 15px rgba(52,63,79,0.30);
   overflow: hidden;
+  width: 60%;
 }
 .expense-table thead tr {
   background-color: darkcyan;
@@ -170,7 +179,7 @@ table {
 }
 .expense-table th,
 .expense-table td {
-  padding: 12px 15px;
+  padding: 12px calc(2vw);
 }
 .expense-table tbody tr {
   border-bottom: 1px solid;
@@ -233,9 +242,19 @@ table {
 }
 
 #credentials {
-  position: relative;
+  position: absolute;
   display: block;
   width: 100%;
+  right: 0%;
+}
+
+#phoneLogoAndCreds {
+  position: relative;
+  
+  margin-top: 25px;
+  margin-bottom: 18px;
+  top: 0em;
+  left: -48px;
 }
 #signedInUser {
   color: black;
@@ -245,6 +264,15 @@ table {
   right: 1em;
   top: -4em;  
 }
+#phoneSignedInUser {
+  position: relative;
+  color: black;
+  margin: 0;
+  font-size: 14px;
+  left: 42px;
+  top: -20px;
+}
+
 #signOut-button {
   position: absolute;
   font-size: 14px;
@@ -253,6 +281,15 @@ table {
   top: -2.2em;
   background-color: #343f4f;
   color: white;
+}
+#phoneSignOutButton {
+  position: absolute;
+  font-size: 14px;
+  border-radius: 0;
+  background-color: #343f4f;
+  color: white;
+  width: 80px;
+  margin-top: -10px;
 }
 
 button {
@@ -278,9 +315,9 @@ button {
   box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
   color: #FFFFFF;
   cursor: pointer;
-  margin: 5px 10px;
+  margin: 5px 5px;
   font-family: -apple-system,".SFNSDisplay-Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 15px;
+  font-size: calc(8px + 0.8vw);
   line-height: 100%;
   
   outline: 0;
@@ -354,7 +391,7 @@ select {
 .modal-main {
   padding: 15px;
   position:absolute;
-  background: white;
+  background: whitesmoke;
   min-width: 20em;
   min-height: 10em;
   top:50%;

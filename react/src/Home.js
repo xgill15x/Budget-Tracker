@@ -28,7 +28,6 @@ export default class Home extends React.Component {
             deleteExpenseToggle: false,
             deleteConfirmVal: false,
             editExpenseToggle: false,
-
             selectedTransactions: [],
             listOfMonths: [{month:"January", monthNum: 1}, {month:"February", monthNum: 2}, {month:"March", monthNum: 3}, {month:"April", monthNum: 4}, {month:"May", monthNum: 5}, {month:"June", monthNum: 6}, {month:"July", monthNum: 7}, {month:"August", monthNum: 8}, {month:"September", monthNum: 9}, {month:"October", monthNum: 10}, {month:"November", monthNum: 11}, {month:"December", monthNum: 12}],
             selectedMonth: -1,
@@ -481,7 +480,7 @@ export default class Home extends React.Component {
                         <td>${(amountSpent).toFixed(2)}</td>
                         <td id={(sumOfBudget-sumOfSpent) >= 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
                         {/* <td><button name="deleteButton" id='trashCan' value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrashAlt onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}/></IconContext.Provider></button></td> */}
-                        <td><button id='trashCan'><Trash color="crimson" size={35} onClick={(e) => {this.submitHandlerDeleteExpense(element.id);this.toggleDeleteExpenseModal()}}/></button></td>
+                        <td><button onClick={(e) => {this.submitHandlerDeleteExpense(element.id);this.toggleDeleteExpenseModal()}} id='trashCan'><Trash color="crimson" size={"2em"} onClick={(e) => {this.submitHandlerDeleteExpense(element.id);this.toggleDeleteExpenseModal()}}/></button></td>
                     </tr>
                 )
 
@@ -526,10 +525,12 @@ export default class Home extends React.Component {
                 
                 <div className='App-header'>
                     
-                    <h1 id='myLogo'>Bijou Budget</h1>
-                    <div id='credentials'>
-                        <p id="signedInUser">{"Signed In User: " + username}</p>
-                        <div ><button id="signOut-button" onClick={() => {this.signOutsetState()}}>Sign Out</button></div>
+                    <div>
+                        <h1 id='myLogo'>Bijou Budget</h1>
+                        <div id={window.innerWidth >= 740 ? 'credentials':'phoneLogoAndCreds'}>
+                            <p id={window.innerWidth >= 740 ? 'signedInUser':'phoneSignedInUser'}>{"Signed In User: " + username}</p>
+                            <div ><button id={window.innerWidth >= 740 ? 'signOut-button':'phoneSignOutButton'} onClick={() => {this.signOutsetState()}}>Sign Out</button></div>
+                        </div>
                         
                     </div>
                     {/* <div id='home-title'>
@@ -555,7 +556,7 @@ export default class Home extends React.Component {
                         <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense} oldExpenseName={this.state.oldExpenseName}/>
                         <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
                         
-                        <div className="dropdown-flex" id="dateDropDown">
+                        <div className="dropdown-flex" id={(this.state.addExpenseToggle || this.state.addTransactionToggle || this.state.editExpenseToggle) ? "dateDropDownZ":"dateDropDown"}>
                             <select id='selectColor' value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
                                 <option disabled value="-1">--Month--</option>
                                 {
@@ -572,23 +573,21 @@ export default class Home extends React.Component {
                                 <option selected value={this.state.today.getFullYear()}>{this.state.today.getFullYear()}</option>
                             </select>
                         </div>
-                        
-                        <table className="expense-table">
+                    </div>
+                    <table className="expense-table">
                             <thead>
                                 <tr>
                                     <th>Expense</th>
                                     <th>Budget</th>
                                     <th>Spent</th>
-                                    <th>Remaining</th>
+                                    <th>Net</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.renderTableData()}
                             </tbody>
-                        </table>
-                    
-                    </div>
+                    </table>
                 </div>
             )
         }
@@ -616,7 +615,7 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        
+        console.log("myHeight",window.innerWidth);
         axios.get(api + "/expense/allExpenses")  // gets all expenses from mysql
         .then(res => {
 

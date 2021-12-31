@@ -13,7 +13,7 @@ const AddTransactionForm = ({myList, handleClose, show, submitHandler, handleCha
                 <form onSubmit={submitHandler}>
                     
                     <label className="black">Expense Category:
-                        <select onChange={handleChange}>
+                        <select id="selectColor" onChange={handleChange}>
                             {myList.map((element) => (
                                 <option value={element.expense}>{element.expense}</option>
                             ))}

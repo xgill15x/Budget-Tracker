@@ -229,7 +229,7 @@ export default class Transactions extends React.Component {
                         <td>{transaction.payee}</td>
                         <td>${(transaction.spent).toFixed(2)}</td>
                         {/* <td><button name="deleteButton" id='trashCan' value={transaction.id} onClick={(e) => {this.submitHandlerDeleteTransaction(e);}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrash/></IconContext.Provider></button></td> */}
-                        <td><button id='trashCan'><Trash color="crimson" size={35} onClick={(e) => {this.submitHandlerDeleteTransaction(transaction.id);}}/></button></td>
+                        <td><button onClick={(e) => {this.submitHandlerDeleteTransaction(transaction.id);}} id='trashCan'><Trash color="crimson" size={"2em"} onClick={(e) => {this.submitHandlerDeleteTransaction(transaction.id);}}/></button></td>
                     </tr>
                 )
             })}

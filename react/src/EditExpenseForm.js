@@ -15,7 +15,7 @@ const EditExpenseForm = ({myList, handleClose, handleChange, show, submitHandler
                         <form onSubmit={submitHandler}>
                             
                             <label className="black">Expense to be Changed:
-                                <select onChange={handleChange}>
+                                <select id='selectColor' onChange={handleChange}>
                                     {myList.map((element) => (
                                         <option value={element.expense}>{element.expense}</option>
                                     ))}
