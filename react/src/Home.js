@@ -8,8 +8,9 @@ import Transactions from './Transactions';
 import Moment from 'moment';
 import {createBrowserHistory} from "history";
 import Login from './Login';
-
+import Calendar from 'react-calendar'
 import { Trash } from 'react-bootstrap-icons';
+import {addExpenseCall} from './Resources'
 
 
 const api = 'https://www.bijoubudgetbackend.be';
@@ -72,11 +73,7 @@ export default class Home extends React.Component {
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
 
-        axios.post(api + "/expense/addRow",{
-            expense: e.target[0].value,
-            budget: e.target[1].value,
-            userName: username
-        }).then(response => {
+        addExpenseCall(e.target[0].value, e.target[1].value, username).then(response => {
             
             const newId = response.data;
             const newExpense = e.target[0].value;
@@ -478,7 +475,7 @@ export default class Home extends React.Component {
                         <td>{element.expense}</td>
                         <td>${(element.budget).toFixed(2)}</td>
                         <td>${(amountSpent).toFixed(2)}</td>
-                        <td id={(sumOfBudget-sumOfSpent) >= 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
+                        <td id={(element.budget-amountSpent) >= 0 ? "remainingPos2":"remainingNeg2"}>${(element.budget-amountSpent).toFixed(2)}</td>
                         {/* <td><button name="deleteButton" id='trashCan' value={element.id} onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}><IconContext.Provider value={{ style: {   fontSize: '25px', color: "crimson"}}}><FaTrashAlt onClick={(e) => {this.submitHandlerDeleteExpense(e);this.toggleDeleteExpenseModal()}}/></IconContext.Provider></button></td> */}
                         <td><button onClick={(e) => {this.submitHandlerDeleteExpense(element.id);this.toggleDeleteExpenseModal()}} id='trashCan'><Trash color="crimson" size={"2em"} onClick={(e) => {this.submitHandlerDeleteExpense(element.id);this.toggleDeleteExpenseModal()}}/></button></td>
                     </tr>
@@ -550,7 +547,6 @@ export default class Home extends React.Component {
                         <AddExpenseForm  handleClose={this.toggleAddExpenseModal} show={this.state.addExpenseToggle} submitHandler={this.submitHandlerAddExpense}/>
                         <EditExpenseForm myList={this.state.expenses} handleClose={this.toggleEditExpenseModal} handleChange={this.handleEditDropDownChange} show={this.state.editExpenseToggle} submitHandler={this.submitHandlerEditExpense} oldExpenseName={this.state.oldExpenseName}/>
                         <AddTransactionForm  myList={this.state.expenses} handleClose={this.toggleAddTransactionModal} show={this.state.addTransactionToggle} submitHandler={this.submitHandlerAddTransaction} handleChange={this.handleTransactionDropDownChange}/>
-                        
                         <div className="dropdown-flex" id={(this.state.addExpenseToggle || this.state.addTransactionToggle || this.state.editExpenseToggle) ? "dateDropDownZ":"dateDropDown"}>
                             <select id='selectColor' value={this.state.selectedMonth} onChange={this.handleSelectedMonthDropDownChange}>
                                 <option disabled value="-1">--Month--</option>

@@ -6,7 +6,7 @@
   background-color: whitesmoke;
   position: relative;
   height: 100vh;
-  width: 100%;
+  width: 99%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +18,7 @@
   background-color: white;
   position: relative;
   height: 100%;
-  width: 102vw;
+  width:99%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +40,8 @@
 #trans-title {
   margin-top: 0.5em;
   padding: 0.3em;
-  background-image: linear-gradient(#181d24, darkcyan);
+  width: 97%;
+  background-color: darkcyan;
 }
 #home-title {
   
@@ -56,12 +57,13 @@
 
 #myLogo {
   color: white;
-  background-image: linear-gradient(#181d24, darkcyan);
+  background-color: darkcyan;
   border-radius: 5px;
   font-size: 60px;
-  padding: 0 10px;
+  padding: 10px 10px;
   margin: 20px 0 3px;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  width: 100%;
 }
 
 #RegisterContainer {
@@ -284,12 +286,17 @@ select:hover {
 
 #signOut-button {
   position: absolute;
-  font-size: 14px;
+  font-size: calc(8px + 0.5vw);
   border-radius: 0;
   right: 1em;
   top: -2.2em;
   background-color: #343f4f;
   color: white;
+}
+#signOut-button:hover {
+  filter: brightness(60%);
+  text-decoration: none;
+  transition-duration: .15s, .15s;
 }
 #phoneSignOutButton {
   position: absolute;
@@ -300,6 +307,11 @@ select:hover {
   background-color: #343f4f;
   color: white;
   width: 80px;
+}
+#phoneSignOutButton:hover {
+  filter: brightness(60%);
+  text-decoration: none;
+  transition-duration: .15s, .15s;
 }
 
 button {
@@ -369,14 +381,13 @@ button {
 
 #navContainer {
   
-  width: 100%;
-  min-height: 3em;
+  width: 101vw;
+  min-height: 4em;
   background-image: linear-gradient(#343f4f, black);
   display:inline-flex;
   justify-content: center;
-  
-  
 }
+
 .navButtons {
   padding: 10px;
   display:inline-flex;
