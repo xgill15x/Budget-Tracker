@@ -23,6 +23,43 @@ public class UserController {
         return allUsers;
     }
 
+    @GetMapping(path="/userExists/{username}/{password}")
+    public  @ResponseBody
+    boolean userExists(@PathVariable("username") String username, @PathVariable("password") String password) {
+
+        boolean usernameFound = false;
+        User myUser = null;
+
+        //get all users
+        Iterable<User> allUsers = userRepo.findAll();
+        Iterator<User> iter = allUsers.iterator();
+
+        //check if username is in database
+        while (iter.hasNext() && usernameFound == false) {
+            User currentUser = iter.next();
+            //System.out.println(currentUser.getUsername() + "-" + username);
+
+            if (currentUser.getUsername().equals(username)) {
+                System.out.println("username is found");
+                usernameFound = true;
+                myUser = currentUser;
+            }
+        }
+
+        //check if user was found
+        if (usernameFound != false) {
+
+            //check if provided password matches password in database
+            if (password.equals(myUser.getPassword())) {
+                System.out.println("Account Authenticated");
+                return true;
+            }
+        }
+
+        System.out.println("Account NOT Authenticated");
+        return false;
+    }
+
     @PostMapping(path="/addRow",consumes = "application/json")
     public @ResponseBody
     int saveUser(@RequestBody User user){

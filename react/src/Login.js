@@ -14,7 +14,7 @@ export default class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
+            userAuthenticated: false,
             username: '',
             showHome: false,
             showLogin: true,
@@ -35,49 +35,34 @@ export default class Login extends React.Component {
         let targetPassword = '';
         
         //check if username exists
-        this.state.users.map((user) => {
-            if (e.target[0].value === user.username) {
-                targetPassword = user.password;
-                usernameFound = true;
-            }
+        // this.state.users.map((user) => {
+        //     if (e.target[0].value === user.username) {
+        //         targetPassword = user.password;
+        //         usernameFound = true;
+        //     }
+        // })
+
+        axios.get(api + "/user/userExists/" + e.target[0].value + "/" + e.target[1].value)
+        .then(res => {
+            this.setState({userAuthenticated: res.data}, function() {
+                if (this.state.userAuthenticated) {
+            
+                    localStorage.setItem("auth", "authenticated");
+                    this.setState({username: e.target[0].value, showHome: true, showLogin: false}, function() {
+                        console.log("Login Successful for: ", e.target[0].value);
+                    });
+                }
+                else {
+                    e.target[0].value = '';
+                    e.target[1].value = '';
+                    console.log("login failed");
+                    window.alert("Username/Password is wrong. Try Again.");
+                }
+            }) 
         })
-
-        if (usernameFound) {
-            //check if password matches
-            const myUsername = e.target[0].value;
-            const homePage = { 
-                pathname: "/home/" + myUsername, 
-            };
-
-            if (e.target[1].value === targetPassword) {
-                localStorage.setItem("auth", "authenticated");
-                this.setState({username: e.target[0].value, showHome: true, showLogin: false}, function() {
-                    console.log("Login Successful for: ", e.target[0].value);
-                });
-                
-            }
-            else {
-                e.target[0].value = '';
-                e.target[1].value = '';
-
-                console.log("login failed");
-                window.alert("Username/Password is wrong. Try Again.");
-            }
-        }
-        else {
-            e.target[0].value = '';
-            e.target[1].value = '';
-            console.log("login failed");
-            window.alert("Username/Password is wrong. Try Again.");
-        }
-
     }
 
     componentDidMount() {
-        axios.get(api + "/user/allUsers")
-        .then(res => {
-            this.setState({users: res.data}) 
-        })
         
         localStorage.setItem("auth", "notAuthenticated");
         this.setState({showHome: false, showLogin: true, showRegister: false})
