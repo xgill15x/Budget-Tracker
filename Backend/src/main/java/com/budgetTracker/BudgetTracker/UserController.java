@@ -4,23 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @CrossOrigin
 @RequestMapping(path="/user")
 public class UserController {
+
     @Autowired
     private UserRepo userRepo;
 
     @GetMapping(path="/allUsers")
     public @ResponseBody
     Iterable<User> getAllUsers() {
-        Iterable<User> allUsers = userRepo.findAll();
-        return allUsers;
+        return userRepo.findAll();
     }
 
     @GetMapping(path="/userExists/{username}/{password}")
@@ -35,28 +32,19 @@ public class UserController {
         Iterator<User> iter = allUsers.iterator();
 
         //check if username is in database
-        while (iter.hasNext() && usernameFound == false) {
+        while (iter.hasNext() && !usernameFound) {
             User currentUser = iter.next();
-            //System.out.println(currentUser.getUsername() + "-" + username);
 
             if (currentUser.getUsername().equals(username)) {
-                System.out.println("username is found");
                 usernameFound = true;
                 myUser = currentUser;
             }
         }
 
-        //check if user was found
-        if (usernameFound != false) {
-
-            //check if provided password matches password in database
-            if (password.equals(myUser.getPassword())) {
-                System.out.println("Account Authenticated");
-                return true;
-            }
+        if (usernameFound) {
+            return password.equals(myUser.getPassword());
         }
 
-        System.out.println("Account NOT Authenticated");
         return false;
     }
 
