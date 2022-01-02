@@ -19,9 +19,6 @@ public class Transaction {
     @Column(name="spent_info")
     private float spent;
 
-    @Column(name="expense_value_info")
-    private String expenseValue;
-
     @Column(name="transaction_date")
     private String transactionDate;
 
@@ -58,12 +55,6 @@ public class Transaction {
 
     public void setSpent(float spent) {
         this.spent = spent;
-    }
-
-    public String getExpenseValue() { return expenseValue;}
-
-    public void setExpenseValue(String expenseValue) {
-        this.expenseValue = expenseValue;
     }
 
     public String getTransactionDate() { return transactionDate; }
