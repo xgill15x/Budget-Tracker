@@ -1,14 +1,14 @@
 import React from 'react';
-import axios from 'axios'
 import './App.css'
 import Home from './Home';
 import {createBrowserHistory} from "history";
 import Login from './Login'
-
 import { Trash } from 'react-bootstrap-icons';
-
-
-const api = 'https://www.bijoubudgetbackend.be';
+import {
+    transactionsForSelectedDateEndpoint,
+    getAllExpensesEndpoint,
+    deleteTransactionsEndpoint,
+    getAllTransactionsEndpoint} from './Resources'
 
 export default class Transactions extends React.Component {
     constructor(props) {
@@ -23,7 +23,6 @@ export default class Transactions extends React.Component {
             selectedYear: -1,
             selectedExpense: -1,
             today: new Date(),
-
             showTransactions: true,
             showHome: false,
             showLogin: false
@@ -32,7 +31,6 @@ export default class Transactions extends React.Component {
         this.handleSelectedMonthDropDownChange = this.handleSelectedMonthDropDownChange.bind(this);
         this.handleSelectedYearDropDownChange = this.handleSelectedYearDropDownChange.bind(this);
         this.handleFilter = this.handleFilter.bind(this);
-
         this.renderTableData = this.renderTableData.bind(this);
         this.renderTransactions = this.renderTransactions.bind(this);
         this.renderHome = this.renderHome.bind(this);
@@ -44,6 +42,7 @@ export default class Transactions extends React.Component {
         
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
+        const numOfSelectedMonth = parseInt(e.target.value);
         
         let selectedElement=0;
 
@@ -54,37 +53,37 @@ export default class Transactions extends React.Component {
         else{
 
             {this.state.listOfMonths.map((month) => {
-                if (month.monthNum === parseInt(e.target.value)) {
+                if (month.monthNum === numOfSelectedMonth) {
                     selectedElement = month.monthNum;
                 }
             })}
             
             this.setState({selectedMonth: selectedElement}, function () {
-                axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
-                .then(res => {
-                    console.log(res.data);
+                
+                const updatedMonth = this.state.selectedMonth;
+                const updatedYear = this.state.selectedYear;
 
-                    let userTransactions = (res.data).filter((transaction) => {
+                transactionsForSelectedDateEndpoint(updatedMonth, updatedYear)
+                .then(response => {
+
+                    //filter transactions of user
+                    let userTransactions = (response.data).filter((transaction) => {
                         if (transaction.userName === username) {
                             return transaction;
                         }
                     })
 
+                    //if condition is based on chosen filter value, (-1) repersents "all"
                     if (this.state.selectedExpense === -1) {
-                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
-                            console.log(this.state.selectedTransactions)
-                        });
+                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions})
                     }
                     else {
-                        console.log("users transactions", userTransactions)
                         let filteredUserTransactions = userTransactions.filter((transaction) => {
                             if (transaction.expenseID === this.state.selectedExpense) {
                                 return transaction;
                             }
                         })
-                        this.setState({selectedTransactions: filteredUserTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
-                            console.log(this.state.selectedTransactions)
-                        });
+                        this.setState({selectedTransactions: filteredUserTransactions, allTransactionsForSelectedDate: userTransactions});
                     }
                 })
             });
@@ -95,48 +94,44 @@ export default class Transactions extends React.Component {
         
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
+        const numOfSelectedYear = parseInt(e.target.value);
 
         console.log("This is the selected expense: ", this.state.selectedExpense);
 
-        let selectedElement=0;
-
-        if (e.target.value === "-1") {
-            console.log("No Year selected.")
+        if (e.target.value === "-1") { //-1 repersents no year selected
             return;
         }
         else{
-            selectedElement = e.target.value;
             
-            this.setState({selectedYear: selectedElement}, function () {
-                axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
-                .then(res => {
+            this.setState({selectedYear: numOfSelectedYear}, function () {
                 
-                    console.log(res.data);
+                const updatedMonth = this.state.selectedMonth;
+                const updatedYear = this.state.selectedYear;
 
-                    let userTransactions = (res.data).filter((transaction) => {
+                transactionsForSelectedDateEndpoint(updatedMonth, updatedYear)
+                .then(response => {
+                    
+                    //filter users transactions
+                    let userTransactions = (response.data).filter((transaction) => {
                         console.log("this is my selected expense", this.state.selectedExpense);
                         if (transaction.userName === username) {
                             return transaction;
                         }
                     })
 
+                    //factor in the current filterted expense
                     if (this.state.selectedExpense === -1) {
-                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
-                            console.log(this.state.selectedTransactions)
-                        });
+                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions})
                     }
                     else {
-                        console.log("users transactions", userTransactions)
                         let filteredUserTransactions = userTransactions.filter((transaction) => {
                             if (transaction.expenseID === this.state.selectedExpense) {
                                 return transaction;
                             }
                         })
                         this.setState({selectedTransactions: filteredUserTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
-                        console.log(this.state.selectedTransactions)
                     });
-                    }
-                    
+                    }  
                 })
             });
         }
@@ -144,30 +139,28 @@ export default class Transactions extends React.Component {
 
     handleFilter(e) {
         
-        console.log("e.target.val",e.target.value)
-        let selectionVal = -1; //temp var
+        const expenseID = parseInt(e.target.value);
+        let selectionVal = -1;
 
         this.state.expenses.map((element) => {
-                    if (element.id === parseInt(e.target.value)) {
-                        selectionVal = parseInt(element.id);
-                        
-                    }
+            if (element.id === expenseID) {
+                selectionVal = parseInt(element.id);
+            }
         });
 
-        console.log("myselectionVal:", selectionVal);
         this.setState({selectedExpense: selectionVal}, function() {
+            
+            //-1 repersents "all"
             if (selectionVal === -1) {
                 this.setState({selectedTransactions: this.state.allTransactionsForSelectedDate})
             }
             else {
-                
+
                 const updatedTransactions = this.state.allTransactionsForSelectedDate.filter((transaction) => {
-                    
                     if (transaction.expenseID === selectionVal) {
                         return transaction;
                     }
                 })
-    
                 this.setState({selectedTransactions: updatedTransactions});
             }
         });
@@ -175,38 +168,37 @@ export default class Transactions extends React.Component {
 
     submitHandlerDeleteTransaction(e) {
         
-        console.log(e)
+        const transactionID = e;
         
-        //if (this.state.deleteConfirmVal) {
-            axios.delete(api + '/transaction/deleteRow/' + e)
-            .then(response => {
-                const idOfDeletedTransaction = response.data;
+        deleteTransactionsEndpoint(transactionID)
+        .then(response => {
                 
-                const updatedAllTransactions = this.state.allTransactions.filter((transaction) => {
-                    if (transaction.id !== idOfDeletedTransaction) {
-                        return transaction; // fix syntax
-                    }
-                });
+            const idOfDeletedTransaction = response.data;
+
+            //update transaction table
+            const updatedAllTransactions = this.state.allTransactions.filter((transaction) => {
+                if (transaction.id !== idOfDeletedTransaction) {
+                    return transaction;
+                }
+            });
                 
-                const updatedallTransactionsForSelectedDate = this.state.allTransactionsForSelectedDate.filter((transaction) => {
-                    if (transaction.id !== idOfDeletedTransaction) {
-                        return transaction; // fix syntax
-                    }
-                });
+            const updatedallTransactionsForSelectedDate = this.state.allTransactionsForSelectedDate.filter((transaction) => {
+                if (transaction.id !== idOfDeletedTransaction) {
+                    return transaction;
+                }
+            });
 
-                const updatedSelectedTransactions = this.state.selectedTransactions.filter((transaction) => {
-                    if (transaction.id !== idOfDeletedTransaction) {
-                        return transaction; // fix syntax
-                    }
-                });
+            const updatedSelectedTransactions = this.state.selectedTransactions.filter((transaction) => {
+                if (transaction.id !== idOfDeletedTransaction) {
+                    return transaction;
+                }
+            });
 
-                this.setState({allTransaction: updatedAllTransactions, allTransactionsForSelectedDate: updatedallTransactionsForSelectedDate, selectedTransactions: updatedSelectedTransactions});
-                console.log(response)
-            }).catch(error => {
-                console.log(error)
-            }) 
-            //window.location.reload();  
-        //}
+            this.setState({allTransaction: updatedAllTransactions, allTransactionsForSelectedDate: updatedallTransactionsForSelectedDate, selectedTransactions: updatedSelectedTransactions});
+            console.log(response)
+        }).catch(error => {
+            console.log(error)
+        }) 
     }
 
     renderTableData() {
@@ -259,8 +251,6 @@ export default class Transactions extends React.Component {
     }
 
     renderTransactions() {
-        const pathName = window.location.pathname;
-        const username = pathName.split('/')[2];
         
         if (localStorage.getItem("auth") === "authenticated"){
             return (
@@ -332,7 +322,6 @@ export default class Transactions extends React.Component {
         const history = createBrowserHistory();
         history.push('/home/' + username);   //changes address and bottom code changes the rendering
         return (<>
-            {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
             <Home />
         </>)
     }
@@ -342,49 +331,40 @@ export default class Transactions extends React.Component {
         const pathName = window.location.pathname;
         const username = pathName.split('/')[2];
         
-        axios.get(api + "/transaction/allTransactions") //getting all transactions in db
-        .then(res => { 
-            const transactions = res.data;
+        getAllTransactionsEndpoint() //getting all transactions in db
+        .then(response => { 
+            const transactions = response.data;
             this.setState({allTransactions: transactions});
         })
 
-        axios.get(api + "/expense/allExpenses")  //getting all expenses in db
-        .then(res => {
+        getAllExpensesEndpoint()  //getting all expenses in db
+        .then(response => {
 
-            let userExpenses = (res.data).filter((expense) => {
+            //filter out users expenses
+            let userExpenses = (response.data).filter((expense) => {
                 if (expense.userName === username) {
                     return expense;
                 }
             })
-            this.setState({expenses: userExpenses}, function() {
-                console.log("User Expense",this.state.expenses)
-            });
-            
-            
+            this.setState({expenses: userExpenses})
+        
         })
         
         const today = new Date();
         this.setState({selectedMonth: today.getMonth()+1, selectedYear: today.getFullYear()}, function () {
-            axios.get(api + "/transaction/selectedTransactions/" + this.state.selectedMonth +"/"+ this.state.selectedYear)
-                .then(res => {
-                    console.log(res.data);
-                    
-                    
-                    
-
-                    let userTransactions = (res.data).filter((transaction) => {
+            const updatedMonth = this.state.selectedMonth;
+            const updatedYear = this.state.selectedYear;
+            transactionsForSelectedDateEndpoint(updatedMonth, updatedYear)
+                .then(response => {
+        
+                    let userTransactions = (response.data).filter((transaction) => {
                         if (transaction.userName === username) {
                             return transaction;
                         }
                     })
-                    console.log("users transactions", userTransactions)
-                    this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions}, function() {
-                        console.log(this.state.selectedTransactions)
-                    });
                     
-                    //this.setState({selectedTransactions: res.data, allTransactionsForSelectedDate: res.data});
-                    console.log("selectedMOnth", this.state.selectedMonth)
-                    console.log("selectedYear", this.state.selectedYear)
+                    this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions})
+                    
                 })
             
         });
