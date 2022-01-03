@@ -1,7 +1,7 @@
 
 # BijouBudget (BudgetTracker)
 
-BijouBudget is a simple finance tracking application featuring an easy to use UI.
+## BijouBudget is a simple finance tracking application featuring an easy to use UI.
 
 Brief on how to use the app (post-login):  
 * There are 4 main buttons on the homepage (not including "Sign Out")  
@@ -12,4 +12,4 @@ Brief on how to use the app (post-login):
 * Other features include month, year, and filter dropdowns for easy tracking
 
 Visit the project here  
-https://bijoubudget.be/
+## https://bijoubudget.be/
