@@ -278,7 +278,7 @@ select:hover {
 }
 #phoneSignedInUser {
   position: absolute;
-  right: 1em;
+  right: 0.3em;
   color: black;
   margin: 0;
   font-size: 14px;
@@ -300,7 +300,7 @@ select:hover {
 }
 #phoneSignOutButton {
   position: absolute;
-  right: 1em;
+  right: 0.3em;
   top: 1.5em;
   font-size: 14px;
   border-radius: 0;

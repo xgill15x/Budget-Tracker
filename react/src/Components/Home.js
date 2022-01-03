@@ -97,6 +97,10 @@ export default class Home extends React.Component {
             
             const newId = response.data;
             const floatBudget = parseFloat(e.target[1].value);
+
+            if (this.state.expenses.length === 0) {
+                this.setState({transactionDropDownSelection: newId, editDropDownSelection: newId});
+            }
             
             const newExpenseObject = {
                 id: newId,
