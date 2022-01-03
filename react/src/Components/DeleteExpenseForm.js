@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios'
-import './App.css'
-
-import Select from 'react-select'
-
+import React from 'react';
+import '../App.css';
 
 const DeleteExpenseForm = ({show, handleClose, deleteConfirm, handleDeleteConfirm}) => {
 
@@ -13,9 +9,6 @@ const DeleteExpenseForm = ({show, handleClose, deleteConfirm, handleDeleteConfir
           
         <div className={class_placerholder}>
                 <div className='modal-main'>
-                
-                    
-                        
                         <h1 className="black">Confirm Deletion</h1>
                         <h2 className="black">Are you sure you want to delete this expense? </h2>
 
@@ -25,13 +18,11 @@ const DeleteExpenseForm = ({show, handleClose, deleteConfirm, handleDeleteConfir
                                 <button type="submit" onClick={() => {handleClose()}}>Yes</button>
                             </div>
                         </form>
-                    
                 </div>
              
         </div>
         
-    )
-    
+    ) 
 }
 
 export default DeleteExpenseForm

@@ -7,26 +7,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @CrossOrigin
 @RequestMapping(path="/transaction")
 public class TransactionController {
+
     @Autowired
     private TransactionRepo transactionRepo;
+
     @GetMapping(path="/allTransactions")
     public @ResponseBody
     Iterable<Transaction> getAllTransactions() {
-        Iterable<Transaction> allTransactions = transactionRepo.findAll();
-        System.out.println("Component Mounted: Transaction Table Data rendered.");
-        return allTransactions;
+        return transactionRepo.findAll();
     }
 
     @PostMapping(path="/addRow",consumes = "application/json")
     public @ResponseBody
     int saveTransaction(@RequestBody Transaction t){
-        System.out.println(t.getExpenseID());
         transactionRepo.save(t);
         return t.getId();
     }
@@ -34,7 +32,6 @@ public class TransactionController {
     @DeleteMapping(path="/deleteRow/{transactionID}")
     public @ResponseBody
     int deleteExpense(@PathVariable("transactionID") int transactionID) {
-        System.out.println(transactionID);
         transactionRepo.deleteById(transactionID);
 
         return transactionID;
@@ -44,10 +41,8 @@ public class TransactionController {
     public @ResponseBody
     int deleteExpenseTransactions(@PathVariable("expenseID") int expenseID) {
         Iterable<Transaction> allTransactions = transactionRepo.findAll();
-        Iterator<Transaction> iter = allTransactions.iterator();
 
-        while(iter.hasNext()) {
-            Transaction currentTransaction = iter.next();
+        for (Transaction currentTransaction : allTransactions) {
             if (currentTransaction.getExpenseID() == expenseID) {
                 transactionRepo.deleteById(currentTransaction.getId());
             }
@@ -56,11 +51,8 @@ public class TransactionController {
         return expenseID;
     }
 
-    // getTransactionsByMonth with param month (number of month or string)
-    //
     @GetMapping(path= "/selectedTransactions/{selectedMonth}/{selectedYear}")
     public @ResponseBody
-
     List<Transaction> getSelectedTransactions(@PathVariable("selectedMonth") int selectedMonth, @PathVariable("selectedYear") int selectedYear) {
 
         Iterable<Transaction> allTransactions = transactionRepo.findAll();
@@ -80,7 +72,6 @@ public class TransactionController {
                 selectedTransactions.add(currentTransaction);
             }
         }
-        System.out.println("Returning Transactions made in " + selectedMonth +"/"+ selectedYear);
         return selectedTransactions;
     }
 }

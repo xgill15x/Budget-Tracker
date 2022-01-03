@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css'
+import '../App.css';
 
 
 const AddExpenseForm = ({handleClose, show, submitHandler}) => {
@@ -29,4 +29,4 @@ const AddExpenseForm = ({handleClose, show, submitHandler}) => {
     </>)
 }
 
-export default AddExpenseForm
+export default AddExpenseForm;

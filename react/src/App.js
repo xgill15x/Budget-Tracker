@@ -1,10 +1,10 @@
 import './App.css';
-import Home from './Home';
+import Home from './Components/Home';
 import React from 'react';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Transactions from './Transactions';
-import Register from './Register';
-import Login from './Login'
+import Transactions from './Components/Transactions';
+import Register from './Components/Register';
+import Login from './Components/Login'
 
 export default class App extends React.Component {
   state = {

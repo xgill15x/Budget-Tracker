@@ -1,13 +1,11 @@
 import React from 'react';
-import './App.css'
-
+import '../App.css';
 
 const EditExpenseForm = ({myList, handleClose, handleChange, show, submitHandler, oldExpenseName}) => {
 
     const class_placerholder = show ? 'modal display-block' : 'modal display-none';
     
     return (
-          
         <div className={class_placerholder}>
                 <div className='modal-main'>
                     <h2 className="black">Edit Expense: </h2>
@@ -37,9 +35,7 @@ const EditExpenseForm = ({myList, handleClose, handleChange, show, submitHandler
                 </div>
              
         </div>
-        
-    )
-    
+    )    
 }
 
-export default EditExpenseForm
+export default EditExpenseForm;
