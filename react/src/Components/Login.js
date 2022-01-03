@@ -27,26 +27,18 @@ export default class Login extends React.Component {
 
     submitUser = e => {
         e.preventDefault();
-        
-        let usernameFound = false;
-        let targetPassword = '';
-        
-        //check if username exists
-        // this.state.users.map((user) => {
-        //     if (e.target[0].value === user.username) {
-        //         targetPassword = user.password;
-        //         usernameFound = true;
-        //     }
-        // })
 
-        axios.get(api + "/user/userExists/" + e.target[0].value + "/" + e.target[1].value)
+        const username = e.target[0].value;
+        const password = e.target[1].value;
+
+        axios.get(api + "/user/userExists/" + username + "/" + password)
         .then(res => {
             this.setState({userAuthenticated: res.data}, function() {
                 if (this.state.userAuthenticated) {
             
                     localStorage.setItem("auth", "authenticated");
-                    this.setState({username: e.target[0].value, showHome: true, showLogin: false}, function() {
-                        console.log("Login Successful for: ", e.target[0].value);
+                    this.setState({username: username, showHome: true, showLogin: false}, function() {
+                        console.log("Login Successful for: ", username);
                     });
                 }
                 else {
@@ -60,7 +52,6 @@ export default class Login extends React.Component {
     }
 
     componentDidMount() {
-        
         localStorage.setItem("auth", "notAuthenticated");
         this.setState({showHome: false, showLogin: true, showRegister: false})
     }
@@ -94,46 +85,30 @@ export default class Login extends React.Component {
     changeRegisterState() {
         this.setState({showLogin: false, showRegister: true, showHome: false})
     }
+
     renderRegister() {
         const history = createBrowserHistory();
-        history.push('/registerPage');   //changes address and bottom code changes the rendering
-
+        history.push('/registerPage');
         return (<>
-            {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
             <Register />
         </>)
     }
 
     renderHome() {
-        // const homePage = { 
-        //     pathname: "/home" + this.state.username, 
-        // };
-        
         const history = createBrowserHistory();
-        history.push('/home/' + this.state.username);   //changes address and bottom code changes the rendering
+        history.push('/home/' + this.state.username);
 
         return (<>
-            {/* <Link to={homePage}>{<Home username={this.state.username}/>}</Link> */}
             <Home />
         </>)
-
     }
     
-
     render() {
-        
         return (<>
             <div>
                 {this.state.showLogin && this.renderLogin()}
                 {this.state.showHome && this.renderHome()}
                 {this.state.showRegister && this.renderRegister()}
-                
-                {/* {this.renderLinkIf(
-                    <Home username={this.state.username} />,
-                    this.state.showHome,
-                    '/home',
-                )} */}
-                
             </div>
             
         </>)

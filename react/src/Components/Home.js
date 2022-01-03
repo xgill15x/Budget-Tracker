@@ -8,7 +8,7 @@ import Moment from 'moment';
 import {createBrowserHistory} from "history";
 import Login from './Login';
 import { Trash } from 'react-bootstrap-icons';
-import * as Resources from '../Resources';
+import * as Resources from '../Resources/Resources';
 
 export default class Home extends React.Component {
     constructor(props) {

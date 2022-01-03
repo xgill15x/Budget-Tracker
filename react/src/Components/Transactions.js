@@ -8,7 +8,7 @@ import {
     transactionsForSelectedDateEndpoint,
     getAllExpensesEndpoint,
     deleteTransactionsEndpoint,
-    getAllTransactionsEndpoint} from '../Resources';
+    getAllTransactionsEndpoint} from '../Resources/Resources';
 
 export default class Transactions extends React.Component {
     constructor(props) {

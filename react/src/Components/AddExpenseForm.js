@@ -29,4 +29,4 @@ const AddExpenseForm = ({handleClose, show, submitHandler}) => {
     </>)
 }
 
-export default AddExpenseForm
+export default AddExpenseForm;
