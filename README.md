@@ -1,9 +1,7 @@
-# Authour: Jason Gill
-# Repository Name: BudgetTracker
-# Full Application Name: BijouBudget
+
+# BijouBudget (BudgetTracker)
 
 BijouBudget is a simple finance tracking application featuring an easy to use UI.
-
 
 Visit the project here:
 
