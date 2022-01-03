@@ -319,12 +319,14 @@ button {
 }
 #trashCan {
   background-color: transparent;
+  border: none;
+  overflow: hidden;
 }
 #trashContainer {
   background-color: transparent;
 }
 #trashCan:hover {
-  filter: brightness(60%);
+  filter: brightness(70%);
   text-decoration: none;
 }
 
