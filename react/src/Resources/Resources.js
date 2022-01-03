@@ -1,13 +1,26 @@
 import axios from 'axios';
 
 const api = 'https://www.bijoubudgetbackend.be';
+const localApi = 'http://localhost:5000'
+
+export const checkIfUserExistsEndpoint = (myUsername, myPassword) => {
+    return axios.get(api + "/user/userExists/" + myUsername + "/" + myPassword);
+}
+
+export const checkIfUsernameExistsEndpoint = (myUsername) => {
+    return axios.get(api + "/user/usernameTaken/" + myUsername);
+}
+
+export const addNewUserEndpoint = (myUserAccount) => {
+    return axios.post(api + "/user/addRow", myUserAccount);
+}
 
 export const getAllExpensesEndpoint = () => {
     return axios.get(api + "/expense/allExpenses");
 }
 
 export const getAllTransactionsEndpoint = () => {
-    return axios.get(api + "/transaction/allTransactions")
+    return axios.get(api + "/transaction/allTransactions");
 }
 
 export const addExpenseEndpoint = (myExpense, myBudget, myUser) => {
@@ -49,5 +62,5 @@ export const transactionsForSelectedDateEndpoint = (myUpdatedMonth, myUpdatedYea
 }
 
 export const deleteTransactionsEndpoint = (myTransactionID) => {
-    return axios.delete(api + '/transaction/deleteRow/' + myTransactionID)
+    return axios.delete(api + '/transaction/deleteRow/' + myTransactionID);
 }

@@ -10,19 +10,19 @@ public class Transaction {
     @Column(name="trans_id")
     private int id;
 
-    @Column(name="expenseID_info")
+    @Column(name="expenseID")
     private int expenseID;
 
-    @Column(name="payee_info")
+    @Column(name="payee")
     private String payee;
 
-    @Column(name="spent_info")
+    @Column(name="spent")
     private float spent;
 
-    @Column(name="transaction_date")
+    @Column(name="transaction")
     private String transactionDate;
 
-    @Column(name="user_name")
+    @Column(name="username")
     private String userName;
 
     public String getUserName() { return userName; }

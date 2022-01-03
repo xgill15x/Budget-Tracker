@@ -38,7 +38,7 @@ export default class Home extends React.Component {
         };
 
         this.toggleAddExpenseModal = this.toggleAddExpenseModal.bind(this);
-        this.toggleAddTransactionModal = this.toggleAddTransactionModal.bind(this)
+        this.toggleAddTransactionModal = this.toggleAddTransactionModal.bind(this);
         this.toggleDeleteExpenseModal = this.toggleDeleteExpenseModal.bind(this);
         this.toggleEditExpenseModal = this.toggleEditExpenseModal.bind(this);
         this.handleEditDropDownChange = this.handleEditDropDownChange.bind(this);
@@ -57,12 +57,15 @@ export default class Home extends React.Component {
     toggleAddExpenseModal() {
         this.setState({addExpenseToggle : !this.state.addExpenseToggle});
     }
+
     toggleAddTransactionModal() {
         this.setState({addTransactionToggle: !this.state.addTransactionToggle});
     }
+
     toggleDeleteExpenseModal() {
         this.setState({deleteExpenseToggle : !this.state.deleteExpenseToggle});
     }
+    
     toggleEditExpenseModal() {
         this.setState({editExpenseToggle: !this.state.editExpenseToggle});
     }
@@ -76,6 +79,7 @@ export default class Home extends React.Component {
             <Login />
         </>)
     }
+
     signOutSetState() {
         this.setState({showLogin: true, showHome: false, showTransactions: false});
     }
@@ -109,10 +113,10 @@ export default class Home extends React.Component {
                 this.setState({spentValsForAllExpenses: updatedMap});
                 e.target[0].value = null;
                 e.target[1].value = null;
-            })
+            });
         }).catch(error => {
-            console.log(error)
-        })   
+            //console.log(error);
+        });
     }
 
     submitHandlerAddTransaction = e => {
@@ -131,14 +135,14 @@ export default class Home extends React.Component {
             if (element.id === expenseID) {
                 expenseTotalSpent = element.spent;
             }
-        })
+        });
 
         Resources.addTransactionEndpoint(expenseID, payee, spent, today, username)
         .then(response => {
-            console.log(response)
+            //console.log(response);
         }).catch(error => {
-            console.log(error)
-        })
+            //console.log(error);
+        });
 
         const updatedSpentData = {
             spent: expenseTotalSpent + spent
@@ -146,9 +150,9 @@ export default class Home extends React.Component {
 
         Resources.updateSpentEndpoint(expenseID, updatedSpentData)
         .then(response => {
-            console.log(response)
+            //console.log(response);
         }).catch(error => {
-            console.log(error);
+            //console.log(error);
         })
         
         let updatedMap = new Map(this.state.spentValsForAllExpenses);
@@ -157,17 +161,17 @@ export default class Home extends React.Component {
                 const totalSpent = updatedMap.get(expense.id);
                 updatedMap.set(expense.id, totalSpent + spent);
             }
-        })
+        });
 
         const updatedExpenses = this.state.expenses.filter( (element) => {
             if (element.id === expenseID) {
-                element.spent = expenseTotalSpent + spent
+                element.spent = expenseTotalSpent + spent;
                 return element;
             }
             else {
                 return element;
             }
-        })
+        });
 
         this.setState({expenses: updatedExpenses, spentValsForAllExpenses: updatedMap})
         e.target[1].value = null;
@@ -176,7 +180,7 @@ export default class Home extends React.Component {
 
     submitHandlerDeleteExpense (expenseID) {
 
-        const idOfDeletedExpense = expenseID
+        const idOfDeletedExpense = expenseID;
         Resources.deleteExpenseEndpoint(expenseID)
         .then( (response) => {
 
@@ -187,26 +191,20 @@ export default class Home extends React.Component {
                 }
             });
             this.setState({expenses: updatedExpenses});
-            console.log(response);
-
-        }).catch(error => {
-                console.log(error)
-        }) 
+            //console.log(response);
+        });
 
         Resources.deleteTransactionsOfExpenseEndpoint(expenseID)
         .then(response => {
                 
             const updatedTransactions = this.state.selectedTransactions.filter((transaction) => {
                 if (transaction.expenseID !== expenseID) {
-                    return transaction; // fix syntax
+                    return transaction; 
                 }
             });
             this.setState({selectedTransactions: updatedTransactions});
-                
-            console.log(response)
-        }).catch(error => {
-            console.log(error)
-        }) 
+            //console.log(response)
+        });
     }
 
     submitHandlerEditExpense (e) {
@@ -223,7 +221,7 @@ export default class Home extends React.Component {
 
         Resources.editExpenseEndpoint(expenseID, updatedData)
         .then(response => {
-            console.log(response)
+            // console.log(response);
             
             //updating expenses
             const updatedExpenses = this.state.expenses.filter((element) => {
@@ -242,7 +240,7 @@ export default class Home extends React.Component {
             e.target[1].value = null;
             e.target[2].value = null;
         }).catch(error => {
-            console.log(error)
+            // console.log(error)
         })
 
         
@@ -281,7 +279,7 @@ export default class Home extends React.Component {
                     if (expense.id === elementWithSmallestIndex) {
                         this.setState({oldExpenseName: placeholder});
                     }
-                })}
+                })};
             });
         }
         else {
@@ -313,7 +311,7 @@ export default class Home extends React.Component {
             {this.state.expenses.map((expense) => {
                 //changing placeholder on dropdown change
                 if (expense.id === selectedElement) {
-                    this.setState({oldExpenseName: expense.expense})
+                    this.setState({oldExpenseName: expense.expense});
                 }
             })}
         });
@@ -401,8 +399,8 @@ export default class Home extends React.Component {
                             
                             changingSpentMap.set(associatedExpenseID, totalSpentVal + spent);
                 
-                        })
-                        this.setState({spentValsForAllExpenses: changingSpentMap})
+                        });
+                        this.setState({spentValsForAllExpenses: changingSpentMap});
                     })
                 })
             });
@@ -434,7 +432,7 @@ export default class Home extends React.Component {
                 Resources.transactionsForSelectedDateEndpoint(updatedMonth, updatedYear)
                 .then(response => {
                     
-                    const updatedTransactions = response.data
+                    const updatedTransactions = response.data;
                     //setting spent vals to 0
                     let updatedMap = new Map(this.state.spentValsForAllExpenses);                 
                     this.state.expenses.map((expense) => {
@@ -445,11 +443,11 @@ export default class Home extends React.Component {
                         //setting new spent vals for expenses on account of date change
                         let changingSpentMap = new Map(this.state.spentValsForAllExpenses);
                         this.state.selectedTransactions.map((transaction) => {
-                            const expenseSpentVal = changingSpentMap.get(transaction.expenseID)
+                            const expenseSpentVal = changingSpentMap.get(transaction.expenseID);
                             changingSpentMap.set(transaction.expenseID, expenseSpentVal + transaction.spent);
                 
                         })
-                        this.setState({spentValsForAllExpenses: changingSpentMap})
+                        this.setState({spentValsForAllExpenses: changingSpentMap});
                     });                
                 })
             });

@@ -47,7 +47,7 @@ export default class Transactions extends React.Component {
         let selectedElement=0;
 
         if (e.target.value === "-1") {
-            console.log("No month selected.")
+            // console.log("No month selected.");
             return;
         }
         else{
@@ -75,7 +75,7 @@ export default class Transactions extends React.Component {
 
                     //if condition is based on chosen filter value, (-1) repersents "all"
                     if (this.state.selectedExpense === -1) {
-                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions})
+                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions});
                     }
                     else {
                         let filteredUserTransactions = userTransactions.filter((transaction) => {
@@ -96,8 +96,6 @@ export default class Transactions extends React.Component {
         const username = pathName.split('/')[2];
         const numOfSelectedYear = parseInt(e.target.value);
 
-        console.log("This is the selected expense: ", this.state.selectedExpense);
-
         if (e.target.value === "-1") { //-1 repersents no year selected
             return;
         }
@@ -113,7 +111,7 @@ export default class Transactions extends React.Component {
                     
                     //filter users transactions
                     let userTransactions = (response.data).filter((transaction) => {
-                        console.log("this is my selected expense", this.state.selectedExpense);
+                        
                         if (transaction.userName === username) {
                             return transaction;
                         }
@@ -121,7 +119,7 @@ export default class Transactions extends React.Component {
 
                     //factor in the current filterted expense
                     if (this.state.selectedExpense === -1) {
-                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions})
+                        this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions});
                     }
                     else {
                         let filteredUserTransactions = userTransactions.filter((transaction) => {
@@ -152,7 +150,7 @@ export default class Transactions extends React.Component {
             
             //-1 repersents "all"
             if (selectionVal === -1) {
-                this.setState({selectedTransactions: this.state.allTransactionsForSelectedDate})
+                this.setState({selectedTransactions: this.state.allTransactionsForSelectedDate});
             }
             else {
 
@@ -195,9 +193,9 @@ export default class Transactions extends React.Component {
             });
 
             this.setState({allTransaction: updatedAllTransactions, allTransactionsForSelectedDate: updatedallTransactionsForSelectedDate, selectedTransactions: updatedSelectedTransactions});
-            console.log(response)
+            //console.log(response)
         }).catch(error => {
-            console.log(error)
+            //console.log(error)
         }) 
     }
 
@@ -363,7 +361,7 @@ export default class Transactions extends React.Component {
                         }
                     })
                     
-                    this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions})
+                    this.setState({selectedTransactions: userTransactions, allTransactionsForSelectedDate: userTransactions});
                     
                 })
             
