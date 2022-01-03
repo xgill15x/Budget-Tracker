@@ -31,6 +31,7 @@ export default class Transactions extends React.Component {
         this.handleSelectedMonthDropDownChange = this.handleSelectedMonthDropDownChange.bind(this);
         this.handleSelectedYearDropDownChange = this.handleSelectedYearDropDownChange.bind(this);
         this.handleFilter = this.handleFilter.bind(this);
+        this.toggleTransactionsOrder = this.toggleTransactionsOrder.bind(this);
         this.renderTableData = this.renderTableData.bind(this);
         this.renderTransactions = this.renderTransactions.bind(this);
         this.renderHome = this.renderHome.bind(this);
@@ -248,6 +249,11 @@ export default class Transactions extends React.Component {
         this.setState({showLogin: true, showHome: false, showTransactions: false});
     }
 
+    toggleTransactionsOrder() {
+        let reverseOrderList = this.state.selectedTransactions.reverse();
+        this.setState({selectedTransactions: reverseOrderList});
+    }
+
     renderTransactions() {
         
         if (localStorage.getItem("auth") === "authenticated"){
@@ -282,6 +288,10 @@ export default class Transactions extends React.Component {
                                     <option value={element.id}>{element.expense}</option>
                                 ))}
                         </select>
+                    </div>
+
+                    <div>
+                        <button className='button-25' id='toggleOrder' onClick={this.toggleTransactionsOrder}>Toggle Order</button>
                     </div>
                     
                     
