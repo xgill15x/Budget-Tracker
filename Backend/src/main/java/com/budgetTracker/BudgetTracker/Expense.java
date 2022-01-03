@@ -7,19 +7,19 @@ import javax.persistence.*;
 public class Expense {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="id_info")
+    @Column(name="id")
     private int id;
 
-    @Column(name="expense_info")
+    @Column(name="expense")
     private String expense;
 
-    @Column(name="budget_info")
+    @Column(name="budget")
     private float budget;
 
-    @Column(name="spent_info")
+    @Column(name="spent")
     private float spent;
 
-    @Column(name="user_name")
+    @Column(name="username")
     private String userName;
 
     public Expense(){
