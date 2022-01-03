@@ -1,6 +1,5 @@
 import React from 'react';
-import './App.css'
-
+import '../App.css';
 
 const EditExpenseForm = ({myList, handleClose, handleChange, show, submitHandler, oldExpenseName}) => {
 

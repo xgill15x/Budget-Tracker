@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-import axios from 'axios'
-import './App.css'
-import Button from 'react-bootstrap/Button'
-import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import axios from 'axios';
+import '../App.css';
 import {createBrowserHistory} from "history";
 import Login from './Login';
-//import 'bootstrap/dist/css/bootstrap.min.css'
 
 const api = 'https://www.bijoubudgetbackend.be';
 

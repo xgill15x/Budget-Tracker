@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css'
+import '../App.css';
 
 
 const AddTransactionForm = ({myList, handleClose, show, submitHandler, handleChange,}) => {

@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios'
-import './App.css'
-import Button from 'react-bootstrap/Button'
+import React from 'react';
+import axios from 'axios';
+import '../App.css';
 import Home from './Home';
-import {Link, Route, Routes} from "react-router-dom";
 import {createBrowserHistory} from "history";
 import Register from './Register';
-//import 'bootstrap/dist/css/bootstrap.min.css'
 
 const api = 'https://www.bijoubudgetbackend.be';
 

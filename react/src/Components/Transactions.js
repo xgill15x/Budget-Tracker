@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css'
+import '../App.css';
 import Home from './Home';
 import {createBrowserHistory} from "history";
 import Login from './Login'
@@ -8,7 +8,7 @@ import {
     transactionsForSelectedDateEndpoint,
     getAllExpensesEndpoint,
     deleteTransactionsEndpoint,
-    getAllTransactionsEndpoint} from './Resources'
+    getAllTransactionsEndpoint} from '../Resources';
 
 export default class Transactions extends React.Component {
     constructor(props) {

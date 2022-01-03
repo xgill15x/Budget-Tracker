@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios'
-import './App.css'
-
-import Select from 'react-select'
-
+import React from 'react';
+import '../App.css';
 
 const DeleteExpenseForm = ({show, handleClose, deleteConfirm, handleDeleteConfirm}) => {
 

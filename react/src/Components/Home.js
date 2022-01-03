@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import AddExpenseForm from './AddExpenseForm';
 import EditExpenseForm from './EditExpenseForm';
 import AddTransactionForm from './AddTransactionForm';
@@ -7,16 +7,8 @@ import Transactions from './Transactions';
 import Moment from 'moment';
 import {createBrowserHistory} from "history";
 import Login from './Login';
-import Calendar from 'react-calendar'
 import { Trash } from 'react-bootstrap-icons';
-import {
-    addExpenseEndpoint, 
-    addTransactionEndpoint, updateSpentEndpoint, 
-    deleteExpenseEndpoint, 
-    deleteTransactionsOfExpenseEndpoint,
-    editExpenseEndpoint,
-    transactionsForSelectedDateEndpoint,
-    getAllExpensesEndpoint} from './Resources'
+import * as Resources from '../Resources';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -96,7 +88,7 @@ export default class Home extends React.Component {
         const expense = e.target[0].value;
         const budget = e.target[1].value;
 
-        addExpenseEndpoint(expense, budget, username)
+        Resources.addExpenseEndpoint(expense, budget, username)
         .then( response => {
             
             const newId = response.data;
@@ -141,7 +133,7 @@ export default class Home extends React.Component {
             }
         })
 
-        addTransactionEndpoint(expenseID, payee, spent, today, username)
+        Resources.addTransactionEndpoint(expenseID, payee, spent, today, username)
         .then(response => {
             console.log(response)
         }).catch(error => {
@@ -151,7 +143,8 @@ export default class Home extends React.Component {
         const updatedSpentData = {
             spent: expenseTotalSpent + spent
         }
-        updateSpentEndpoint(expenseID, updatedSpentData)
+
+        Resources.updateSpentEndpoint(expenseID, updatedSpentData)
         .then(response => {
             console.log(response)
         }).catch(error => {
@@ -184,7 +177,7 @@ export default class Home extends React.Component {
     submitHandlerDeleteExpense (expenseID) {
 
         const idOfDeletedExpense = expenseID
-        deleteExpenseEndpoint(expenseID)
+        Resources.deleteExpenseEndpoint(expenseID)
         .then( (response) => {
 
             //updating expenses table
@@ -200,7 +193,7 @@ export default class Home extends React.Component {
                 console.log(error)
         }) 
 
-        deleteTransactionsOfExpenseEndpoint(expenseID)
+        Resources.deleteTransactionsOfExpenseEndpoint(expenseID)
         .then(response => {
                 
             const updatedTransactions = this.state.selectedTransactions.filter((transaction) => {
@@ -228,7 +221,7 @@ export default class Home extends React.Component {
             budget: newBudget
         }
 
-        editExpenseEndpoint(expenseID, updatedData)
+        Resources.editExpenseEndpoint(expenseID, updatedData)
         .then(response => {
             console.log(response)
             
@@ -385,7 +378,7 @@ export default class Home extends React.Component {
                 const updatedMonth = this.state.selectedMonth;
                 const updatedYear = this.state.selectedYear;
 
-                transactionsForSelectedDateEndpoint(updatedMonth, updatedYear)
+                Resources.transactionsForSelectedDateEndpoint(updatedMonth, updatedYear)
                 .then(response => {
                     
                     const updatedTransactions = response.data;
@@ -438,7 +431,7 @@ export default class Home extends React.Component {
                 const updatedMonth = this.state.selectedMonth;
                 const updatedYear = this.state.selectedYear;
 
-                transactionsForSelectedDateEndpoint(updatedMonth, updatedYear)
+                Resources.transactionsForSelectedDateEndpoint(updatedMonth, updatedYear)
                 .then(response => {
                     
                     const updatedTransactions = response.data
@@ -592,7 +585,7 @@ export default class Home extends React.Component {
 
     componentDidMount() {
         
-        getAllExpensesEndpoint()  // gets all expenses from mysql
+        Resources.getAllExpensesEndpoint()  // gets all expenses from mysql
         .then(response => {
 
             const pathName = window.location.pathname;
@@ -611,7 +604,7 @@ export default class Home extends React.Component {
             const todayYear = today.getFullYear();
 
             this.setState({selectedMonth: todayMonth, selectedYear: todayYear}, function () { 
-                transactionsForSelectedDateEndpoint(todayMonth, todayYear) //gets transactions for current month and year
+                Resources.transactionsForSelectedDateEndpoint(todayMonth, todayYear) //gets transactions for current month and year
                 .then(response => {
                     
                     //filter out users transactions
