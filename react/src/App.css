@@ -135,19 +135,8 @@ select:hover {
 }
 
 #goBack-button {
-  position: relative;
-  left: 5px;
   margin-top: 1.4em;
-  margin-bottom: 0.8em;
-  width: auto;
-}
-#toggleOrder {
-  margin: 10px 0 -10px;
-  width: auto;
-  font-size: calc(3px + 0.8vw);
-  border-radius: 0;
-  position: relative;
-  left: 5px;
+  margin-bottom: 0.5em;
 }
 
 #deleteIcon {
