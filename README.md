@@ -1,4 +1,4 @@
-# bijoubudget.be 💸💰🏦
+# bijoubudget.be 💸💰
 Bijou Budget is a simple finance tracking application featuring an intuitive user interface.
 
 How to use the app:  
