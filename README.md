@@ -3,6 +3,8 @@
 
 Bijou Budget is a simple finance tracking application featuring an intuitive user interface.
 
+Watch a demo here: https://drive.google.com/file/d/1MH4dTxG_pKboG04MVrIlyNr2kw2L3EKm/view?usp=sharing
+
 How to use the app:  
 * Register a user via the **`Register`** button (note: usernames and passwords are case sensitive)
 * There are 4 main buttons on the homepage
