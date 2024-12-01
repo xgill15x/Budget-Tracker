@@ -1,33 +1,90 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# General OS generated files
+.DS_Store
+Thumbs.db
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Logs
+logs/
+*.log
+*.log.*
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Temporary files
+*.swp
+*.tmp
+*.bak
+*.pid
+*.seed
+*.orig
+
+# IntelliJ IDEA
+.idea/
 *.iml
 *.ipr
+*.iws
+out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
 
-### VS Code ###
+# VS Code
 .vscode/
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Spring Boot
+*.war
+*.jar
+
+# Sensitive configuration
+.env
+*.env
+application.yml
+application-*.yml
+
+# Node modules (if frontend is included)
+node_modules/
+dist/
+
+# Test reports
+*.xml
+*.txt
+test-output/
+
+# Java compiled files
+*.class
+
+# Packaged files
+*.jar
+*.war
+*.ear
+
+# IDE-specific metadata
+*.idea/
+*.iml
+*.vscode/
+.classpath
+.project
+.settings/
+
+# Database files
+*.db
+*.mv.db
+*.h2.db
+*.log.db
+
+# Operating system-specific files
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+._*
