@@ -1,4 +1,6 @@
-# bijoubudget.be 💸💰
+
+# Budget Tracker
+
 Bijou Budget is a simple finance tracking application featuring an intuitive user interface.
 
 How to use the app:  
@@ -10,3 +12,20 @@ How to use the app:
 * User may view all their transactions by using the **`Show Transactions`** button
 * User may sign out via the **`Sign Out`** button on the top right of the home page  
 * Other features include filtering by month, year, and expense for an enhanced user experience
+
+
+
+
+
+## Installation
+
+To run the front-end, run these commands:
+
+```bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+  nvm install 16
+  source ~/.bashrc # you may not be using bash, but the goal is to refresh your terminal
+  nvm use 16
+  npm start
+```
+    
