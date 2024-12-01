@@ -19,7 +19,7 @@ How to use the app:
 
 ## Installation
 
-To run the front-end, run these commands:
+To run the front-end, run these commands in the 'react' directory:
 
 ```bash
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
@@ -28,4 +28,10 @@ To run the front-end, run these commands:
   nvm use 16
   npm start
 ```
+
+To run the back-end, open the 'neobudgettracker' directory:
+
+* Ensure you're using Java 17
+* Create yourself database with the information found in `application.properties`
+* Run: ```mvn spring-boot:run```
     
